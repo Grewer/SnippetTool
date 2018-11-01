@@ -6,14 +6,35 @@
 </head>
 <body>
 <h1>Hello World!</h1>
-<!-- All of the Node.js APIs are available in this renderer process. -->
-We are using Node.js <script>document.write(process.versions.node)</script>,
-Chromium <script>document.write(process.versions.chrome)</script>,
-and Electron <script>document.write(process.versions.electron)</script>.
 
-<script>
-  // You can also require other files to run in this process
-  require('./renderer.js')
+
+<div id="app">
+    this is app element
+</div>
+
+
+<script>window.exports = module.exports</script>
+<script type="text/tsx">
+  import * as React from 'react';
+  import * as ReactDOM from 'react-dom';
+  import {
+    AppContainer
+  } from 'react-hot-loader';
+  import MyApp from './src/index'
+  console.log('render  run')
+  console.log(MyApp)
+
+  const render = () => {
+    // NB: We have to re-require MyApp every time or else this won't work
+    // We also need to wrap our app in the AppContainer class
+
+    ReactDOM.render(<div><AppContainer>{MyApp}</AppContainer></div>, document.getElementById('app'));
+  }
+
+  render();
+  if (module.hot) {
+    module.hot.accept(render);
+  }
 </script>
-</body>
+
 </html>

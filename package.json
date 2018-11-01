@@ -2,9 +2,8 @@
   "name": "snippettool",
   "version": "1.0.0",
   "description": "snippettool",
-  "main": "main.js",
+  "main": "main.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron ."
   },
   "repository": {
@@ -22,6 +21,17 @@
   },
   "homepage": "https://github.com/Grewer/SnippetTool#readme",
   "devDependencies": {
-    "electron": "^3.0.7"
+    "@types/node": "^10.12.1",
+    "@types/react": "^16.4.18",
+    "@types/react-dom": "^16.0.9",
+    "@types/react-hot-loader": "^4.1.0",
+    "electron": "^3.0.7",
+    "electron-compile": "^6.4.3",
+    "electron-compilers": "^5.9.0"
+  },
+  "dependencies": {
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0",
+    "react-hot-loader": "^4.3.11"
   }
 }
