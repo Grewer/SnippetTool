@@ -1,0 +1,27 @@
+{
+  "name": "snippettool",
+  "version": "1.0.0",
+  "description": "snippettool",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Grewer/SnippetTool.git"
+  },
+  "keywords": [
+    "react",
+    "electron"
+  ],
+  "author": "grewer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Grewer/SnippetTool/issues"
+  },
+  "homepage": "https://github.com/Grewer/SnippetTool#readme",
+  "devDependencies": {
+    "electron": "^3.0.7"
+  }
+}
