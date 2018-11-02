@@ -26,8 +26,8 @@
     "@types/react-dom": "^16.0.9",
     "@types/react-hot-loader": "^4.1.0",
     "electron": "^3.0.7",
-    "electron-compile": "^6.4.3",
-    "electron-compilers": "^5.9.0"
+    "electron-prebuilt-compile": "^3.0.6",
+    "typescript": "^3.1.6"
   },
   "dependencies": {
     "react": "^16.6.0",

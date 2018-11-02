@@ -1,18 +1,49 @@
 {
   "env": {
     "development": {
-      "application/javascript": {
+      "application/javascript":{
         "presets": ["es2016-node5", "react"],
         "sourceMaps": "inline"
       },
-      "text/less": {
-        "dumpLineNumbers": "comments"
+      "text/typescript": {
+        "removeComments": false,
+        "preserveConstEnums": true,
+        "declaration": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "strictNullChecks": true,
+        "noUnusedLocals": true,
+        "noImplicitThis": true,
+        "noUnusedParameters": true,
+        "inlineSourceMap": true,
+        "inlineSources": true,
+        "importHelpers": true,
+        "noEmitHelpers": true,
+        "experimentalDecorators": true,
+        "target": "es2015",
+        "module": "commonjs",
+        "jsx": "react"
       }
     },
     "production": {
-      "application/javascript": {
-        "presets": ["es2016-node5", "react"],
-        "sourceMaps": "none"
+      "text/typescript": {
+        "removeComments": false,
+        "preserveConstEnums": true,
+        "declaration": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "strictNullChecks": true,
+        "noUnusedLocals": true,
+        "noImplicitThis": true,
+        "noUnusedParameters": true,
+        "sourceMap": false,
+        "importHelpers": true,
+        "noEmitHelpers": true,
+        "experimentalDecorators": true,
+        "target": "es2015",
+        "jsx": "react"
       }
     }
   }

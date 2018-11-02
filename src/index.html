@@ -13,21 +13,19 @@
 </div>
 
 
-<script>window.exports = module.exports</script>
 <script type="text/tsx">
   import * as React from 'react';
   import * as ReactDOM from 'react-dom';
   import {
     AppContainer
   } from 'react-hot-loader';
-  import MyApp from './src/index'
+  import MyApp from './index'
   console.log('render  run')
   console.log(MyApp)
-
+  // jsx 问题
   const render = () => {
     // NB: We have to re-require MyApp every time or else this won't work
     // We also need to wrap our app in the AppContainer class
-
     ReactDOM.render(<div><AppContainer>{MyApp}</AppContainer></div>, document.getElementById('app'));
   }
 
