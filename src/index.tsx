@@ -1,10 +1,5 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import App from './app'
 
-function TestFoo() {
-  return <div>'my componentas'</div>
-}
-
-ReactDOM.render(<TestFoo/>, document.getElementById('app'));
-
-
+ReactDOM.render(<App/>, document.getElementById('app'));
