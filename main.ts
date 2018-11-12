@@ -1,7 +1,7 @@
 import {enableLiveReload} from 'electron-compile';
 import {app, BrowserWindow} from 'electron';
 
-let mainWindow: BrowserWindow
+let mainWindow: BrowserWindow | null
 const isDev = process.env.NODE_ENV === 'development'
 
 if (isDev) {
