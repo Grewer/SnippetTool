@@ -4,9 +4,9 @@
   "description": "snippettool",
   "main": "main.ts",
   "scripts": {
-    "start": "NODE_ENV=development electron-forge start",
-    "package": "NODE_ENV=production electron-forge package",
-    "make": "NODE_ENV=production electron-forge make"
+    "start": "NODE_ENV=development electron",
+    "run": "node scripts/start.js",
+    "build": "node scripts/build.js"
   },
   "repository": {
     "type": "git",
@@ -25,21 +25,19 @@
   "homepage": "https://github.com/Grewer/SnippetTool#readme",
   "devDependencies": {
     "@types/electron": "^1.6.10",
-    "@types/node": "^10.12.1",
-    "@types/react": "^16.4.18",
+    "@types/node": "^10.12.5",
+    "@types/react": "^16.7.3",
     "@types/react-dom": "^16.0.9",
     "@types/react-hot-loader": "^4.1.0",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "electron-forge": "^5.2.2",
-    "electron-prebuilt-compile": "3.0.6",
-    "radium": "^0.25.0",
     "typescript": "^3.1.6"
   },
   "dependencies": {
     "@babel/core": "7.1.0",
     "@svgr/webpack": "2.4.1",
+    "@types/jest": "^23.3.9",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "9.0.0",
     "babel-jest": "23.6.0",
@@ -53,8 +51,6 @@
     "dotenv": "6.0.0",
     "dotenv-expand": "4.2.0",
     "electron": "^3.0.7",
-    "electron-compile": "^6.4.3",
-    "electron-squirrel-startup": "^1.0.0",
     "eslint": "5.6.0",
     "eslint-config-react-app": "^3.0.5",
     "eslint-loader": "2.1.1",
@@ -86,43 +82,12 @@
     "sass-loader": "7.1.0",
     "style-loader": "0.23.0",
     "terser-webpack-plugin": "1.1.0",
+    "tslint": "^5.11.0",
     "url-loader": "1.1.1",
     "webpack": "4.19.1",
     "webpack-dev-server": "3.1.9",
     "webpack-manifest-plugin": "2.0.4",
     "workbox-webpack-plugin": "3.6.3"
-  },
-  "config": {
-    "forge": {
-      "make_targets": {
-        "win32": [
-          "squirrel"
-        ],
-        "darwin": [
-          "zip"
-        ],
-        "linux": [
-          "deb",
-          "rpm"
-        ]
-      },
-      "electronPackagerConfig": {
-        "packageManager": "npm"
-      },
-      "electronWinstallerConfig": {
-        "name": "snippettool"
-      },
-      "electronInstallerDebian": {},
-      "electronInstallerRedhat": {},
-      "github_repository": {
-        "owner": "",
-        "name": ""
-      },
-      "windowsStoreConfig": {
-        "packageName": "",
-        "name": "snippettool"
-      }
-    }
   },
   "jest": {
     "collectCoverageFrom": [
@@ -172,5 +137,11 @@
   },
   "eslintConfig": {
     "extends": "react-app"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

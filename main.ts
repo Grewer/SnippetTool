@@ -1,19 +1,19 @@
-import {enableLiveReload} from 'electron-compile';
+// import {enableLiveReload} from 'electron-compile';
 import {app, BrowserWindow} from 'electron';
 
 let mainWindow: BrowserWindow | null
 const isDev = process.env.NODE_ENV === 'development'
 
-if (isDev) {
-  enableLiveReload();
-}
 
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600})
 
   // and load the index.html of the app.
-  mainWindow.loadFile('src/index.html')
+  // mainWindow.loadFile('src/index.html')
+  const url = isDev ? `http://localhost:3000/index.html` : `file://${__dirname}/public/index.html`
+  mainWindow.loadFile(url)
+
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools()

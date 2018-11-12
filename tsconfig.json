@@ -1,29 +1,45 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
+    "baseUrl": ".",
+    "outDir": "build/dist",
     "module": "esnext",
     "target": "es5",
     "lib": [
-      "es6",
-      "dom"
+      "dom",
+      "es2015.promise",
+      "es5",
+      "es2015.iterable",
+      "es2015.generator",
+      "es2015.symbol",
+      "es7"
     ],
     "sourceMap": true,
     "allowJs": true,
     "jsx": "react",
     "moduleResolution": "node",
-    "rootDir": ".",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
-    "noImplicitThis": false,
+    "noImplicitThis": true,
     "noImplicitAny": false,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
+    "allowSyntheticDefaultImports": true,
     "noUnusedLocals": true,
-    "noEmit": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    }
   },
-  "compileOnSave": true,
-  "include": [
-    "./src/**/*"
+  "exclude": [
+    "node_modules",
+    "build",
+    "scripts",
+    "acceptance-tests",
+    "webpack",
+    "jest",
+    "src/setupTests.ts"
   ]
 }
