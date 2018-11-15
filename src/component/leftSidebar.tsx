@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Radium from 'radium';
 
 const styles = {
   main: {
@@ -27,7 +26,6 @@ const styles = {
   }
 };
 
-@Radium
 class LeftSidebar extends React.PureComponent {
   public render() {
     return (<div style={styles.main}>
