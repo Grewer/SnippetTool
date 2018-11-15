@@ -2,7 +2,6 @@
 import {app, BrowserWindow} from 'electron';
 
 let mainWindow: BrowserWindow | null
-const isDev = process.env.NODE_ENV === 'development'
 
 
 function createWindow() {
@@ -11,7 +10,7 @@ function createWindow() {
 
   // and load the index.html of the app.
   // mainWindow.loadFile('src/index.html')
-  const url = isDev ? `http://localhost:3000/index.html` : `file://${__dirname}/public/index.html`
+  const url = `public/index.html`
   mainWindow.loadFile(url)
 
 
