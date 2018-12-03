@@ -6,7 +6,9 @@
   "scripts": {
     "start": "NODE_ENV=development electron-forge start",
     "package": "NODE_ENV=production electron-forge package",
-    "make": "NODE_ENV=production electron-forge make"
+    "make": "NODE_ENV=production electron-forge make",
+    "build-css": "node-sass --include-path src/ src/main.scss src/main.css",
+    "watch-css": "nodemon nodemon -e scss -x \"npm run build-css\""
   },
   "repository": {
     "type": "git",
@@ -41,6 +43,8 @@
     "electron": "^3.0.7",
     "electron-compile": "^6.4.3",
     "electron-squirrel-startup": "^1.0.0",
+    "node-sass": "^4.10.0",
+    "nodemon": "^1.18.7",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-hot-loader": "^4.3.11"
