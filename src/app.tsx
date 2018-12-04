@@ -3,7 +3,7 @@ import LeftSideBar from './component/leftSidebar'
 
 class App extends React.PureComponent {
   public render() {
-    return (<React.Fragment><LeftSideBar/>App</React.Fragment>);
+    return (<React.Fragment><LeftSideBar/>内容</React.Fragment>);
   }
 }
 
