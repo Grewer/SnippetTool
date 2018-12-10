@@ -7,6 +7,9 @@ html, body {
 body {
   margin: 0; }
 
+li {
+  list-style-type: none; }
+
 #app {
   display: flex;
   width: 100%;
@@ -20,18 +23,38 @@ body {
   border-left: 0;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
-  padding: 1em;
-  flex-basis: 30%; }
+  width: 30%;
+  overflow: auto;
+  min-width: 200px; }
   .leftBar .search {
     background-color: white;
+    border-radius: 4px;
     cursor: text;
     padding: 3px;
-    border: 1px solid #ddd;
+    border: 1px solid #e8e8e8;
     text-indent: 5px;
     outline: 0;
     height: 30px;
-    font-size: 14px; }
+    font-size: 14px;
+    margin: 4%; }
+    .leftBar .search::-webkit-input-placeholder {
+      color: #999; }
     .leftBar .search:hover {
       border-color: #a3af2a; }
     .leftBar .search:focus {
       border-color: rgba(20, 105, 144, 0.5); }
+  .leftBar ul.list {
+    overflow: auto;
+    padding: 0; }
+    .leftBar ul.list li {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      padding-left: 4%;
+      font-size: 14px;
+      color: #2b2b2b;
+      margin-bottom: 5px;
+      cursor: pointer; }
+      .leftBar ul.list li.active {
+        background-color: #4cb4f1;
+        color: #ffffff; }
