@@ -36,7 +36,7 @@ li {
     outline: 0;
     height: 30px;
     font-size: 14px;
-    margin: 4%; }
+    margin: 22px 4% 4%; }
     .leftBar .search::-webkit-input-placeholder {
       color: #999; }
     .leftBar .search:hover {

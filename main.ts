@@ -1,7 +1,7 @@
 import {enableLiveReload} from 'electron-compile';
 import {app, BrowserWindow} from 'electron';
 
-let mainWindow: BrowserWindow
+let mainWindow: BrowserWindow | null
 const isDev = process.env.NODE_ENV === 'development'
 
 if (isDev) {
@@ -10,7 +10,10 @@ if (isDev) {
 
 function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow = new BrowserWindow({width: 800, height: 600, titleBarStyle: 'hidden'})
+  // 隐藏头部后 只有光标变后才可以拖曳  此种有 bug ,至今(2018-12-12) 未解决
+  // https://github.com/electron/electron/issues/3647
+
 
   // and load the index.html of the app.
   mainWindow.loadFile('src/index.html')
