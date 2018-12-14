@@ -27,6 +27,7 @@ li {
   overflow: auto;
   min-width: 200px; }
   .leftBar .search {
+    transition: 0.5s;
     background-color: white;
     border-radius: 4px;
     cursor: text;
@@ -58,3 +59,31 @@ li {
       .leftBar ul.list li.active {
         background-color: #4cb4f1;
         color: #ffffff; }
+
+.wrapContent {
+  min-width: 300px;
+  padding: 10px;
+  width: 70%; }
+  .wrapContent .header {
+    display: flex; }
+    .wrapContent .header span {
+      line-height: 30px;
+      margin: 0 2%; }
+  .wrapContent .title {
+    transition: 0.5s;
+    background-color: white;
+    border-radius: 4px;
+    cursor: text;
+    padding: 3px;
+    border: 1px solid #e8e8e8;
+    text-indent: 5px;
+    outline: 0;
+    height: 30px;
+    font-size: 14px;
+    flex: 1; }
+    .wrapContent .title::-webkit-input-placeholder {
+      color: #999; }
+    .wrapContent .title:hover {
+      border-color: #a3af2a; }
+    .wrapContent .title:focus {
+      border-color: rgba(20, 105, 144, 0.5); }

@@ -23,6 +23,31 @@ li {
   }
 }
 
+@mixin Input {
+  &::-webkit-input-placeholder {
+    color: #999;
+  }
+
+  transition: 0.5s;
+  background-color: white;
+  border-radius: 4px;
+  cursor: text;
+  padding: 3px;
+  border: 1px solid #e8e8e8;
+  text-indent: 5px;
+  outline: 0;
+  height: 30px;
+  font-size: 14px;
+
+  &:hover {
+    border-color: #a3af2a;
+  }
+
+  &:focus {
+    border-color: rgba(20, 105, 144, 0.5);
+  }
+}
+
 .leftBar {
   background: white;
   border-right: 1px solid #999;
@@ -35,28 +60,8 @@ li {
 
 
   .search {
-    &::-webkit-input-placeholder {
-      color: #999;
-    }
-
-    background-color: white;
-    border-radius: 4px;
-    cursor: text;
-    padding: 3px;
-    border: 1px solid #e8e8e8;
-    text-indent: 5px;
-    outline: 0;
-    height: 30px;
-    font-size: 14px;
+    @include Input;
     margin: 22px 4% 4%;
-
-    &:hover {
-      border-color: #a3af2a;
-    }
-
-    &:focus {
-      border-color: rgba(20, 105, 144, 0.5);
-    }
   }
 
   ul.list {
@@ -80,4 +85,25 @@ li {
       }
     }
   }
+}
+
+.wrapContent {
+  min-width: 300px;
+  padding: 10px;
+  width: 70%;
+
+  .header {
+    display: flex;
+
+    span {
+      line-height: 30px;
+      margin: 0 2%;
+    }
+  }
+
+  .title {
+    @include Input;
+    flex: 1;
+  }
+
 }
