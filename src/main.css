@@ -62,10 +62,10 @@ li {
 
 .wrapContent {
   min-width: 300px;
-  padding: 10px;
   width: 70%; }
   .wrapContent .header {
-    display: flex; }
+    display: flex;
+    margin: 10px; }
     .wrapContent .header span {
       line-height: 30px;
       margin: 0 2%; }
@@ -87,3 +87,6 @@ li {
       border-color: #a3af2a; }
     .wrapContent .title:focus {
       border-color: rgba(20, 105, 144, 0.5); }
+  .wrapContent .content {
+    border-top: 1px solid #e8e8e8;
+    padding: 5px; }
