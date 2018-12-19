@@ -1,9 +1,9 @@
 import * as React from 'react';
-import * as ReactMarkdown from "react-markdown";
+// import * as ReactMarkdown from "react-markdown";
+import Editor from "./editor";
 
 
-const input = '# This is a header\n\nAnd this is a paragraph'
-
+// const input = '# This is a header\n\nAnd this is a paragraph'
 class Content extends React.PureComponent {
   state = {
     title: '这是标题',
@@ -19,7 +19,8 @@ class Content extends React.PureComponent {
         <span>修改模式</span>
       </div>
       <div className="content">
-        <ReactMarkdown source={input}/>
+        <Editor/>
+        {/*<ReactMarkdown source={input}/>*/}
         {/*此处为观看*/}
       </div>
     </div>);
