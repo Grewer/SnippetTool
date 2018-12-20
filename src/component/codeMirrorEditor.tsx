@@ -1,18 +1,14 @@
 import * as React from 'react';
 import * as CodeMirror from 'codemirror/lib/codemirror'
-// import 'codemirror/lib/codemirror.css'
-// import 'codemirror/theme/3024-day.css'
-// import 'codemirror/theme/neat.css'
+import 'codemirror/mode/javascript/javascript.js'
 // import 'codemirror/mode/xml/xml.js'
-// import 'codemirror/mode/javascript/javascript.js'
-// import 'codemirror/addon/hint/javascript-hint'
+import 'codemirror/addon/hint/show-hint'
+import 'codemirror/addon/hint/anyword-hint'
+import 'codemirror/addon/hint/javascript-hint'
 // import 'codemirror/addon/hint/sql-hint'
 // import 'codemirror/addon/hint/html-hint'
 // import 'codemirror/addon/hint/xml-hint'
-// import 'codemirror/addon/hint/anyword-hint'
-// import 'codemirror/addon/hint/css-hint'
-// import 'codemirror/addon/hint/show-hint.css'
-// import 'codemirror/addon/selection/active-line'
+import 'codemirror/addon/selection/active-line'
 
 
 interface IProps {
@@ -35,7 +31,17 @@ class CodeMirrorEditor extends React.Component<IProps, IState> {
   }
 
   componentDidMount() {
-    this.editor = CodeMirror.fromTextArea(this.editorRef.current, this.props);
+    this.editor = CodeMirror.fromTextArea(this.editorRef.current, {
+      theme: "3024-day",
+      mode: 'text/javascript',
+      matchBrackets: true,
+      option: {
+        autofocus: true
+      },
+      hintOptions: {
+        closeCharacters: /\ \/>/
+      }
+    });
     this.editor.on('change', this.handleChange);
   }
 
@@ -51,10 +57,18 @@ class CodeMirrorEditor extends React.Component<IProps, IState> {
     }
   }
 
-  handleChange() {
+  handleChange = (instance, change) => {
+    // 将 change 传递给父组件的 markdown
+
+
+    if (change.origin !== 'complete' && /\w|\./g.test(change.text[0])) {
+      instance.showHint()
+    }
+
     if (!this.editor) {
       return
     }
+
 
     const value = this.editor.getValue()
     if (value === this.props.value) {
@@ -75,7 +89,7 @@ class CodeMirrorEditor extends React.Component<IProps, IState> {
   }
 
   render() {
-    return  <textarea ref={this.editorRef} name="editor">
+    return <textarea ref={this.editorRef} name="editor">
     </textarea>
   }
 }
