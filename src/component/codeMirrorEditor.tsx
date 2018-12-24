@@ -38,6 +38,9 @@ class CodeMirrorEditor extends React.Component<IProps, IState> {
       extraKeys: {"Ctrl-Q": "autocomplete"},
       option: {
         autofocus: true
+      },
+      hintOptions:{
+        completeSingle: false, // 打出 fu 时不会变成 function
       }
     });
     this.editor.on('change', this.handleChange);
