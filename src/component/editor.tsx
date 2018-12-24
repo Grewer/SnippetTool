@@ -4,9 +4,9 @@ import CodeMirrorEditor from "./codeMirrorEditor";
 function Editor(props) {
   const {value = ''} = props
   return (
-    <form className="editor pure-form">
+    <div className="editor pure-form">
       <CodeMirrorEditor value={value}/>
-    </form>
+    </div>
   )
 }
 
