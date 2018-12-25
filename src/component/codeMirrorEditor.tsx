@@ -11,6 +11,7 @@ import 'codemirror/addon/selection/active-line'
 
 interface IProps {
   value: string
+  changeValue: (value: string) => void
 }
 
 interface IState {
@@ -39,29 +40,28 @@ class CodeMirrorEditor extends React.Component<IProps, IState> {
       option: {
         autofocus: true
       },
-      hintOptions:{
+      hintOptions: {
         completeSingle: false, // 打出 fu 时不会变成 function
       }
     });
     this.editor.on('change', this.handleChange);
+    this.editor.setValue(this.props.value);
   }
 
   componentDidUpdate() {
-    if (!this.editor) {
-      return
-    }
-
-    if (this.props.value) {
-      if (this.editor.getValue() !== this.props.value) {
-        this.editor.setValue(this.props.value);
-      }
-    }
+    // if (!this.editor) {
+    //   return
+    // }
+    // console.log(this.props, this.editor)
+    // if (this.props.value) {
+    //   if (this.editor.getValue() !== this.props.value) {
+    //     this.editor.setValue(this.props.value);
+    //   }
+    // }
   }
 
   handleChange = (instance, change) => {
     // 将 change 传递给父组件的 markdown
-    console.log(change, instance)
-
     if (change.origin !== 'complete' && /\w|\./g.test(change.text[0])) {
       if (asyncGetHint) {
         clearTimeout(asyncGetHint)
@@ -74,27 +74,30 @@ class CodeMirrorEditor extends React.Component<IProps, IState> {
     if (!this.editor) {
       return
     }
-
-
     const value = this.editor.getValue()
-    if (value === this.props.value) {
-      return
-    }
+    this.props.changeValue(value)
 
-    // if (this.props.onChange) {
-    //   this.props.onChange({target: {value: value}})
+
+    // const value = this.editor.getValue()
+    // if (value === this.props.value) {
+    //   return
     // }
-
-    if (this.editor.getValue() !== this.props.value) {
-      if (this.state.isControlled) {
-        this.editor.setValue(this.props.value)
-      } else {
-        // this.props.value = value
-      }
-    }
+    //
+    // // if (this.props.onChange) {
+    // //   this.props.onChange({target: {value: value}})
+    // // }
+    //
+    // if (this.editor.getValue() !== this.props.value) {
+    //   if (this.state.isControlled) {
+    //     this.editor.setValue(this.props.value)
+    //   } else {
+    //     // this.props.value = value
+    //   }
+    // }
   }
 
   render() {
+    console.log('edit render')
     return <textarea ref={this.editorRef} name="editor">
     </textarea>
   }
