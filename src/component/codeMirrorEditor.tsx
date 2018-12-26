@@ -14,20 +14,18 @@ interface IProps {
   changeValue: (value: string) => void
 }
 
-interface IState {
+interface IState extends React.ComponentClass {
   isControlled: boolean
 }
 
 let asyncGetHint: NodeJS.Timeout;
 
-class CodeMirrorEditor extends React.Component<IProps, IState> {
+class CodeMirrorEditor extends React.PureComponent<IProps, IState> {
   private editorRef: React.RefObject<any>;
   private editor: any;
 
   constructor(props) {
     super(props)
-    this.state = {isControlled: Boolean(this.props.value)}
-    this.handleChange = this.handleChange.bind(this)
     this.editorRef = React.createRef()
   }
 
@@ -44,8 +42,8 @@ class CodeMirrorEditor extends React.Component<IProps, IState> {
         completeSingle: false, // 打出 fu 时不会变成 function
       }
     });
-    this.editor.on('change', this.handleChange);
     this.editor.setValue(this.props.value);
+    this.editor.on('change', this.handleChange);
   }
 
   componentDidUpdate() {
