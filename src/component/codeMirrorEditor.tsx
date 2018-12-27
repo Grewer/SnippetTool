@@ -38,6 +38,7 @@ class CodeMirrorEditor extends React.PureComponent<IProps, IState> {
       option: {
         autofocus: true
       },
+      scrollbarStyle: null, // 去除自带的滚动条 TODO 后面会让滚动条一直显示
       hintOptions: {
         completeSingle: false, // 打出 fu 时不会变成 function
       }

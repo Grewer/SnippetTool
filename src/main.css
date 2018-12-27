@@ -91,7 +91,7 @@ li {
     border-top: 1px solid #e8e8e8;
     padding: 5px;
     display: flex;
-    height: calc(100% - 30px); }
+    height: calc(100% - 50px); }
     .wrapContent .content > div {
       flex: 1; }
     .wrapContent .content .showMD {
