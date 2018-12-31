@@ -59,6 +59,11 @@ class CodeMirrorEditor extends React.PureComponent<IProps, IState> {
     // }
   }
 
+  componentWillUnmount(): void {
+    console.log('删除组件时')
+    this.editor.toTextArea()
+  }
+
   handleChange = (instance, change) => {
     // 将 change 传递给父组件的 markdown
     if (change.origin !== 'complete' && /\w|\./g.test(change.text[0])) {

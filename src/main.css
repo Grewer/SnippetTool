@@ -68,7 +68,9 @@ li {
     margin: 10px; }
     .wrapContent .header span {
       line-height: 30px;
-      margin: 0 2%; }
+      margin: 0 2%;
+      cursor: pointer;
+      color: #059eec; }
   .wrapContent .title {
     transition: 0.5s;
     background-color: white;
