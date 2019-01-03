@@ -34,7 +34,10 @@ class CodeMirrorEditor extends React.PureComponent<IProps, IState> {
       theme: "3024-day",
       mode: 'text/javascript',
       matchBrackets: true,
-      extraKeys: {"Ctrl-Q": "autocomplete"},
+      autofocus: true,
+      extraKeys: {
+        "Ctrl-Q": "autocomplete",
+      },
       option: {
         autofocus: true
       },
@@ -45,23 +48,20 @@ class CodeMirrorEditor extends React.PureComponent<IProps, IState> {
     });
     this.editor.setValue(this.props.value);
     this.editor.on('change', this.handleChange);
-  }
-
-  componentDidUpdate() {
-    // if (!this.editor) {
-    //   return
-    // }
-    // console.log(this.props, this.editor)
-    // if (this.props.value) {
-    //   if (this.editor.getValue() !== this.props.value) {
-    //     this.editor.setValue(this.props.value);
-    //   }
-    // }
+    // this.editor.on('changes', this.handleChange); // TODO 与 change 的异同
+    this.editor.setOption("extraKeys", {
+      "Cmd-S": this.save
+    });
   }
 
   componentWillUnmount(): void {
-    console.log('删除组件时')
     this.editor.toTextArea()
+    // TODO  后续查看 绑定的方法是否有内存泄漏
+  }
+
+  save = (instance: CodeMirror) => {
+    // cmd+s 时触发
+    console.log(instance)
   }
 
   handleChange = (instance, change) => {
@@ -80,24 +80,6 @@ class CodeMirrorEditor extends React.PureComponent<IProps, IState> {
     }
     const value = this.editor.getValue()
     this.props.changeValue(value)
-
-
-    // const value = this.editor.getValue()
-    // if (value === this.props.value) {
-    //   return
-    // }
-    //
-    // // if (this.props.onChange) {
-    // //   this.props.onChange({target: {value: value}})
-    // // }
-    //
-    // if (this.editor.getValue() !== this.props.value) {
-    //   if (this.state.isControlled) {
-    //     this.editor.setValue(this.props.value)
-    //   } else {
-    //     // this.props.value = value
-    //   }
-    // }
   }
 
   render() {
