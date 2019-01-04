@@ -8,9 +8,12 @@ import 'codemirror/addon/hint/html-hint'
 import 'codemirror/addon/hint/xml-hint'
 import 'codemirror/addon/selection/active-line'
 
+const {ipcRenderer} = require('electron')
+
+console.log(ipcRenderer.sendSync('saveFile', 'ping'))
 
 interface IProps {
-  value: string
+  input: string
   changeValue: (value: string) => void
 }
 
@@ -46,7 +49,7 @@ class CodeMirrorEditor extends React.PureComponent<IProps, IState> {
         completeSingle: false, // 打出 fu 时不会变成 function
       }
     });
-    this.editor.setValue(this.props.value);
+    this.editor.setValue(this.props.input);
     this.editor.on('change', this.handleChange);
     // this.editor.on('changes', this.handleChange); // TODO 与 change 的异同
     this.editor.setOption("extraKeys", {

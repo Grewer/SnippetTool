@@ -1,5 +1,5 @@
 import {enableLiveReload} from 'electron-compile';
-import {app, BrowserWindow} from 'electron';
+import {app, BrowserWindow, ipcMain} from 'electron';
 
 let mainWindow: BrowserWindow | null
 const isDev = process.env.NODE_ENV === 'development'
@@ -7,6 +7,12 @@ const isDev = process.env.NODE_ENV === 'development'
 if (isDev) {
   enableLiveReload();
 }
+//
+// console.log(app.getAppPath()) // 当前项目地址
+// console.log(app.getPath('appData')) // 当前用户的应用数据文件夹
+// console.log(app.getPath('home')) // 用户的 home 文件夹（主目录）  /Users/admin
+console.log(app.getPath('userData')) // /Users/admin/Library/Application Support/Electron
+
 
 function createWindow() {
   // Create the browser window.
@@ -35,6 +41,16 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.on('ready', createWindow)
 
+
+ipcMain.on('saveFile', (event, arg) => {
+  console.log('savefile')
+  console.log(arg)
+  // event.returnValue = 'pong' // 若没有返回值 则会渲染为空白
+  // event.sender.startDrag({
+  //   file: filePath,
+  //   icon: '/path/to/icon.png'
+  // })
+})
 
 // enableLiveReload({strategy: 'react-hmr'});
 
