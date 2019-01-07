@@ -7,10 +7,9 @@ import 'codemirror/addon/hint/javascript-hint'
 import 'codemirror/addon/hint/html-hint'
 import 'codemirror/addon/hint/xml-hint'
 import 'codemirror/addon/selection/active-line'
+import {ipcRenderer} from 'electron'
 
-const {ipcRenderer} = require('electron')
-
-console.log(ipcRenderer.sendSync('saveFile', 'ping'))
+//console.log(ipcRenderer.sendSync('saveFile', 'ping'))
 
 interface IProps {
   input: string
@@ -64,7 +63,7 @@ class CodeMirrorEditor extends React.PureComponent<IProps, IState> {
 
   save = (instance: CodeMirror) => {
     // cmd+s 时触发
-    console.log(instance)
+    ipcRenderer.sendSync('saveFile', instance.getValue())
   }
 
   handleChange = (instance, change) => {

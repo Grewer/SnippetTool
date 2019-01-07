@@ -45,11 +45,9 @@ app.on('ready', createWindow)
 ipcMain.on('saveFile', (event, arg) => {
   console.log('savefile')
   console.log(arg)
-  // event.returnValue = 'pong' // 若没有返回值 则会渲染为空白
-  // event.sender.startDrag({
-  //   file: filePath,
-  //   icon: '/path/to/icon.png'
-  // })
+  console.log(app.getPath('userData')) // 存储位置
+
+  event.returnValue = 'pong' // 若没有返回值 则会渲染为空白
 })
 
 // enableLiveReload({strategy: 'react-hmr'});
