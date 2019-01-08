@@ -41,6 +41,19 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.on('ready', createWindow)
 
+const loki = require('lokijs')
+const db = new loki('test.json'); // 此处可 填写 路径
+var users = db.addCollection('title', { indices: ['id'] });
+var newUser = {
+  name: 'user_' + (new Date()).getTime()
+};
+// TODO 数据库的操作
+
+users.insert(newUser);
+
+console.log("Added a new user => ", newUser);
+
+db.saveDatabase();
 
 ipcMain.on('saveFile', (event, arg) => {
   console.log('savefile')
@@ -49,6 +62,8 @@ ipcMain.on('saveFile', (event, arg) => {
 
   event.returnValue = 'pong' // 若没有返回值 则会渲染为空白
 })
+
+
 
 // enableLiveReload({strategy: 'react-hmr'});
 
