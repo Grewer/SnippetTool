@@ -1,5 +1,6 @@
 import {enableLiveReload} from 'electron-compile';
 import {app, BrowserWindow, ipcMain} from 'electron';
+import {loadCollection} from "./src/db";
 
 let mainWindow: BrowserWindow | null
 const isDev = process.env.NODE_ENV === 'development'
@@ -41,28 +42,16 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.on('ready', createWindow)
 
-const loki = require('lokijs')
-const db = new loki('test.json'); // 此处可 填写 路径
-var users = db.addCollection('title', { indices: ['id'] });
-var newUser = {
-  name: 'user_' + (new Date()).getTime()
-};
-// TODO 数据库的操作
-
-users.insert(newUser);
-
-console.log("Added a new user => ", newUser);
-
-db.saveDatabase();
 
 ipcMain.on('saveFile', (event, arg) => {
-  console.log('savefile')
-  console.log(arg)
-  console.log(app.getPath('userData')) // 存储位置
-
-  event.returnValue = 'pong' // 若没有返回值 则会渲染为空白
+  console.log('savefile', arg)
+  loadCollection('file', (files, db) => {
+    console.log(files)
+    files.insert(arg)
+    db.saveDatabase()
+  })
+  event.returnValue = 'save file' // 若没有返回值 则会渲染为空白
 })
-
 
 
 // enableLiveReload({strategy: 'react-hmr'});

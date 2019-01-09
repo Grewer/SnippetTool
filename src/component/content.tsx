@@ -1,6 +1,7 @@
 import * as React from 'react';
 import CodeMirrorEditor from "./codeMirrorEditor";
 import * as ReactMarkdown from "react-markdown";
+import {ipcRenderer} from "electron";
 
 // import * as path from 'path'
 
@@ -32,6 +33,15 @@ class Content extends React.PureComponent<{}, IState> {
     this.setState({status: Number(!status)})
   }
 
+  saveFile = (content) => {
+    const {title} = this.state
+    ipcRenderer.sendSync('saveFile', {
+      title,
+      content
+    })
+
+  }
+
   public render() {
     const {value, status} = this.state
     return (<div className="wrapContent">
@@ -41,7 +51,7 @@ class Content extends React.PureComponent<{}, IState> {
       </div>
       <div className="content">
         {status ? <React.Fragment>
-            <CodeMirrorEditor changeValue={this.changeValue} input={value}/>
+            <CodeMirrorEditor saveFile={this.saveFile} changeValue={this.changeValue} input={value}/>
             <ReactMarkdown className="showMD" source={value}/></React.Fragment>
           : <ReactMarkdown className="showMD" source={value}/>}
       </div>

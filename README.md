@@ -9,6 +9,13 @@ https://github.com/electron/electron/issues/15315
 2. 添加更多 mode
 3. 样式的修改
 
+
+loading 
+1. 进入时左边文件列表的加载显示
+2. 左边列表点击后 右边文件 loading
+3. 保存后 判断 title 是否更新->是否需要重新载入
+
+
 ```js
 var loki = require('lokijs'),
     db = new loki('test.json');
