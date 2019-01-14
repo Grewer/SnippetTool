@@ -19,8 +19,6 @@ interface IState extends React.ComponentClass {
   isControlled: boolean
 }
 
-let asyncGetHint: NodeJS.Timeout;
-
 class CodeMirrorEditor extends React.PureComponent<IProps, IState> {
   private editorRef: React.RefObject<any>;
   private editor: any;
@@ -67,13 +65,8 @@ class CodeMirrorEditor extends React.PureComponent<IProps, IState> {
 
   handleChange = (instance, change) => {
     // 将 change 传递给父组件的 markdown
-    if (change.origin !== 'complete' && /\w|\./g.test(change.text[0])) {
-      if (asyncGetHint) {
-        clearTimeout(asyncGetHint)
-      }
-      asyncGetHint = setTimeout(() => {
-        instance.showHint()
-      }, 300)
+    if (change.origin !== 'complete' && /[a-zA-Z]/g.test(change.text[0])) {
+      instance.showHint()
     }
 
     if (!this.editor) {
