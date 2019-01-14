@@ -47,7 +47,6 @@ class CodeMirrorEditor extends React.PureComponent<IProps, IState> {
     });
     this.editor.setValue(this.props.input);
     this.editor.on('change', this.handleChange);
-    // this.editor.on('changes', this.handleChange); // TODO 与 change 的异同
     this.editor.setOption("extraKeys", {
       "Cmd-S": this.save
     });
@@ -81,6 +80,7 @@ class CodeMirrorEditor extends React.PureComponent<IProps, IState> {
     return <textarea ref={this.editorRef} name="editor">
     </textarea>
   }
+
 }
 
 export default CodeMirrorEditor

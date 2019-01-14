@@ -50,3 +50,7 @@ loadCollection('users', function (users) {
     db.saveDatabase();
 });
 ```
+
+存储形式
+1. 目录名称存储
+2. 内容存储 与目录对于的 id 的存储
