@@ -44,13 +44,25 @@ app.on('ready', createWindow)
 
 
 ipcMain.on('saveFile', (event, arg) => {
+  // 存储思路 保存的话 是否有 id
+  // 若有 id 搜索 id 保存
+  // 若无 则在 titles 里 获取最大 id +1 作为 id
+  // 保存至 files 与 titles
   console.log('savefile', arg)
-  loadCollection('file', (files, db) => {
-    console.log(files)
-    files.insert(arg)
+  loadCollection('files', (files, db) => {
+    const afterInsFiles  = files.insert(arg)
+    console.log(afterInsFiles)
     db.saveDatabase()
   })
   event.returnValue = 'save file' // 若没有返回值 则会渲染为空白
+})
+
+ipcMain.on('getAllTitle', (event, arg) => {
+  console.log('getAllTitle', arg)
+  loadCollection('titles', (titles, db) => {
+    console.log(titles)
+    event.returnValue = titles
+  })
 })
 
 

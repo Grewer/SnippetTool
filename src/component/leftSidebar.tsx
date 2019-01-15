@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {ipcRenderer} from "electron";
 
 interface IList {
   name: string
@@ -32,6 +33,11 @@ class LeftSidebar extends React.PureComponent<{}, IState> {
     const {id} = ev.target.dataset
     id && this.setState({selectedId: Number(id)})
     // todo 显示右侧文件
+  }
+
+  componentDidMount(): void {
+    const result = ipcRenderer.sendSync('getAllTitle')
+    console.log(result)
   }
 
   public render() {
