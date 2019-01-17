@@ -2,42 +2,29 @@ import * as React from 'react';
 import {ipcRenderer} from "electron";
 
 interface IList {
-  name: string
-  id: number
+  title: string
+  $loki: number
 }
 
 interface IState {
   selectedId: number
+  list: IList[]
 }
-
-const list: IList[] = [{
-  name: '测试长度XXXXXXXXXXXXXX',
-  id: 111
-}, {
-  name: 'test1',
-  id: 112
-}, {
-  name: 'test2',
-  id: 113
-}, {
-  name: 'test3',
-  id: 114
-}]
 
 class LeftSidebar extends React.PureComponent<{}, IState> {
   state = {
-    selectedId: 112
+    selectedId: 112,
+    list: [] as IList[]
   }
 
   private select = (ev) => {
     const {id} = ev.target.dataset
     id && this.setState({selectedId: Number(id)})
-    // todo 显示右侧文件
   }
 
   componentDidMount(): void {
-    const result = ipcRenderer.sendSync('getAllTitle')
-    console.log(result)
+    const result: IList[] = ipcRenderer.sendSync('getAllTitle')
+    this.setState({list: result})
   }
 
   public render() {
@@ -45,8 +32,8 @@ class LeftSidebar extends React.PureComponent<{}, IState> {
       <div><input className="search" type="text" placeholder="请输入关键词"/></div>
       <ul className="list" onClick={this.select}>
         {
-          list.map(v => <li className={this.state.selectedId === v.id ? 'active' : ''} key={v.id}
-                            data-id={v.id}>{v.name}</li>)
+          this.state.list.map(v => <li className={this.state.selectedId === v.$loki ? 'active' : ''} key={v.$loki}
+                                       data-id={v.$loki}>{v.title}</li>)
         }
       </ul>
     </div>);
