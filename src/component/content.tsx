@@ -1,57 +1,43 @@
 import * as React from 'react';
 import CodeMirrorEditor from "./codeMirrorEditor";
 import * as ReactMarkdown from "react-markdown";
-import {ipcRenderer} from "electron";
 
-// import * as path from 'path'
-
-interface IState {
+interface IProps {
+  changeValue: (val: string) => void
+  saveFile: (val: string) => void
   title: string
-  status: number,
   value: string
 }
 
-// console.log(path.join(__dirname, '..')) // src
-// console.log(path.join(__dirname)) // src/component
+interface IState {
+  status: number,
+}
 
 // const input = '# This is a header\n\nAnd this is a paragraph'
-class Content extends React.PureComponent<{}, IState> {
+class Content extends React.PureComponent<IProps, IState> {
   state = {
-    title: '这是标题',
     status: 1, // 修改模式
-    value: ''
   }
   // 0 观看模式
   // 1 修改模式
-
-  changeValue = (value) => {
-    this.setState({value})
-  }
 
   changeStatus = () => {
     const {status} = this.state
     this.setState({status: Number(!status)})
   }
 
-  saveFile = (content) => {
-    const {title} = this.state
-    ipcRenderer.sendSync('saveFile', {
-      title,
-      content
-    })
-
-  }
 
   public render() {
-    const {value, status} = this.state
+    const {value, title, saveFile, changeValue} = this.props
+    const {status} = this.state
     return (<div className="wrapContent">
       <div className="header">
-        <input className="title" type="text" defaultValue={this.state.title}/>
+        <input className="title" type="text" defaultValue={title}/>
         <span onClick={this.changeStatus}>{status ? '修改' : '观看'}</span>
       </div>
       <div className="content">
         {status ? <React.Fragment>
-            <CodeMirrorEditor saveFile={this.saveFile} changeValue={this.changeValue} input={value}/>
+            <CodeMirrorEditor saveFile={saveFile} changeValue={changeValue} input={value}/>
             <ReactMarkdown className="showMD" source={value}/></React.Fragment>
           : <ReactMarkdown className="showMD" source={value}/>}
       </div>
