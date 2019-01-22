@@ -7,6 +7,7 @@ interface IProps {
   saveFile: (val: string) => void
   title: string
   value: string
+  loading: boolean
 }
 
 interface IState {
@@ -28,7 +29,7 @@ class Content extends React.PureComponent<IProps, IState> {
 
 
   public render() {
-    const {value, title, saveFile, changeValue} = this.props
+    const {value, title, saveFile, changeValue, loading} = this.props
     const {status} = this.state
     return (<div className="wrapContent">
       <div className="header">
@@ -36,7 +37,7 @@ class Content extends React.PureComponent<IProps, IState> {
         <span onClick={this.changeStatus}>{status ? '修改' : '观看'}</span>
       </div>
       <div className="content">
-        {status ? <React.Fragment>
+        {loading ? 'loading...' : status ? <React.Fragment>
             <CodeMirrorEditor saveFile={saveFile} changeValue={changeValue} input={value}/>
             <ReactMarkdown className="showMD" source={value}/></React.Fragment>
           : <ReactMarkdown className="showMD" source={value}/>}

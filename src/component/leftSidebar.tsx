@@ -1,25 +1,34 @@
 import * as React from 'react';
 import {ipcRenderer} from "electron";
 
+
+interface IProps {
+  getFile: (id: string, title: string) => void
+
+}
+
 interface IList {
   title: string
   $loki: number
 }
 
 interface IState {
-  selectedId: number
+  selectedId: number | null
   list: IList[]
 }
 
-class LeftSidebar extends React.PureComponent<{}, IState> {
+class LeftSidebar extends React.PureComponent<IProps, IState> {
   state = {
-    selectedId: 112,
+    selectedId: null,
     list: [] as IList[]
   }
 
   private select = (ev) => {
-    const {id} = ev.target.dataset
-    id && this.setState({selectedId: Number(id)})
+    const {id, title} = ev.target.dataset
+    if (id) {
+      this.setState({selectedId: Number(id)})
+      this.props.getFile(id, title)
+    }
   }
 
   componentDidMount(): void {
@@ -33,7 +42,7 @@ class LeftSidebar extends React.PureComponent<{}, IState> {
       <ul className="list" onClick={this.select}>
         {
           this.state.list.map(v => <li className={this.state.selectedId === v.$loki ? 'active' : ''} key={v.$loki}
-                                       data-id={v.$loki}>{v.title}</li>)
+                                       data-id={v.$loki} data-title={v.title}>{v.title}</li>)
         }
       </ul>
     </div>);

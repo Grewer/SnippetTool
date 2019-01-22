@@ -65,6 +65,16 @@ ipcMain.on('saveFile', (event, arg) => {
   }
 })
 
+
+ipcMain.on('getFile', (event, arg) => {
+  console.log('getFile', arg)
+  // loadCollection('titles', (titles, db) => {
+  //   event.returnValue = titles.addDynamicView('title').data()
+  // })
+  event.returnValue = 'qwe'
+})
+
+
 ipcMain.on('getAllTitle', (event, arg) => {
   console.log('getAllTitle', arg)
   loadCollection('titles', (titles, db) => {

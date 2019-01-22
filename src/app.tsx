@@ -6,12 +6,18 @@ import {ipcRenderer} from "electron";
 interface IState {
   title: string
   value: string
+  loading: boolean
 }
 
 class App extends React.PureComponent<{}, IState> {
   state = {
     title: '这是标题',
-    value: ''
+    value: '',
+    loading: false
+  }
+
+  changeLoading = (loading: boolean) => {
+    this.setState({loading})
   }
 
   changeValue = (value) => {
@@ -24,13 +30,18 @@ class App extends React.PureComponent<{}, IState> {
       title,
       content
     })
-
   }
 
+  getFile = (id, title) => {
+    console.log(id)
+    this.setState({loading: true, title})
+    const file = ipcRenderer.sendSync('getFile', {id})
+    console.log(file)
+  }
 
   public render() {
-    return (<React.Fragment><LeftSideBar/><Content changeValue={this.changeValue}
-                                                   saveFile={this.saveFile} {...this.state}/></React.Fragment>);
+    return (<React.Fragment><LeftSideBar getFile={this.getFile}/><Content changeValue={this.changeValue}
+                                                                          saveFile={this.saveFile} {...this.state}/></React.Fragment>);
   }
 }
 
