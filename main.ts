@@ -1,6 +1,7 @@
 import {enableLiveReload} from 'electron-compile';
 import {app, BrowserWindow, ipcMain} from 'electron';
 import {loadCollection} from "./src/db";
+import {green, rainbow} from 'colors/safe'
 
 let mainWindow: BrowserWindow | null
 const isDev = process.env.NODE_ENV === 'development'
@@ -61,17 +62,19 @@ ipcMain.on('saveFile', (event, arg) => {
         db.saveDatabase()
       })
       event.returnValue = 'success'
-    })
+    }) // todo
   }
 })
 
 
 ipcMain.on('getFile', (event, arg) => {
-  console.log('getFile', arg)
-  // loadCollection('titles', (titles, db) => {
-  //   event.returnValue = titles.addDynamicView('title').data()
-  // })
-  event.returnValue = 'qwe'
+  const id = arg.id
+  console.log('getFile', id)
+  loadCollection('files', (files, db) => {
+    const result = files.get(id)
+    console.log(green('获取单个文件ing'), rainbow('id:' + id))
+    event.returnValue = result
+  })
 })
 
 

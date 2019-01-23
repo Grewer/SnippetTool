@@ -25,12 +25,13 @@ class Content extends React.PureComponent<IProps, IState> {
   changeStatus = () => {
     const {status} = this.state
     this.setState({status: Number(!status)})
-  }
+  } // todo 默认为 观看模式
 
 
   public render() {
     const {value, title, saveFile, changeValue, loading} = this.props
     const {status} = this.state
+    console.log('render content ')
     return (<div className="wrapContent">
       <div className="header">
         <input className="title" type="text" defaultValue={title}/>

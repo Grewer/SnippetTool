@@ -36,7 +36,7 @@ class App extends React.PureComponent<{}, IState> {
     console.log(id)
     this.setState({loading: true, title})
     const file = ipcRenderer.sendSync('getFile', {id})
-    console.log(file)
+    this.setState({loading: false, value: file.content})
   }
 
   public render() {
