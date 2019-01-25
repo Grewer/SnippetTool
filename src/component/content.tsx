@@ -8,6 +8,7 @@ interface IProps {
   title: string
   value: string
   loading: boolean
+  selectId: string
 }
 
 interface IState {
@@ -25,8 +26,13 @@ class Content extends React.PureComponent<IProps, IState> {
   changeStatus = () => {
     const {status} = this.state
     this.setState({status: Number(!status)})
-  } // todo 默认为 观看模式
+  }
 
+  componentWillReceiveProps(nextProps: Readonly<IProps>, nextContext: any): void {
+    if (nextProps.selectId !== this.props.selectId) {
+      this.setState({status: 0})
+    }
+  }
 
   public render() {
     const {value, title, saveFile, changeValue, loading} = this.props
