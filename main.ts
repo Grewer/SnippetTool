@@ -52,24 +52,23 @@ ipcMain.on('saveFile', (event, arg) => {
   // 保存至 files 与 titles
   console.log('savefile', arg)
   if (arg.id) { // 或者使用$loki ?
-
+    console.log('有 id', arg)
   } else {
     loadCollection('titles', (titles, db) => {
-      titles.insert({title: arg.title})
+      const afterInsTitle = titles.insert({title: arg.title})
       db.saveDatabase()
       loadCollection('files', (files, db) => {
-        files.insert(arg)
+        files.insert({...arg, titleId: afterInsTitle.$loki})
         db.saveDatabase()
       })
       event.returnValue = 'success'
-    }) // todo
+    })
   }
 })
 
 
 ipcMain.on('getFile', (event, arg) => {
   const id = arg.id
-  console.log('getFile', id)
   loadCollection('files', (files, db) => {
     const result = files.get(id)
     console.log(green('获取单个文件ing'), rainbow('id:' + id))

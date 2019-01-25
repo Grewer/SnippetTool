@@ -18,10 +18,6 @@ class App extends React.PureComponent<{}, IState> {
     selectId: '0'
   }
 
-  changeLoading = (loading: boolean) => {
-    this.setState({loading})
-  }
-
   changeValue = (value) => {
     this.setState({value})
   }
@@ -32,7 +28,7 @@ class App extends React.PureComponent<{}, IState> {
       title,
       content
     })
-  }
+  } // TODO 有新建的文件 则在左侧显示
 
   getFile = (id, title) => {
     console.log(id)
@@ -44,10 +40,14 @@ class App extends React.PureComponent<{}, IState> {
     this.setState({loading: false, value: file.content, selectId: id})
   }
 
+  changeTitle = ev => {
+    this.setState({title: ev.target.value})
+  }
+
   public render() {
     return (<React.Fragment>
       <LeftSideBar getFile={this.getFile}/>
-      <Content changeValue={this.changeValue} saveFile={this.saveFile} {...this.state}/>
+      <Content changeTitle={this.changeTitle} changeValue={this.changeValue} saveFile={this.saveFile} {...this.state}/>
     </React.Fragment>);
   }
 }

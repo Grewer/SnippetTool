@@ -4,6 +4,7 @@ import * as ReactMarkdown from "react-markdown";
 
 interface IProps {
   changeValue: (val: string) => void
+  changeTitle: (ev: any) => void
   saveFile: (val: string) => void
   title: string
   value: string
@@ -35,12 +36,12 @@ class Content extends React.PureComponent<IProps, IState> {
   }
 
   public render() {
-    const {value, title, saveFile, changeValue, loading} = this.props
+    const {value, title, saveFile, changeValue, loading, changeTitle} = this.props
     const {status} = this.state
     console.log('render content ')
     return (<div className="wrapContent">
       <div className="header">
-        <input className="title" type="text" defaultValue={title}/>
+        <input className="title" type="text" onChange={changeTitle} defaultValue={title}/>
         <span onClick={this.changeStatus}>{status ? '修改' : '观看'}</span>
       </div>
       <div className="content">
