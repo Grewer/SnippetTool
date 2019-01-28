@@ -54,3 +54,24 @@ loadCollection('users', function (users) {
 存储形式
 1. 目录名称存储
 2. 内容存储 与目录对于的 id 的存储
+
+
+存储形式 
+1. 文件
+自增 id $loki 
+内容 content
+2. 标题
+对应的 文件 id=>fileId
+标题 title
+
+开始时,显示左列所有标题,格式如下
+```js
+[{title:'123',$loki:1,fileId:1},{title:'123',$loki:1,fileId:1}]
+```
+点击标题时 可通过 fileId 获取对应的文件内容 加以显示
+
+存储时 若新建立
+现存文件  得出文件 id,再存标题
+
+若更新
+也可以通过 fileId 获得 标题和文件的更新

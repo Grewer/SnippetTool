@@ -54,14 +54,14 @@ ipcMain.on('saveFile', (event, arg) => {
   if (arg.id) { // 或者使用$loki ?
     console.log('有 id', arg)
   } else {
-    loadCollection('titles', (titles, db) => {
-      const afterInsTitle = titles.insert({title: arg.title})
+    loadCollection('files', (files, db) => {
+      const afterInsFile = files.insert({content: arg.content})
       db.saveDatabase()
-      loadCollection('files', (files, db) => {
-        files.insert({...arg, titleId: afterInsTitle.$loki})
+      loadCollection('titles', (titles, db) => {
+        titles.insert({title: arg.title, fileId: afterInsFile.$loki})
         db.saveDatabase()
+        event.returnValue = 'success'
       })
-      event.returnValue = 'success'
     })
   }
 })
@@ -71,14 +71,14 @@ ipcMain.on('getFile', (event, arg) => {
   const id = arg.id
   loadCollection('files', (files, db) => {
     const result = files.get(id)
-    console.log(green('获取单个文件ing'), rainbow('id:' + id))
+    console.log(green('获取单个文件ing'), rainbow('id:' + id), result)
     event.returnValue = result
   })
 })
 
 
 ipcMain.on('getAllTitle', (event, arg) => {
-  console.log('getAllTitle', arg)
+  console.log('getAllTitle')
   loadCollection('titles', (titles, db) => {
     event.returnValue = titles.addDynamicView('title').data()
   })

@@ -36,7 +36,7 @@ class App extends React.PureComponent<{}, IState> {
       return;
     }
     this.setState({loading: true, title})
-    const file = ipcRenderer.sendSync('getFile', {id})
+    const file = ipcRenderer.sendSync('getFile', {id}) // 此 id 为
     this.setState({loading: false, value: file.content, selectId: id})
   }
 
