@@ -51,8 +51,16 @@ ipcMain.on('saveFile', (event, arg) => {
   // 若无 则在 titles 里 获取最大 id +1 作为 id
   // 保存至 files 与 titles
   console.log('savefile', arg)
-  if (arg.id) { // 或者使用$loki ?
+  const fileId = arg.id
+  if (fileId) { // 或者使用$loki ?
     console.log('有 id', arg)
+    loadCollection('files', (files, db) => {
+      const result = files.get(fileId)
+      result.content = arg.content
+      files.update(result)
+      db.saveDatabase()
+      event.returnValue = 'success'
+    }) // todo title
   } else {
     loadCollection('files', (files, db) => {
       const afterInsFile = files.insert({content: arg.content})

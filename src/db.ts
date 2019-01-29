@@ -2,7 +2,7 @@ import {app} from "electron";
 import * as loki from 'lokijs'
 
 const dbPath = app.getPath('userData') + '/db.json'
-// console.log(dbPath)
+console.log(dbPath)
 
 const db = new loki(dbPath);
 // console.log('init db', db)

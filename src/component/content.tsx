@@ -42,7 +42,7 @@ class Content extends React.PureComponent<IProps, IState> {
     return (<div className="wrapContent">
       <div className="header">
         <input className="title" type="text" onChange={changeTitle} defaultValue={title}/>
-        <span onClick={this.changeStatus}>{status ? '修改' : '观看'}</span>
+        <span onClick={this.changeStatus}>{status ? '观看' : '修改'}</span>
       </div>
       <div className="content">
         {loading ? 'loading...' : status ? <React.Fragment>

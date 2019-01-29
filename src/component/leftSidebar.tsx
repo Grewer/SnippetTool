@@ -8,6 +8,7 @@ interface IProps {
 }
 
 interface IList {
+  fileId: string;
   title: string
   $loki: number
 }
@@ -42,7 +43,7 @@ class LeftSidebar extends React.PureComponent<IProps, IState> {
       <ul className="list" onClick={this.select}>
         {
           this.state.list.map(v => <li className={this.state.selectedId === v.$loki ? 'active' : ''} key={v.$loki}
-                                       data-id={v.$loki} data-title={v.title}>{v.title}</li>)
+                                       data-id={v.fileId} data-title={v.title}>{v.title}</li>)
         }
       </ul>
     </div>);

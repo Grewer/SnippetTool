@@ -24,11 +24,21 @@ class App extends React.PureComponent<{}, IState> {
 
   saveFile = (content) => {
     const {title} = this.state
-    ipcRenderer.sendSync('saveFile', {
-      title,
-      content
-    })
-  } // TODO 有新建的文件 则在左侧显示
+
+    interface ISaveParams {
+      title: string
+      content: string
+      id?: string
+    }
+
+    let params = {title, content} as ISaveParams
+    if (this.id) {
+      params.id = this.id
+    }
+    ipcRenderer.sendSync('saveFile', params)
+  }
+  // TODO 有新建的文件 则在左侧显示
+  // 新建文件时清除 this.id
 
   getFile = (id, title) => {
     console.log(id)
@@ -36,6 +46,7 @@ class App extends React.PureComponent<{}, IState> {
       return;
     }
     this.setState({loading: true, title})
+    this.id = id
     const file = ipcRenderer.sendSync('getFile', {id}) // 此 id 为
     this.setState({loading: false, value: file.content, selectId: id})
   }
@@ -43,6 +54,8 @@ class App extends React.PureComponent<{}, IState> {
   changeTitle = ev => {
     this.setState({title: ev.target.value})
   }
+
+  private id: string;
 
   public render() {
     return (<React.Fragment>
