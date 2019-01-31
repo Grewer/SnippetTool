@@ -45,6 +45,7 @@ class App extends React.PureComponent<{}, IState> {
     if (id === this.state.selectId) {
       return;
     }
+    console.log(title)
     this.setState({loading: true, title})
     this.id = id
     const file = ipcRenderer.sendSync('getFile', {id}) // 此 id 为

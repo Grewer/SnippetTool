@@ -50,7 +50,6 @@ ipcMain.on('saveFile', (event, arg) => {
   // 若有 id 搜索 id 保存
   // 若无 则在 titles 里 获取最大 id +1 作为 id
   // 保存至 files 与 titles
-  console.log('savefile', arg)
   const fileId = arg.id
   if (fileId) { // 或者使用$loki ?
     console.log('有 id', arg)
@@ -59,8 +58,14 @@ ipcMain.on('saveFile', (event, arg) => {
       result.content = arg.content
       files.update(result)
       db.saveDatabase()
-      event.returnValue = 'success'
-    }) // todo title
+      loadCollection('titles', (titles, db) => {
+        const curTitle = titles.find({'fileId': Number(fileId)})
+        curTitle[0].title = arg.title
+        titles.update(curTitle)
+        db.saveDatabase()
+        event.returnValue = 'success'
+      })
+    })
   } else {
     loadCollection('files', (files, db) => {
       const afterInsFile = files.insert({content: arg.content})
