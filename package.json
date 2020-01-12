@@ -1,89 +1,84 @@
 {
-  "name": "snippettool",
+  "name": "my-new-app",
+  "productName": "my-new-app",
   "version": "1.0.0",
-  "description": "snippettool",
-  "main": "main.ts",
+  "description": "My Electron application description",
+  "main": ".webpack/main",
   "scripts": {
-    "start": "NODE_ENV=development electron-forge start",
-    "package": "NODE_ENV=production electron-forge package",
-    "make": "NODE_ENV=production electron-forge make",
-    "build-css": "node-sass --include-path src/ src/main.scss src/main.css",
-    "watch-css": "nodemon nodemon -e scss -x \"npm run build-css\""
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "tslint -c tslint.json -p tsconfig.json"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Grewer/SnippetTool.git"
+  "keywords": [],
+  "author": {
+    "name": "zhangyu",
+    "email": "grewer@grewer.cn"
   },
-  "keywords": [
-    "buildElectron",
-    "react",
-    "electron"
-  ],
-  "author": "grewer",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Grewer/SnippetTool/issues"
-  },
-  "homepage": "https://github.com/Grewer/SnippetTool#readme",
-  "devDependencies": {
-    "@types/electron": "^1.6.10",
-    "@types/node": "^10.12.1",
-    "@types/react": "^16.4.18",
-    "@types/react-dom": "^16.0.9",
-    "@types/react-hot-loader": "^4.1.0",
-    "babel-plugin-transform-async-to-generator": "^6.24.1",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
-    "electron-forge": "^5.2.2",
-    "electron-prebuilt-compile": "3.0.6",
-    "radium": "^0.25.0",
-    "typescript": "^3.1.6"
-  },
-  "dependencies": {
-    "codemirror": "^5.42.0",
-    "electron": "^3.0.7",
-    "electron-compile": "^6.4.3",
-    "electron-squirrel-startup": "^1.0.0",
-    "fs": "0.0.1-security",
-    "lokijs": "^1.5.6",
-    "node-sass": "^4.10.0",
-    "nodemon": "^1.18.7",
-    "path": "^0.12.7",
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0",
-    "react-hot-loader": "^4.3.11",
-    "react-markdown": "^4.0.4"
-  },
   "config": {
     "forge": {
-      "make_targets": {
-        "win32": [
-          "squirrel"
-        ],
-        "darwin": [
-          "zip"
-        ],
-        "linux": [
-          "deb",
-          "rpm"
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "my_new_app"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ],
+      "plugins": [
+        [
+          "@electron-forge/plugin-webpack",
+          {
+            "mainConfig": "./webpack.main.config.js",
+            "renderer": {
+              "config": "./webpack.renderer.config.js",
+              "entryPoints": [
+                {
+                  "html": "./src/index.html",
+                  "js": "./src/renderer.ts",
+                  "name": "main_window"
+                }
+              ]
+            }
+          }
         ]
-      },
-      "electronPackagerConfig": {
-        "packageManager": "npm"
-      },
-      "electronWinstallerConfig": {
-        "name": "snippettool"
-      },
-      "electronInstallerDebian": {},
-      "electronInstallerRedhat": {},
-      "github_repository": {
-        "owner": "",
-        "name": ""
-      },
-      "windowsStoreConfig": {
-        "packageName": "",
-        "name": "snippettool"
-      }
+      ]
     }
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "6.0.0-beta.47",
+    "@electron-forge/maker-deb": "6.0.0-beta.47",
+    "@electron-forge/maker-rpm": "6.0.0-beta.47",
+    "@electron-forge/maker-squirrel": "6.0.0-beta.47",
+    "@electron-forge/maker-zip": "6.0.0-beta.47",
+    "@electron-forge/plugin-webpack": "6.0.0-beta.47",
+    "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
+    "css-loader": "^3.0.0",
+    "fork-ts-checker-webpack-plugin": "^3.1.1",
+    "node-loader": "^0.6.0",
+    "style-loader": "^0.23.1",
+    "ts-loader": "^6.2.1",
+    "tslint": "^5.20.0",
+    "typescript": "^3.7.0"
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0"
   }
 }

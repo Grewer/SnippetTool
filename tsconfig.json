@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "outDir": "dist",
-    "module": "esnext",
-    "target": "es5",
+    "module": "commonjs",
+    "target": "es2017",
     "lib": [
       "es6",
       "dom"
@@ -15,15 +15,22 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noImplicitThis": false,
-    "noImplicitAny": false,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
     "noEmit": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "baseUrl": ".",
+    "resolveJsonModule": true,
+    "paths": {
+      "*": ["node_modules/*"]
+    }
   },
   "compileOnSave": true,
   "include": [
-    "./src/**/*"
+    "src/**/*"
   ]
 }
