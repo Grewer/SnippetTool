@@ -7,6 +7,7 @@
 - [ ] 文件列表的渲染 [source](https://flutter.cn/docs/cookbook/lists/long-lists)
 - [ ] 使用 SQLite 存储数据 [source](https://flutter.cn/docs/cookbook/persistence/sqlite)
 - [ ] md 支持
+- [ ] 富文本编辑器 zefyr [一些坑](https://www.jianshu.com/p/5fb79b9c1a5e)
 
 ### 关于 md
 
