@@ -1,4 +1,3 @@
-import 'package:example_flutter/src/editor.dart';
 import 'package:flutter/material.dart';
 
 class Content extends StatelessWidget {
@@ -6,7 +5,14 @@ class Content extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
         flex: 8,
-        child: Editor()
+        child: TextField(
+          obscureText: false,
+          maxLines: 65535,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            labelText: '',
+          ),
+        )
         );
   }
 }

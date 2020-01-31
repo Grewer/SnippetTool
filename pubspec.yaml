@@ -14,8 +14,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-  zefyr: 0.10.0
-
   cupertino_icons: ^0.1.0
 
 dev_dependencies:
