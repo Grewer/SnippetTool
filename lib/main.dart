@@ -64,9 +64,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-//      appBar: AppBar(
-//        title: Text('test'),
-//      ),
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(16.0),
@@ -80,6 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: Icon(Icons.add),
+
       ),
     );
   }
