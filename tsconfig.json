@@ -1,29 +1,12 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
-    "module": "esnext",
-    "target": "es5",
-    "lib": [
-      "es6",
-      "dom"
-    ],
-    "sourceMap": true,
-    "allowJs": true,
+    "target": "es2016",
+    "module": "commonjs",
     "jsx": "react",
+    "strict": true,
+    "alwaysStrict": true,
     "moduleResolution": "node",
-    "rootDir": ".",
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": false,
-    "noImplicitAny": false,
-    "strictNullChecks": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true,
-    "noEmit": true,
-    "experimentalDecorators": true
+    "esModuleInterop": true
   },
-  "compileOnSave": true,
-  "include": [
-    "./src/**/*"
-  ]
+  "include": ["**/*"]
 }

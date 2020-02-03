@@ -1,80 +1,36 @@
 {
-  "name": "snippettool",
+  "name": "react-nodegui-starter",
   "version": "1.0.0",
-  "description": "snippettool",
-  "main": "main.ts",
-  "scripts": {
-    "start": "NODE_ENV=development electron-forge start",
-    "package": "NODE_ENV=production electron-forge package",
-    "make": "NODE_ENV=production electron-forge make"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Grewer/SnippetTool.git"
-  },
-  "keywords": [
-    "buildElectron",
-    "react",
-    "electron"
-  ],
-  "author": "grewer",
+  "main": "index.js",
+  "author": "Atul R <atulanand94@gmail.com>",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Grewer/SnippetTool/issues"
-  },
-  "homepage": "https://github.com/Grewer/SnippetTool#readme",
-  "devDependencies": {
-    "@types/electron": "^1.6.10",
-    "@types/node": "^10.12.1",
-    "@types/react": "^16.4.18",
-    "@types/react-dom": "^16.0.9",
-    "@types/react-hot-loader": "^4.1.0",
-    "babel-plugin-transform-async-to-generator": "^6.24.1",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
-    "electron-forge": "^5.2.2",
-    "electron-prebuilt-compile": "3.0.6",
-    "radium": "^0.25.0",
-    "typescript": "^3.1.6"
+  "private": true,
+  "scripts": {
+    "build": "webpack -p",
+    "dev": "webpack --mode=development",
+    "start": "qode --inspect ./dist/index.js"
   },
   "dependencies": {
-    "electron": "^3.0.7",
-    "electron-compile": "^6.4.3",
-    "electron-squirrel-startup": "^1.0.0",
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0",
-    "react-hot-loader": "^4.3.11"
+    "@nodegui/nodegui": "^0.13.1",
+    "@nodegui/react-nodegui": "^0.4.0",
+    "open": "^7.0.0",
+    "react": "^16.12.0"
   },
-  "config": {
-    "forge": {
-      "make_targets": {
-        "win32": [
-          "squirrel"
-        ],
-        "darwin": [
-          "zip"
-        ],
-        "linux": [
-          "deb",
-          "rpm"
-        ]
-      },
-      "electronPackagerConfig": {
-        "packageManager": "npm"
-      },
-      "electronWinstallerConfig": {
-        "name": "snippettool"
-      },
-      "electronInstallerDebian": {},
-      "electronInstallerRedhat": {},
-      "github_repository": {
-        "owner": "",
-        "name": ""
-      },
-      "windowsStoreConfig": {
-        "packageName": "",
-        "name": "snippettool"
-      }
-    }
+  "devDependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
+    "@babel/preset-react": "^7.7.4",
+    "@babel/preset-typescript": "^7.7.7",
+    "@types/node": "^12.12.22",
+    "@types/react": "^16.9.17",
+    "@types/webpack-env": "^1.14.1",
+    "babel-loader": "^8.0.6",
+    "clean-webpack-plugin": "^3.0.0",
+    "file-loader": "^5.0.2",
+    "fork-ts-checker-webpack-plugin": "^3.1.1",
+    "native-addon-loader": "^2.0.1",
+    "typescript": "^3.7.4",
+    "webpack": "^4.41.4",
+    "webpack-cli": "^3.3.10"
   }
 }
