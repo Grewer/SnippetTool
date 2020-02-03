@@ -1,14 +1,44 @@
-import { Text, Window, hot, View, LineEdit, PlainTextEdit } from '@nodegui/react-nodegui'
-import React from "react";
-import { QIcon } from "@nodegui/nodegui";
-import path from "path";
-import { StepOne } from "./components/stepone";
-import { StepTwo } from "./components/steptwo";
-import nodeguiIcon from "../assets/nodegui.jpg";
+import { Button, hot, LineEdit, PlainTextEdit, Text, View, Window } from '@nodegui/react-nodegui'
+import React, { useState } from 'react'
+import { QIcon } from '@nodegui/nodegui'
+import path from 'path'
+import nodeguiIcon from '../assets/nodegui.jpg'
 
-const minSize = { width: 800, height: 520 };
-const winIcon = new QIcon(path.resolve(__dirname, nodeguiIcon));
-class App extends React.Component {
+const minSize = { width: 800, height: 520 }
+const winIcon = new QIcon(path.resolve(__dirname, nodeguiIcon))
+
+
+const MyCus = () => {
+  const [text, setText] = useState('')
+
+  return (
+    <Window minSize={{ width: 500, height: 200 }}>
+      <View>
+        <LineEdit text={text} on={{
+          textChanged: (text) => {
+            console.log(text)
+          }
+        }}/>
+        <Button on={{ clicked: () => setText('') }}/>
+      </View>
+    </Window>
+  )
+}
+
+class App extends React.Component<any, { text: string }> {
+  constructor(props: any) {
+    super(props)
+    console.log('rrun!')
+    this.state = {
+      text: '<p>123</p>',
+    }
+  }
+
+
+  setText = (text: string) => {
+    console.log('setText', text)
+  }
+
   render() {
     return (
       <Window
@@ -19,30 +49,35 @@ class App extends React.Component {
       >
         <View style={containerStyle}>
           <Text id="welcome-text">123</Text>
-          <PlainTextEdit placeholderText="默认输入"/>
+          <PlainTextEdit text={this.state.text}
+                         on={{
+                           textChanged: (text?) => {
+                             console.log(text)
+                             console.log('textChanged', this.state.text)
+                           },
+                         }} style={`border:1px solid #ddd;margin:20px;flex:1;`} placeholderText="默认输入"/>
+          <Button on={{
+            clicked: () => {
+              console.log('run22')
+            }
+          }} text="click it"/>
         </View>
       </Window>
-    );
+    )
   }
 }
 
 const containerStyle = `
   flex: 1; 
-`;
+`
 
 const styleSheet = `
   #welcome-text {
-    font-size: 24px;
-    padding-top: 20px;
+    font-size: 30px;
+    padding-top: 50px;
     qproperty-alignment: 'AlignHCenter';
     font-family: 'sans-serif';
   }
+`
 
-  #step-1, #step-2 {
-    font-size: 18px;
-    padding-top: 10px;
-    padding-horizontal: 20px;
-  }
-`;
-
-export default hot(App);
+export default hot(App)
