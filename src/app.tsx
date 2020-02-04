@@ -55,7 +55,6 @@ class App extends React.Component<any, { text: string; preView: string }> {
         styleSheet={styleSheet}
       >
         <View styleSheet={containerStyle}>
-          <Text id="welcome-text">123</Text>
           <PlainTextEdit ref={this.textRef}
                          on={{
                            textChanged: (text?) => {
@@ -73,7 +72,7 @@ class App extends React.Component<any, { text: string; preView: string }> {
               console.log('run22')
             }
           }} text="click it"/>
-          <Text html="" id="text">{this.state.preView}</Text>
+          <Text id="text">{this.state.preView}</Text>
         </View>
       </Window>
     )
