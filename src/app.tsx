@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import { QIcon } from '@nodegui/nodegui'
 import path from 'path'
 import nodeguiIcon from '../assets/nodegui.jpg'
+import showdown from 'showdown'
+
 
 const minSize = { width: 800, height: 520 }
 const winIcon = new QIcon(path.resolve(__dirname, nodeguiIcon))
@@ -25,14 +27,19 @@ const MyCus = () => {
   )
 }
 
-class App extends React.Component<any, { text: string }> {
+class App extends React.Component<any, { text: string; preView: string }> {
   constructor(props: any) {
     super(props)
     console.log('rrun!')
-    this.state = {
-      text: '<p>123</p>',
-    }
+
   }
+
+  state = {
+    text: '',
+    preView: ''
+  }
+
+  private textRef: React.RefObject<any> = React.createRef()
 
 
   setText = (text: string) => {
@@ -47,13 +54,18 @@ class App extends React.Component<any, { text: string }> {
         minSize={minSize}
         styleSheet={styleSheet}
       >
-        <View style={containerStyle}>
+        <View styleSheet={containerStyle}>
           <Text id="welcome-text">123</Text>
-          <PlainTextEdit text={this.state.text}
+          <PlainTextEdit ref={this.textRef}
                          on={{
                            textChanged: (text?) => {
-                             console.log(text)
-                             console.log('textChanged', this.state.text)
+                             const text2 = this.textRef.current.toPlainText()
+                             const converter = new showdown.Converter()
+                             const html = converter.makeHtml(text2)
+                             this.setState({
+                               preView: html
+                             })
+                             console.log('textChanged', text2)
                            },
                          }} style={`border:1px solid #ddd;margin:20px;flex:1;`} placeholderText="默认输入"/>
           <Button on={{
@@ -61,6 +73,7 @@ class App extends React.Component<any, { text: string }> {
               console.log('run22')
             }
           }} text="click it"/>
+          <Text html="" id="text">{this.state.preView}</Text>
         </View>
       </Window>
     )
@@ -68,7 +81,10 @@ class App extends React.Component<any, { text: string }> {
 }
 
 const containerStyle = `
-  flex: 1; 
+  #text{
+    margin:10px;
+    font-size:18px
+  }
 `
 
 const styleSheet = `
@@ -78,6 +94,7 @@ const styleSheet = `
     qproperty-alignment: 'AlignHCenter';
     font-family: 'sans-serif';
   }
+ 
 `
 
 export default hot(App)

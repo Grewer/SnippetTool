@@ -15,6 +15,7 @@ const react_1 = __importStar(require("react"));
 const nodegui_1 = require("@nodegui/nodegui");
 const path_1 = __importDefault(require("path"));
 const nodegui_jpg_1 = __importDefault(require("../assets/nodegui.jpg"));
+const showdown_1 = __importDefault(require("showdown"));
 const minSize = { width: 800, height: 520 };
 const winIcon = new nodegui_1.QIcon(path_1.default.resolve(__dirname, nodegui_jpg_1.default));
 const MyCus = () => {
@@ -31,33 +32,44 @@ const MyCus = () => {
 class App extends react_1.default.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            text: '',
+            preView: ''
+        };
+        this.textRef = react_1.default.createRef();
         this.setText = (text) => {
             console.log('setText', text);
         };
         console.log('rrun!');
-        this.state = {
-            text: '<p>123</p>',
-        };
     }
     render() {
         return (react_1.default.createElement(react_nodegui_1.Window, { windowIcon: winIcon, windowTitle: "Hello \uD83D\uDC4B\uD83C\uDFFD", minSize: minSize, styleSheet: styleSheet },
-            react_1.default.createElement(react_nodegui_1.View, { style: containerStyle },
+            react_1.default.createElement(react_nodegui_1.View, { styleSheet: containerStyle },
                 react_1.default.createElement(react_nodegui_1.Text, { id: "welcome-text" }, "123"),
-                react_1.default.createElement(react_nodegui_1.PlainTextEdit, { text: this.state.text, on: {
+                react_1.default.createElement(react_nodegui_1.PlainTextEdit, { ref: this.textRef, on: {
                         textChanged: (text) => {
-                            console.log(text);
-                            console.log('textChanged', this.state.text);
+                            const text2 = this.textRef.current.toPlainText();
+                            const converter = new showdown_1.default.Converter();
+                            const html = converter.makeHtml(text2);
+                            this.setState({
+                                preView: html
+                            });
+                            console.log('textChanged', text2);
                         },
                     }, style: `border:1px solid #ddd;margin:20px;flex:1;`, placeholderText: "\u9ED8\u8BA4\u8F93\u5165" }),
                 react_1.default.createElement(react_nodegui_1.Button, { on: {
                         clicked: () => {
                             console.log('run22');
                         }
-                    }, text: "click it" }))));
+                    }, text: "click it" }),
+                react_1.default.createElement(react_nodegui_1.Text, { html: "", id: "text" }, this.state.preView))));
     }
 }
 const containerStyle = `
-  flex: 1; 
+  #text{
+    margin:10px;
+    font-size:18px
+  }
 `;
 const styleSheet = `
   #welcome-text {
@@ -66,5 +78,6 @@ const styleSheet = `
     qproperty-alignment: 'AlignHCenter';
     font-family: 'sans-serif';
   }
+ 
 `;
 exports.default = react_nodegui_1.hot(App);

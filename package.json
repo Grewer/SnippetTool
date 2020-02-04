@@ -13,8 +13,12 @@
   "dependencies": {
     "@nodegui/nodegui": "^0.13.1",
     "@nodegui/react-nodegui": "^0.4.0",
+    "@types/showdown": "^1.9.3",
+    "install": "^0.13.0",
+    "npm": "^6.13.7",
     "open": "^7.0.0",
-    "react": "^16.12.0"
+    "react": "^16.12.0",
+    "showdown": "^1.9.1"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
