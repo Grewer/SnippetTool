@@ -2,7 +2,7 @@ import { Renderer } from "@nodegui/react-nodegui";
 import React from "react";
 import App from "./app";
 
-process.title = "My NodeGui App";
+process.title = "snippet";
 Renderer.render(<App />);
 
 if (module.hot) {
