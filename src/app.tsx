@@ -65,7 +65,8 @@ class App extends React.Component<any, { text: string; preView: string }> {
                                tables: true,
                                tasklists: true,
                                requireSpaceBeforeHeadingText: true,
-                               emoji: true
+                               emoji: true,
+                               omitExtraWLInCodeBlocks: true,
                              })
                              const html = converter.makeHtml(text2)
                              console.log(html)

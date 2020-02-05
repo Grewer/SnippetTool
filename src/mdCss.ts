@@ -62,15 +62,15 @@ img {
 
 dl, ol, ul {
     margin-top: 12px;
-    margin-bottom: 20px;
-    padding-left: 5%;
-    line-height: 1.8;
+    margin-bottom: 12px;
+    padding-left: 2%;
+    line-height: 1.2;
 }
 
 p {
     margin: 0 0 20px;
     padding: 0;
-    line-height: 1.8;
+    line-height: 1.5;
 }
 
 a {
@@ -88,12 +88,12 @@ a:focus {
 }
 
 blockquote {
-    font-size: 1em;
+    font-size: 14px;
     font-style: normal;
     padding: 30px 38px;
-    margin: 0 0 15px;
+    margin: 0 0 10px;
     position: relative;
-    line-height: 1.5;
+    line-height: 1.2;
     text-indent: 0;
     border: none;
     color: #888;
@@ -112,20 +112,20 @@ del {
     text-decoration: line-through;
 }
 
-    pre,
-    code {
-        font-size: 14px;
-        font-family: Roboto, 'Courier New', Consolas, Inconsolata, Courier, monospace;
-    }
+pre,
+code {
+    font-size: 14px;
+    font-family: Roboto, 'Courier New', Consolas, Inconsolata, Courier, monospace;
+}
 
-    pre {
-        display: block;
-        background-color: #f6f8fa;
-    }
-    
-    p code {
-        background-color: #f6f8fa;
-    }
+pre {
+    display: block;
+    background-color: #f6f8fa;
+}
+
+p code {
+    background-color: #f6f8fa;
+}
 
 figure {
     margin: 1em 0;
@@ -153,8 +153,8 @@ ol p, ul p {
 }
 
 li {
-    margin-bottom: 0.75em;
-    margin-top: 0.75em;
+    margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 table {
