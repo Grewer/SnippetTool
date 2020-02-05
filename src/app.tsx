@@ -4,7 +4,7 @@ import { QIcon } from '@nodegui/nodegui'
 import path from 'path'
 import nodeguiIcon from '../assets/nodegui.jpg'
 import showdown from 'showdown'
-
+import mdCss from './mdCss'
 
 const minSize = { width: 800, height: 520 }
 const winIcon = new QIcon(path.resolve(__dirname, nodeguiIcon))
@@ -40,6 +40,7 @@ class App extends React.Component<any, { text: string; preView: string }> {
   }
 
   private textRef: React.RefObject<any> = React.createRef()
+  private previewRef: React.RefObject<any> = React.createRef()
 
 
   setText = (text: string) => {
@@ -52,27 +53,45 @@ class App extends React.Component<any, { text: string; preView: string }> {
         windowIcon={winIcon}
         windowTitle="Hello 👋🏽"
         minSize={minSize}
-        styleSheet={styleSheet}
+        style={`background:#fff`}
       >
         <View styleSheet={containerStyle}>
           <PlainTextEdit ref={this.textRef}
                          on={{
                            textChanged: (text?) => {
                              const text2 = this.textRef.current.toPlainText()
-                             const converter = new showdown.Converter()
-                             const html = converter.makeHtml(text2)
-                             this.setState({
-                               preView: html
+                             const converter = new showdown.Converter({
+                               strikethrough: true,
+                               tables: true,
+                               tasklists: true,
+                               requireSpaceBeforeHeadingText: true,
+                               emoji: true
                              })
-                             console.log('textChanged', text2)
+                             const html = converter.makeHtml(text2)
+                             console.log(html)
+                             this.setState({
+                               preView: `${html}`
+                             }, () => {
+                               console.log(this.previewRef && this.previewRef.current.text())
+                             })
+                             // todo 添加防抖
+                             // console.log('textChanged', text2)
                            },
-                         }} style={`border:1px solid #ddd;margin:20px;flex:1;`} placeholderText="默认输入"/>
-          <Button on={{
-            clicked: () => {
-              console.log('run22')
-            }
-          }} text="click it"/>
-          <Text id="text">{this.state.preView}</Text>
+                         }} style={`border:1px solid #ddd;margin:20px;width:500px;height:200px;`}
+                         placeholderText="默认输入"/>
+          <View style={`
+    background-color: #fff;padding: 10px;`}>
+
+            <Text ref={this.previewRef} id="text">
+              {
+                `<style>
+                    ${mdCss}
+                </style>
+                ${this.state.preView}`
+              }
+            </Text>
+
+          </View>
         </View>
       </Window>
     )
@@ -80,20 +99,20 @@ class App extends React.Component<any, { text: string; preView: string }> {
 }
 
 const containerStyle = `
-  #text{
-    margin:10px;
-    font-size:18px
-  }
-`
-
-const styleSheet = `
-  #welcome-text {
-    font-size: 30px;
-    padding-top: 50px;
-    qproperty-alignment: 'AlignHCenter';
-    font-family: 'sans-serif';
-  }
+  #text h1{
+    color:'red';
+   }
  
+   QLabel#text h1{
+    color:red;
+   }
+   
+   LI{
+     color:red;
+   }
+   
+   UL{
+     color:red;
+   }
 `
-
 export default hot(App)
