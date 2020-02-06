@@ -1,10 +1,11 @@
-import { hot, PlainTextEdit, ScrollArea, SpinBox, Text, View, Window } from '@nodegui/react-nodegui'
+import { hot, Image, PlainTextEdit, ScrollArea, Text, View, Window } from '@nodegui/react-nodegui'
 import React from 'react'
 import { QIcon } from '@nodegui/nodegui'
 import path from 'path'
 import nodeguiIcon from '../assets/nodegui.jpg'
 import showdown from 'showdown'
 import mdCss from './mdCss'
+import testPng from './static/text.png'
 
 const minSize = { width: 800, height: 520 }
 const winIcon = new QIcon(path.resolve(__dirname, nodeguiIcon))
@@ -38,11 +39,22 @@ class App extends React.Component<any, { text: string; preView: string }> {
       >
         <View id="wrap">
           <ScrollArea id="fileList">
-            <Text>
-              listxxxxxxxxxxx1xxxxxxxxxxx
-              listxxxxxxxxxxxxxxxxxxxxxxlistxxxzxcadwqe32xxxxxxxxxxxxxxxxxxxlistxxxxxxxxxxxxxxxxxxxxxxlistxxxxxxxxxxxxxxxxxxxxxxlistxxxxxxxxxxxxxxxxxxxxxx
-              listxxxxxxxxxxxxxxxxxxxxxxliasdaszczxfdsfdszccc
-            </Text>
+            <View>
+              {
+                Array(50).fill('').map(() => {
+                  return <View>
+                    <Image src={testPng}/>
+                    <Text>{`
+                      listxxxxxxxxxxx1xxxxxxxxxxx
+                      listxxxxxxxxxxxxxxxxxxxxxxlistxxxzxcadwqe32xxxxxxxxxxxxxxxxxxxlistxxxxxxxxxxxxxxxxxxxxxxlistxxxxxxxxxxxxxxxxxxxxxxlistxxxxxxxxxxxxxxxxxxxxxx
+                      listxxxxxxxxxxxxxxxxxxxxxxliasdaszczxfdsfdszccc
+                      `
+                    }
+                    </Text>
+                  </View>
+                })
+              }
+            </View>
           </ScrollArea>
           <View id="content">
             <PlainTextEdit ref={this.textRef}
