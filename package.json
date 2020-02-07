@@ -1,0 +1,43 @@
+{
+  "name": "react-nodegui-starter",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Atul R <atulanand94@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "webpack -p && nodegui-packer --pack ./dist",
+    "dev": "webpack --mode=development",
+    "start": "qode --inspect ./dist/index.js"
+  },
+  "dependencies": {
+    "@nodegui/nodegui": "^0.13.1",
+    "@nodegui/react-nodegui": "^0.4.0",
+    "@types/showdown": "^1.9.3",
+    "install": "^0.13.0",
+    "npm": "^6.13.7",
+    "open": "^7.0.0",
+    "react": "^16.12.0",
+    "showdown": "^1.9.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/preset-env": "^7.7.7",
+    "@babel/preset-react": "^7.7.4",
+    "@babel/preset-typescript": "^7.7.7",
+    "@nodegui/packer": "^1.1.2",
+    "@types/node": "^12.12.22",
+    "@types/react": "^16.9.17",
+    "@types/webpack-env": "^1.14.1",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-root-import": "^6.4.1",
+    "clean-webpack-plugin": "^3.0.0",
+    "file-loader": "^5.0.2",
+    "fork-ts-checker-webpack-plugin": "^3.1.1",
+    "native-addon-loader": "^2.0.1",
+    "typescript": "^3.7.4",
+    "webpack": "^4.41.4",
+    "webpack-cli": "^3.3.10"
+  }
+}
