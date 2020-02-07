@@ -8,8 +8,10 @@ import mdCss from './mdCss'
 import testPng from './static/text.png'
 
 const minSize = { width: 800, height: 520 }
+
 const winIcon = new QIcon(path.resolve(__dirname, nodeguiIcon))
 
+const imageUrl = path.resolve(__dirname,'../dist', testPng)
 
 class App extends React.Component<any, { text: string; preView: string }> {
   constructor(props: any) {
@@ -43,7 +45,7 @@ class App extends React.Component<any, { text: string; preView: string }> {
               {
                 Array(50).fill('').map(() => {
                   return <View>
-                    <Image src={testPng}/>
+                    <Image src={imageUrl}/>
                     <Text>{`
                       listxxxxxxxxxxx1xxxxxxxxxxx
                       listxxxxxxxxxxxxxxxxxxxxxxlistxxxzxcadwqe32xxxxxxxxxxxxxxxxxxxlistxxxxxxxxxxxxxxxxxxxxxxlistxxxxxxxxxxxxxxxxxxxxxxlistxxxxxxxxxxxxxxxxxxxxxx

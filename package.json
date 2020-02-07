@@ -6,7 +6,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "webpack -p",
+    "build": "webpack -p && nodegui-packer --pack ./dist",
     "dev": "webpack --mode=development",
     "start": "qode --inspect ./dist/index.js"
   },
@@ -26,6 +26,7 @@
     "@babel/preset-env": "^7.7.7",
     "@babel/preset-react": "^7.7.4",
     "@babel/preset-typescript": "^7.7.7",
+    "@nodegui/packer": "^1.1.2",
     "@types/node": "^12.12.22",
     "@types/react": "^16.9.17",
     "@types/webpack-env": "^1.14.1",
