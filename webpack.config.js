@@ -45,7 +45,7 @@ module.exports = (env, argv) => {
     },
     plugins: [],
     resolve: {
-      extensions: [".tsx", ".ts", ".js", ".jsx", ".json"]
+      extensions: [".tsx", ".ts", ".js", ".jsx", ".json"],
     }
   };
 

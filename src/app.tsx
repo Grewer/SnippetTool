@@ -6,12 +6,15 @@ import nodeguiIcon from '../assets/nodegui.jpg'
 import showdown from 'showdown'
 import mdCss from './mdCss'
 import testPng from './static/text.png'
+import loadImage from '~/utils/loadImage'
 
 const minSize = { width: 800, height: 520 }
 
 const winIcon = new QIcon(path.resolve(__dirname, nodeguiIcon))
 
-const imageUrl = path.resolve(__dirname,'../dist', testPng)
+const imagePng = loadImage(require('~/static/text.png'))
+
+console.log('testPng', imagePng)
 
 class App extends React.Component<any, { text: string; preView: string }> {
   constructor(props: any) {
@@ -45,7 +48,7 @@ class App extends React.Component<any, { text: string; preView: string }> {
               {
                 Array(50).fill('').map(() => {
                   return <View>
-                    <Image src={imageUrl}/>
+                    <Image src={imagePng}/>
                     <Text>{`
                       listxxxxxxxxxxx1xxxxxxxxxxx
                       listxxxxxxxxxxxxxxxxxxxxxxlistxxxzxcadwqe32xxxxxxxxxxxxxxxxxxxlistxxxxxxxxxxxxxxxxxxxxxxlistxxxxxxxxxxxxxxxxxxxxxxlistxxxxxxxxxxxxxxxxxxxxxx
