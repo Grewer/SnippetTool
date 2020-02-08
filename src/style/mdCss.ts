@@ -1,3 +1,5 @@
+import { Info } from '@nodegui/os-utils'
+
 const mdCss = `
 h1 {
     font-size: 2.2em;
@@ -184,5 +186,7 @@ table td {
     padding: 6px 13px;
 }
 `
+
+// Info.isDarkMode()
 
 export default mdCss

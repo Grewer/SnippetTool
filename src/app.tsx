@@ -1,20 +1,11 @@
-import { hot, Image, PlainTextEdit, ScrollArea, Text, View, Window } from '@nodegui/react-nodegui'
+import { hot, PlainTextEdit, Text, View, Window } from '@nodegui/react-nodegui'
 import React from 'react'
-import { QIcon } from '@nodegui/nodegui'
-import path from 'path'
-import nodeguiIcon from '../assets/nodegui.jpg'
 import showdown from 'showdown'
-import mdCss from './mdCss'
-import testPng from './static/text.png'
-import loadImage from '~/utils/loadImage'
+import mdCss from '~/style/mdCss'
+import FilesList from '~/pages/FilesList'
 
 const minSize = { width: 800, height: 520 }
 
-const winIcon = new QIcon(path.resolve(__dirname, nodeguiIcon))
-
-const imagePng = loadImage(require('~/static/text.png'))
-
-console.log('testPng', imagePng)
 
 class App extends React.Component<any, { text: string; preView: string }> {
   constructor(props: any) {
@@ -37,30 +28,12 @@ class App extends React.Component<any, { text: string; preView: string }> {
   render() {
     return (
       <Window
-        windowIcon={winIcon}
         windowTitle="Hello 👋🏽"
         minSize={minSize}
         styleSheet={winStyleSheet}
       >
         <View id="wrap">
-          <ScrollArea id="fileList">
-            <View>
-              {
-                Array(50).fill('').map(() => {
-                  return <View>
-                    <Image src={imagePng}/>
-                    <Text>{`
-                      listxxxxxxxxxxx1xxxxxxxxxxx
-                      listxxxxxxxxxxxxxxxxxxxxxxlistxxxzxcadwqe32xxxxxxxxxxxxxxxxxxxlistxxxxxxxxxxxxxxxxxxxxxxlistxxxxxxxxxxxxxxxxxxxxxxlistxxxxxxxxxxxxxxxxxxxxxx
-                      listxxxxxxxxxxxxxxxxxxxxxxliasdaszczxfdsfdszccc
-                      `
-                    }
-                    </Text>
-                  </View>
-                })
-              }
-            </View>
-          </ScrollArea>
+          <FilesList/>
           <View id="content">
             <PlainTextEdit ref={this.textRef}
                            on={{
@@ -86,9 +59,7 @@ class App extends React.Component<any, { text: string; preView: string }> {
                              },
                            }} style={`border:1px solid #ddd;width:500px;height:200px;`}
                            placeholderText="默认输入"/>
-            <View style={`
-    background-color: #fff;padding: 10px;`}>
-
+            <View style={`padding: 10px;`}>
               <Text ref={this.previewRef} id="text">
                 {
                   `<style>
@@ -109,18 +80,17 @@ class App extends React.Component<any, { text: string; preView: string }> {
 
 const winStyleSheet = `
    #wrap{
-    
       width: '100%';
       height: '100%';
-      background:#fff;
       flex-direction: row;
-      display: flex;
-      
+      background-color:#fff;
    }
    
   #fileList{
     flex: 1 1 200px;
     max-width:200px;
+    min-width:200px;
+    width:200px;
   }
   
   #content{

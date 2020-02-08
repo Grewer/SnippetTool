@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@nodegui/nodegui": "^0.13.1",
+    "@nodegui/os-utils": "^1.1.2",
     "@nodegui/react-nodegui": "^0.4.0",
     "@types/showdown": "^1.9.3",
     "react": "^16.12.0",
