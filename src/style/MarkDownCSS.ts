@@ -1,6 +1,6 @@
 import { Info } from '@nodegui/os-utils'
 
-const mdCss = `
+const markDownCSS = `
 h1 {
     font-size: 2.2em;
     font-weight: 700;
@@ -189,4 +189,4 @@ table td {
 
 // Info.isDarkMode()
 
-export default mdCss
+export default markDownCSS

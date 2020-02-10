@@ -1,7 +1,7 @@
 import { hot, PlainTextEdit, Text, View, Window } from '@nodegui/react-nodegui'
 import React from 'react'
 import showdown from 'showdown'
-import mdCss from '~/style/mdCss'
+import markDownCSS from '~/style/MarkDownCSS'
 import FilesList from '~/pages/FilesList'
 
 const minSize = { width: 800, height: 520 }
@@ -26,6 +26,7 @@ class App extends React.Component<any, { text: string; preView: string }> {
   }
 
   render() {
+    console.log('render app component')
     return (
       <Window
         windowTitle="Hello 👋🏽"
@@ -63,7 +64,7 @@ class App extends React.Component<any, { text: string; preView: string }> {
               <Text ref={this.previewRef} id="text">
                 {
                   `<style>
-                    ${mdCss}
+                    ${markDownCSS}
                 </style>
                 ${this.state.preView}`
                 }
