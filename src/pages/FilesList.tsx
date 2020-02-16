@@ -13,7 +13,7 @@ function FilesList(props) {
         Array(50).fill('').map((item, index) => {
           return <View id="item" key={index}>
             {/*<Image style={`width:20px;height:20px;margin-left:${10*index}px`} src={imagePng}/>*/}
-            <Text>{`<p style="">listsccxx</p>`}
+            <Text id="itemText">{`listsccxx`}
             </Text>
           </View>
         })
@@ -31,6 +31,9 @@ const fileListWrap = `
   #item {
     margin: 5px 0;
     padding: 10px 20px;
+  }
+  
+  #itemText{
     color: #000;
   }
   

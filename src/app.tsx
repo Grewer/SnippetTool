@@ -1,4 +1,4 @@
-import { hot, View, Window } from '@nodegui/react-nodegui'
+import { hot, View, Window,Text } from '@nodegui/react-nodegui'
 import React from 'react'
 import FilesList from '~/pages/FilesList'
 import Content from '~/pages/Content'
@@ -10,7 +10,7 @@ const minSize = { width: 800, height: 520 }
  */
 class App extends React.Component<any, { text: string; preView: string }> {
   render() {
-    console.log('render app component')
+    console.log('render app component!')
     return (
       <Window
         windowTitle="snippet"
@@ -25,7 +25,6 @@ class App extends React.Component<any, { text: string; preView: string }> {
     )
   }
 }
-
 const winStyleSheet = `
    #wrap{
       width: '100%';
