@@ -1,9 +1,8 @@
 import { ScrollArea, Text, View } from '@nodegui/react-nodegui'
 import React from 'react'
-import loadImage from '~/utils/loadImage'
-
-const imagePng = loadImage(require('~/static/text.png'))
-
+import imagePng from '~/static/text.png'
+import WrapImage from '~/components/wrapImage'
+import { create } from 'nodegui-stylesheet'
 
 function FilesList(props) {
   console.log('render FilesList component')
@@ -12,7 +11,8 @@ function FilesList(props) {
       {
         Array(50).fill('').map((item, index) => {
           return <View id="item" key={index}>
-            {/*<Image style={`width:20px;height:20px;margin-left:${10*index}px`} src={imagePng}/>*/}
+            <WrapImage src={imagePng}/>
+            <Text>{imagePng}</Text>
             <Text id="itemText">{`listsccxx`}
             </Text>
           </View>
