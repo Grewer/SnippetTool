@@ -1,7 +1,5 @@
 import { ScrollArea, Text, View } from '@nodegui/react-nodegui'
 import React from 'react'
-import imagePng from '~/static/text.png'
-import WrapImage from '~/components/wrapImage'
 import { create } from 'nodegui-stylesheet'
 
 function FilesList(props) {
@@ -11,16 +9,22 @@ function FilesList(props) {
       {
         Array(50).fill('').map((item, index) => {
           return <View id="item" key={index}>
-            <WrapImage src={imagePng}/>
-            <Text>{imagePng}</Text>
-            <Text id="itemText">{`listsccxx`}
-            </Text>
+            <Text style={styles.item}>{`listsccxx2`}</Text>
           </View>
         })
       }
     </View>
   </ScrollArea>
 }
+
+const styles = create({
+  item: {
+    color: '#fff',
+    margin: 2,
+  }
+})
+
+console.log(styles)
 
 const fileListWrap = `
   #listWrap{
