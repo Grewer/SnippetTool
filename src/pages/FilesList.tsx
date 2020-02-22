@@ -4,12 +4,12 @@ import { create } from 'nodegui-stylesheet'
 
 function FilesList(props) {
   console.log('render FilesList component')
-  return <ScrollArea id="fileList">
-    <View styleSheet={fileListWrap} id="listWrap">
+  return <ScrollArea style={styles.fileList}>
+    <View style={styles.listWrap} styleSheet={fileListWrap}>
       {
         Array(50).fill('').map((item, index) => {
-          return <View id="item" key={index}>
-            <Text style={styles.item}>{`listsccxx2`}</Text>
+          return <View id="item" style={styles.item} key={index}>
+            <Text style={styles.itemText}>{`listsccxx2`}</Text>
           </View>
         })
       }
@@ -18,29 +18,27 @@ function FilesList(props) {
 }
 
 const styles = create({
+  itemText: {
+    color: '#888',
+  },
+  fileList: {
+    flex: 1,
+    maxWidth: 200,
+    minWidth: 200,
+    width: 200
+  },
+  listWrap: {
+    flexDirection: 'column',
+    padding: 10,
+  },
   item: {
-    color: '#fff',
-    margin: 2,
+    margin: 5,
+    padding: 10
   }
 })
 
-console.log(styles)
 
 const fileListWrap = `
-  #listWrap{
-    flex-direction: column;
-    padding:10px;
-  } 
-  
-  #item {
-    margin: 5px 0;
-    padding: 10px 20px;
-  }
-  
-  #itemText{
-    color: #000;
-  }
-  
   #item:hover{
     background-color:#000;
   }

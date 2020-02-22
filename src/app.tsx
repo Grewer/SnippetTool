@@ -1,5 +1,6 @@
 import { hot, View, Window } from '@nodegui/react-nodegui'
 import React from 'react'
+import { create } from 'nodegui-stylesheet'
 import FilesList from '~/pages/FilesList'
 import Content from '~/pages/Content'
 
@@ -15,9 +16,8 @@ class App extends React.Component<any, { text: string; preView: string }> {
       <Window
         windowTitle="snippet"
         minSize={minSize}
-        styleSheet={winStyleSheet}
       >
-        <View id="wrap">
+        <View style={styles.wrap}>
           <FilesList/>
           <Content/>
         </View>
@@ -26,22 +26,11 @@ class App extends React.Component<any, { text: string; preView: string }> {
   }
 }
 
-const winStyleSheet = `
-   #wrap{
-      width: '100%';
-      height: '100%';
-      flex-direction: row;
-   }
-   
-  #fileList{
-    flex: 1 1 200px;
-    max-width:200px;
-    min-width:200px;
-    width:200px;
+
+const styles = create({
+  wrap: {
+    flexDirection: 'row'
   }
-  
-  #content{
-     flex:8;
-  }
-`
+})
+
 export default hot(App)
