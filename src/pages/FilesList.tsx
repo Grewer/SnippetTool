@@ -25,22 +25,25 @@ const styles = create({
     flex: 1,
     maxWidth: 200,
     minWidth: 200,
-    width: 200
+    width: 200,
   },
   listWrap: {
     flexDirection: 'column',
-    padding: 10,
   },
   item: {
-    margin: 5,
-    padding: 10
+    padding: 10,
+    backgroundColor: '#fff',
   }
 })
 
 
 const fileListWrap = `
   #item:hover{
-    background-color:#000;
+    background-color:#C9C8C6!important;
+  }
+  
+  #item{
+    cursor: pointer;
   }
 `
 
