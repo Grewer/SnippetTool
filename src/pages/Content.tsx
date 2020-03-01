@@ -3,7 +3,6 @@ import { PlainTextEdit, Text, View } from '@nodegui/react-nodegui'
 import showdown from 'showdown'
 import markDownCSS from '~/style/MarkDownCSS'
 import throttle from '~/utils/throttle'
-import { create } from 'nodegui-stylesheet'
 
 function Content() {
   const TextEditRef: React.MutableRefObject<any> = useRef()
@@ -24,7 +23,7 @@ function Content() {
   }, [TextEditRef])
 
   console.log('render Content component')
-  return (<View style={styles.content}>
+  return (<View id="content" styleSheet={styleSheet}>
     <PlainTextEdit ref={TextEditRef}
                    on={{
                      textChanged: () => {
@@ -45,11 +44,11 @@ function Content() {
   </View>)
 }
 
-const styles = create({
-  content: {
-    flex: 8,
+const styleSheet = `
+  #content {
+    flex: 8;
   }
-})
+`
 
 
 export default Content

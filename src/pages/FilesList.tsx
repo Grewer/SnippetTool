@@ -1,15 +1,14 @@
 import { ScrollArea, Text, View } from '@nodegui/react-nodegui'
 import React from 'react'
-import { create } from 'nodegui-stylesheet'
 
 function FilesList(props) {
   console.log('render FilesList component')
-  return <ScrollArea style={styles.fileList}>
-    <View style={styles.listWrap} styleSheet={fileListWrap}>
+  return <ScrollArea styleSheet={fileListWrap} id="fileList">
+    <View id="listWrap">
       {
         Array(50).fill('').map((item, index) => {
-          return <View id="item" style={styles.item} key={index}>
-            <Text style={styles.itemText}>{`listsccxx2`}</Text>
+          return <View id="item" key={index}>
+            <Text id="itemText">{`listsccxx2`}</Text>
           </View>
         })
       }
@@ -17,33 +16,30 @@ function FilesList(props) {
   </ScrollArea>
 }
 
-const styles = create({
-  itemText: {
-    color: '#888',
-  },
-  fileList: {
-    flex: 1,
-    maxWidth: 200,
-    minWidth: 200,
-    width: 200,
-  },
-  listWrap: {
-    flexDirection: 'column',
-  },
-  item: {
-    padding: 10,
-    backgroundColor: '#fff',
-  }
-})
-
 
 const fileListWrap = `
+  #fileList{
+    flex: 1;
+    max-width: 200;
+    min-width: 200;
+    width: 200;
+  }
+  
+  #listWrap {
+    flex-direction: 'column';
+  }
+  
   #item:hover{
-    background-color:#C9C8C6!important;
+    background-color:#C9C8C6;
   }
   
   #item{
-    cursor: pointer;
+    padding: 10;
+    background-color: '#fff';
+  }
+  
+  #itemText: {
+    color: '#888';
   }
 `
 
