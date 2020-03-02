@@ -29,3 +29,9 @@ nodegui-packer --init <AppName>
 ```
 npm run build
 ```
+
+
+## list
+
+- [ ] 代码的 style
+- [ ] check List

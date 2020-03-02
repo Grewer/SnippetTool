@@ -25,5 +25,7 @@ class App extends React.Component<any, { text: string; preView: string }> {
   }
 }
 
+//QPushButton:enabled { color: red }
+// QPushButton:hover { color: white }
 
 export default hot(App)

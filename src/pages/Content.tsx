@@ -19,6 +19,7 @@ function Content() {
       omitExtraWLInCodeBlocks: true,
     })
     const html = converter.makeHtml(text2)
+    console.log(html)
     setPreView(html)
   }, [TextEditRef])
 
