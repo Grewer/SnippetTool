@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react'
-import { PlainTextEdit, Text, View } from '@nodegui/react-nodegui'
+import { PlainTextEdit, Text, View ,Image } from '@nodegui/react-nodegui'
 import showdown from 'showdown'
 import markDownCSS from '~/style/MarkDownCSS'
 import throttle from '~/utils/throttle'
