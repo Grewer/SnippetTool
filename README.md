@@ -1,3 +1,10 @@
+## electron 镜像
+
+electron_mirror=https://npm.taobao.org/mirrors/electron/
+
+这个地址因为"v"而出错了
+
+
 ## 框架选择声明
 
 一开始我选择的框架就是 electron, 但是因为当时用的技术和手法太多老旧,所以想重构一下

@@ -9,6 +9,7 @@
     "esModuleInterop": true,
     "importHelpers": true,
     "noImplicitAny": false,
+    "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
