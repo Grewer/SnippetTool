@@ -6,11 +6,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "webpack -p && nodegui-packer --pack ./dist",
-    "dev:watch": "webpack --mode=development",
-    "start": "qode --inspect ./dist/index.js",
-    "react-devtools": "react-devtools",
-    "dev": "webpack --mode=production"
+    "webpack-dev": "webpack --mode development && electron ./dist/main.js"
   },
   "dependencies": {
     "@types/showdown": "^1.9.3",

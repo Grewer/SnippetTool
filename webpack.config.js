@@ -10,9 +10,17 @@ module.exports = function (webpackEnv) {
     const config = {
         mode: webpackEnv,
         devtool: "inline-source-map",
-        entry: "./app.ts",
+        entry: "./main/index",
+        target: 'electron-renderer',
+        node: {
+            __dirname: process.env.NODE_ENV !== 'production',
+            __filename: process.env.NODE_ENV !== 'production'
+        },
         output: {
-            filename: "bundle.js"
+            filename: '[name].js',
+            libraryTarget: 'commonjs2',
+            path: path.join(__dirname, '/dist/'),
+            publicPath: './'
         },
         resolve: {
             // Add `.ts` and `.tsx` as a resolvable extension.
@@ -32,6 +40,10 @@ module.exports = function (webpackEnv) {
                         }
                     }]
                 },
+                {
+                    test: /\.node$/,
+                    use: 'node-loader'
+                }
             ]
         }
     }
