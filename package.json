@@ -1,17 +1,19 @@
 {
   "name": "snippet-tool",
   "version": "1.0.0",
-  "main": "index.js",
-  "author": "Atul R <atulanand94@gmail.com>",
+  "main": "src/main/index.js",
+  "author": "Grewer",
   "license": "MIT",
-  "private": true,
   "scripts": {
-    "webpack-dev": "webpack --mode development && electron ./dist/main.js"
+    "start": "tsc src/main/index.ts && webpack-dev-server --hot --host 0.0.0.0 --mode development"
   },
   "dependencies": {
+    "@types/react-dom": "^16.9.5",
     "@types/showdown": "^1.9.3",
     "electron-is-dev": "^1.1.0",
+    "html-webpack-plugin": "^4.0.1",
     "react": "^16.12.0",
+    "react-dom": "^16.13.1",
     "showdown": "^1.9.1"
   },
   "devDependencies": {
@@ -25,6 +27,7 @@
     "ts-loader": "^6.2.1",
     "typescript": "^3.8.3",
     "webpack": "^4.41.4",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.3"
   }
 }

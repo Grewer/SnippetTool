@@ -2,6 +2,8 @@ const path = require("path");
 const webpack = require("webpack");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const {CleanWebpackPlugin} = require("clean-webpack-plugin");
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { spawn } = require('child_process')
 
 module.exports = function (webpackEnv) {
     const isEnvDevelopment = webpackEnv === 'development';
@@ -10,22 +12,30 @@ module.exports = function (webpackEnv) {
     const config = {
         mode: webpackEnv,
         devtool: "inline-source-map",
-        entry: "./main/index",
+        entry: "./src/render/index",
         target: 'electron-renderer',
-        node: {
-            __dirname: process.env.NODE_ENV !== 'production',
-            __filename: process.env.NODE_ENV !== 'production'
-        },
-        output: {
-            filename: '[name].js',
-            libraryTarget: 'commonjs2',
-            path: path.join(__dirname, '/dist/'),
-            publicPath: './'
-        },
+        // output: {
+        //     filename: '[name].js',
+        //     libraryTarget: 'commonjs2',
+        //     path: path.join(__dirname, '/dist/'),
+        //     publicPath: './'
+        // },
         resolve: {
             // Add `.ts` and `.tsx` as a resolvable extension.
             extensions: [".ts", ".tsx", ".js"]
         },
+        plugins: [
+            new HtmlWebpackPlugin({
+                filename: 'index.html',
+                template: 'assets/index.ejs',
+                minify:true,
+                cache:true,
+                inject:true
+            }),
+            new webpack.DefinePlugin({
+                'process.env.NODE_ENV': JSON.stringify('development')
+            })
+        ],
         module: {
             rules: [
                 {
@@ -45,6 +55,23 @@ module.exports = function (webpackEnv) {
                     use: 'node-loader'
                 }
             ]
+        },
+        devServer: {
+            contentBase: path.resolve(__dirname, 'dist'),
+            stats: {
+                colors: true,
+                chunks: false,
+                children: false
+            },
+            before() {
+                spawn(
+                    'electron',
+                    ['.'],
+                    { shell: true, env: process.env, stdio: 'inherit' }
+                )
+                    .on('close', code => process.exit(0))
+                    .on('error', spawnError => console.error(spawnError))
+            }
         }
     }
 
