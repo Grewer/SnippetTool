@@ -5,6 +5,8 @@ const {CleanWebpackPlugin} = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { spawn } = require('child_process')
 
+const resolve = path.resolve
+
 module.exports = function (webpackEnv) {
     const isEnvDevelopment = webpackEnv === 'development';
     const isEnvProduction = webpackEnv === 'production';
@@ -23,7 +25,7 @@ module.exports = function (webpackEnv) {
         resolve: {
             extensions: [".ts", ".tsx", ".js"],
             alias:{
-                '~': path.resolve('./src/render')
+                '~': resolve('./src/render')
             }
         },
         plugins: [
@@ -42,7 +44,8 @@ module.exports = function (webpackEnv) {
             rules: [
                 {
                     test: /\.(ts|tsx)$/,
-                    loader: "ts-loader"
+                    loader: "ts-loader",
+                    include: [resolve('src')],
                 },
                 {
                     test: /\.(png|jpe?g|gif|svg|bmp)$/i,
@@ -50,11 +53,13 @@ module.exports = function (webpackEnv) {
                         loader: "file-loader", options: {
                             publicPath: 'dist'
                         }
-                    }]
+                    }],
+                    include: [resolve('src')],
                 },
                 {
                     test: /\.node$/,
-                    use: 'node-loader'
+                    use: 'node-loader',
+                    include: [resolve('src')],
                 }
             ]
         },
