@@ -1,7 +1,8 @@
 import React from 'react'
+import styles from './FileLists.less'
 
 function FileLists() {
-  return (<div>FileLists</div>)
+  return (<div className={styles.fileList}>FileLists2</div>)
 }
 
 
