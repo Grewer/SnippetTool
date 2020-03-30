@@ -21,8 +21,10 @@ module.exports = function (webpackEnv) {
         //     publicPath: './'
         // },
         resolve: {
-            // Add `.ts` and `.tsx` as a resolvable extension.
-            extensions: [".ts", ".tsx", ".js"]
+            extensions: [".ts", ".tsx", ".js"],
+            alias:{
+                '~': path.resolve('./src/render')
+            }
         },
         plugins: [
             new HtmlWebpackPlugin({

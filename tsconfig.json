@@ -17,7 +17,7 @@
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["src/*"]
+      "~/*": ["src/render/*"]
     }
   },
   "include": ["**/*"]
