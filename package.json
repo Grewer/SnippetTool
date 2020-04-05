@@ -17,6 +17,7 @@
     "showdown": "^1.9.1"
   },
   "devDependencies": {
+    "@grew/eslint-config": "^0.1.4",
     "@types/node": "^12.12.22",
     "@types/react": "^16.9.17",
     "clean-webpack-plugin": "^3.0.0",
@@ -34,5 +35,19 @@
     "webpack": "^4.41.4",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.3"
-  }
+  },
+  "eslintConfig": {
+    "extends": [
+      "@grew"
+    ],
+    "env": {
+      "browser": true,
+      "node": true
+    }
+  },
+  "eslintIgnore": [
+    "!.eslintrc.js",
+    "!.prettierrc.js"
+  ],
+  "prettier": "@grew/eslint-config/.prettierrc.js"
 }
