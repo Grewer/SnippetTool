@@ -131,6 +131,19 @@ module.exports = (env, argv) => {
           use: 'node-loader',
           include: resolve('src'),
         },
+        {
+          test: /\.(png|jpg|gif|ttf|eot|woff|woff2)$/i,
+          use: [
+            {
+              loader: 'url-loader',
+              options: { limit: 8192 },
+            },
+          ],
+        },
+        {
+          test: /\.css$/,
+          use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
+        },
       ],
     },
     devServer: {
