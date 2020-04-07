@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import * as HyperMD from 'hypermd'
+import './editor.global.less'
 
 // Load these modes if you want highlighting ...
 require('codemirror/mode/htmlmixed/htmlmixed') // for embedded HTML
@@ -16,9 +17,21 @@ function Editor() {
     const cm = HyperMD.fromTextArea(myTextarea, {
       /* optional editor options here */
       hmdModeLoader: false, // see NOTEs below
+      // theme: 'hypermd', // 主题 css name
+      lineNumbers: false, // 是否显示行数
+      gutters: [], // 行数右边的小按钮,因为我改了样式,会让这个功能有 bug, 所以直接隐藏
     })
   }, [])
-  return <textarea defaultValue="# Hello World" id="myTextarea" />
+  return (
+    <textarea
+      defaultValue="# Hello World   ```js
+function(){
+  return 1;
+}
+```"
+      id="myTextarea"
+    />
+  )
 }
 
 export default Editor
