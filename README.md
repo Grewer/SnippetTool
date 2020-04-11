@@ -8,6 +8,19 @@ electron_mirror=https://npm.taobao.org/mirrors/electron/
 HyperMD
 https://github.com/laobubu/HyperMD/blob/master/docs/quick-start.md
 
+## 关于数据的处理
+数据存储至 GitHub 中
+
+更新数据的话,使用 
+Basic authentication
+或者 OAuth2 token
+来获取权限
+https://blog.csdn.net/weixin_34006965/article/details/88834927 
+(这是 v3 版本)
+
+现在(2020.04) 我在 GitHub 上发现了 v4 版本,后面使用的应该是v4 版本了
+
+
 ## 框架选择声明
 
 一开始我选择的框架就是 electron, 但是因为当时用的技术和手法太多老旧,所以想重构一下
