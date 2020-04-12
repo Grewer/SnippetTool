@@ -4,6 +4,10 @@ electron_mirror=https://npm.taobao.org/mirrors/electron/
 
 这个地址因为"v"而出错了
 
+## 关于样式
+基本上是仿照 notion
+
+
 ## 所见即所得 编辑
 HyperMD
 https://github.com/laobubu/HyperMD/blob/master/docs/quick-start.md

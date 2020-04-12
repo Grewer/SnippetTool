@@ -9,6 +9,7 @@ function FileLists() {
 
   return (
     <div className={styles.fileList}>
+      <Header />
       <div>search</div>
       <ul>
         {list.map((item, index) => {
@@ -17,6 +18,10 @@ function FileLists() {
       </ul>
     </div>
   )
+}
+
+function Header(props) {
+  return <div className={styles.header}>{/* 这里是拖曳区域 */}</div>
 }
 
 export default FileLists
