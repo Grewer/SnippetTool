@@ -1,23 +1,28 @@
-'use strict'
-
 import { app, BrowserWindow, ipcMain } from 'electron'
-import * as path from 'path'
 import * as url from 'url'
 
 let mainWindow: BrowserWindow
 
-function  createWindow() {
+// 添加 dev 拓展工具, https://www.electronjs.org/docs/tutorial/devtools-extension
+
+// 以后可能会用到的 api
+// https://www.electronjs.org/docs/tutorial/progress-bar 任务栏的进度条
+function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 900, height: 680, webPreferences: {
+    width: 900,
+    height: 680,
+    webPreferences: {
       nodeIntegration: true,
-    }
+    },
+    titleBarStyle: 'hidden',
+    show: false,
   })
 
   const indexPath = url.format({
     protocol: 'http:',
     host: 'localhost:8080',
     pathname: 'index.html',
-    slashes: true
+    slashes: true,
   })
 
   // const indexPath = url.format({
@@ -27,11 +32,16 @@ function  createWindow() {
   // })
 
   mainWindow.loadURL(indexPath)
-  mainWindow.on('closed', () => (mainWindow.destroy()))
 
-  ipcMain.on('channel', (event, msg: any) => {
-    console.log(msg)
-    mainWindow.webContents.send('response', { title: 'mymessage', data: 1 })
+  mainWindow.on('closed', () => mainWindow.destroy())
+
+  // ipcMain.on('channel', (event, msg: any) => {
+  //   console.log(msg)
+  //   mainWindow.webContents.send('response', { title: 'mymessage', data: 1 })
+  // })
+
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show()
   })
 }
 

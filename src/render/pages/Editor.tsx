@@ -24,7 +24,9 @@ function Editor() {
   }, [])
   return (
     <textarea
-      defaultValue="# Hello World   ```js
+      defaultValue="# Hello World
+      
+```js
 function(){
   return 1;
 }
