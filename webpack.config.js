@@ -142,7 +142,9 @@ module.exports = (env, argv) => {
         },
         {
           test: /\.css$/,
-          use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
+          use: getStyleLoaders({
+            sourceMap: isEnvDevelopment,
+          }),
         },
       ],
     },

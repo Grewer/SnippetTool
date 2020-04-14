@@ -5,7 +5,8 @@
   "author": "Grewer",
   "license": "MIT",
   "scripts": {
-    "start": "tsc src/main/index.ts && webpack-dev-server --hot --mode development"
+    "start": "tsc src/main/index.ts && webpack-dev-server --hot --mode development",
+    "dist": "webpack --mode production"
   },
   "dependencies": {
     "codemirror": "^5.52.2",
