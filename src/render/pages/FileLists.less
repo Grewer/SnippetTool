@@ -6,6 +6,28 @@
 }
 
 .header {
-  height: 30px;
+  height: 32px;
   -webkit-app-region: drag;
+}
+
+.item {
+  height: 32px;
+  padding-left: 16px;
+  line-height: 32px;
+  color: #72706B;
+  cursor: pointer;
+
+  &:hover{
+    background-color: #E8E7E4;
+  }
+
+  &:active{
+    background-color: #D8D6D4;
+  }
+
+  &.active{
+    background-color: #E8E7E4;
+    color: #37352F;
+    font-weight: 600;
+  }
 }
