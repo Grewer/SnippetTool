@@ -26,6 +26,7 @@
     "css-loader": "^3.4.2",
     "electron": "^8.1.1",
     "electron-debug": "^3.0.1",
+    "eslint-plugin-react-hooks": "^3.0.0",
     "file-loader": "^5.0.2",
     "fork-ts-checker-webpack-plugin": "^3.1.1",
     "less": "^3.11.1",
@@ -41,11 +42,15 @@
   },
   "eslintConfig": {
     "extends": [
-      "@grew"
+      "@grew",
+      "plugin:react-hooks/recommended"
     ],
     "env": {
       "browser": true,
       "node": true
+    },
+    "rules": {
+      "jsx-a11y/no-noninteractive-element-interactions": 0
     }
   },
   "eslintIgnore": [

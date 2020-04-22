@@ -25,6 +25,7 @@ function FileLists() {
         {list.map((item, index) => {
           const className = active === index ? `${styles.item} ${styles.active}` : styles.item
           return (
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events
             <li onClick={() => fileClickHandle(index)} className={className} key={index.toString()}>
               {item}
             </li>
