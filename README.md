@@ -42,3 +42,11 @@ https://blog.csdn.net/weixin_34006965/article/details/88834927
 grewer  
 
 2020-3-13
+
+2020-04-25
+
+今天发现了一个新的框架 `tauri`  ,我发现 这是一个更加好的东西
+优点一: 无缝融合 web 项目, 即在一个 web 项目 引入包,init 即可打包为 PC 端项目  
+优点二: 打出的包特别小例如: electron 打包 100M ,而 tauri 打出的包在 5M ,差距明显
+
+原理可以参考 pwa, 即一个 webview
