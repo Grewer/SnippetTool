@@ -21,11 +21,11 @@ function FileLists() {
   const btnClick = () => {
     fetch.config.withCredentials = true
     fetch.config.headers = {
-      Authorization: 'token xxx',
+      Authorization: 'token ',
     }
     fetch.get(`https://api.github.com/repos/Grewer/dataSave/contents/back.jpg`)
 
-    fetch.put(`https://api.github.com/repos/Grewer/dataSave/contents/test.txt`, {
+    fetch.put(`https://api.github.com/repos/Grewer/dataSave/contents/aa/test.txt`, {
       message: '使用 api 测试提交文件',
       content: btoa('test'),
       committer: {
