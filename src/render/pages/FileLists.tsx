@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styles from './FileLists.less'
+import fetch from '~/utils'
 
 /**
  * 类型分为文件和文件夹
@@ -17,9 +18,27 @@ function FileLists() {
     setActive(index)
   }, [])
 
+  const btnClick = () => {
+    fetch.config.withCredentials = true
+    fetch.config.headers = {
+      Authorization: 'token xxx',
+    }
+    fetch.get(`https://api.github.com/repos/Grewer/dataSave/contents/back.jpg`)
+
+    fetch.put(`https://api.github.com/repos/Grewer/dataSave/contents/test.txt`, {
+      message: '使用 api 测试提交文件',
+      content: btoa('test'),
+      committer: {
+        name: 'grewer',
+        email: 'grewer@grewer.cn',
+      },
+    })
+  }
+
   return (
     <div className={styles.fileList}>
       <Header />
+      <button onClick={btnClick}>click</button>
       <div>search</div>
       <ul>
         {list.map((item, index) => {

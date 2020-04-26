@@ -19,8 +19,10 @@ https://github.com/laobubu/HyperMD/blob/master/docs/quick-start.md
 Basic authentication
 或者 OAuth2 token
 来获取权限
-https://blog.csdn.net/weixin_34006965/article/details/88834927 
+https://segmentfault.com/a/1190000015144126 
 (这是 v3 版本)
+
+https://developer.github.com/v3/repos/contents/#get-contents
 
 现在(2020.04) 我在 GitHub 上发现了 v4 版本,后面使用的应该是v4 版本了
 
