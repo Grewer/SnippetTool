@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styles from '~/pages/FileLists.less'
-import fetch from '~/utils/index'
 
 /**
  * 类型分为文件和文件夹
@@ -19,11 +18,11 @@ function FileLists() {
   }, [])
 
   const btnClick = () => {
-    fetch.config.withCredentials = true
-    fetch.config.headers = {
-      Authorization: 'token 6a721670c0e848db5cea7f2dbe2d7a74b2b673c8',
-    }
-    fetch.get(`https://api.github.com/repos/Grewer/dataSave/contents/back.jpg`)
+    // fetch.config.withCredentials = true
+    // fetch.config.headers = {
+    //   Authorization: 'token',
+    // }
+    // fetch.get(`https://api.github.com/repos/Grewer/dataSave/contents/back.jpg`)
 
     // fetch.put(`https://api.github.com/repos/Grewer/dataSave/contents/aa/test.txt`, {
     //   message: '使用 api 测试提交文件',

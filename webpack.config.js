@@ -11,7 +11,9 @@ module.exports = (env, argv) => {
   const webpackEnv = argv.mode
   const isEnvDevelopment = webpackEnv === 'development'
   const isEnvProduction = webpackEnv === 'production'
+  // console.log(env, argv)
   console.log(isEnvProduction, isEnvDevelopment)
+
   const getStyleLoaders = (cssOptions, preProcessor) => {
     const loaders = [
       isEnvDevelopment && require.resolve('style-loader'),
@@ -158,11 +160,11 @@ module.exports = (env, argv) => {
       host: 'localhost',
       progress: true,
       lazy: false,
-      // before() {
-      //   spawn('electron', ['.'], { shell: true, env: process.env, stdio: 'inherit' })
-      //     .on('close', code => process.exit(0))
-      //     .on('error', spawnError => console.error(spawnError))
-      // },
+      before() {
+        spawn('tauri', ['dev'], { shell: true, env: process.env, stdio: 'inherit' })
+          .on('close', code => process.exit(0))
+          .on('error', spawnError => console.error(spawnError))
+      },
     },
   }
 
