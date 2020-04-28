@@ -39,8 +39,8 @@ module.exports = (env, argv) => {
     cache: true,
     mode: webpackEnv,
     devtool: 'inline-source-map',
-    entry: './src/render/index',
-    target: 'electron-renderer',
+    entry: './src/index',
+    target: 'web',
     // output: {
     //     filename: '[name].js',
     //     libraryTarget: 'commonjs2',
@@ -50,7 +50,7 @@ module.exports = (env, argv) => {
     resolve: {
       extensions: ['.ts', '.tsx', '.js'],
       alias: {
-        '~': resolve('./src/render'),
+        '~': resolve('./src'),
       },
     },
     plugins: [
@@ -158,11 +158,11 @@ module.exports = (env, argv) => {
       host: 'localhost',
       progress: true,
       lazy: false,
-      before() {
-        spawn('electron', ['.'], { shell: true, env: process.env, stdio: 'inherit' })
-          .on('close', code => process.exit(0))
-          .on('error', spawnError => console.error(spawnError))
-      },
+      // before() {
+      //   spawn('electron', ['.'], { shell: true, env: process.env, stdio: 'inherit' })
+      //     .on('close', code => process.exit(0))
+      //     .on('error', spawnError => console.error(spawnError))
+      // },
     },
   }
 

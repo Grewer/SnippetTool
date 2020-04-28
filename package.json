@@ -5,17 +5,18 @@
   "author": "Grewer",
   "license": "MIT",
   "scripts": {
-    "start": "tsc src/main/index.ts && webpack-dev-server --hot --mode development",
-    "dist": "webpack --mode production"
+    "start": "webpack-dev-server --hot --mode development",
+    "dist": "webpack --mode production",
+    "dev": "RUST_DEBUG=1 tauri dev"
   },
   "dependencies": {
     "codemirror": "^5.52.2",
-    "electron-is-dev": "^1.1.0",
     "html-webpack-plugin": "^4.0.1",
     "hypermd": "^0.3.11",
     "marked": "^0.8.2",
     "react": "^16.12.0",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "tauri": "^0.5.2"
   },
   "devDependencies": {
     "@grew/eslint-config": "^0.1.4",
@@ -24,8 +25,6 @@
     "@types/react-dom": "^16.9.5",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.4.2",
-    "electron": "^8.1.1",
-    "electron-debug": "^3.0.1",
     "eslint-plugin-react-hooks": "^3.0.0",
     "file-loader": "^5.0.2",
     "fork-ts-checker-webpack-plugin": "^3.1.1",

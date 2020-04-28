@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import * as HyperMD from 'hypermd'
-import './editor.global.less'
+import '~/pages/editor.global.less'
 
 // Load these modes if you want highlighting ...
 require('codemirror/mode/htmlmixed/htmlmixed') // for embedded HTML
