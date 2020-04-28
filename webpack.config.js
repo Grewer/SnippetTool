@@ -6,13 +6,15 @@ const { spawn } = require('child_process')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const { resolve } = path
+const Dotenv = require('dotenv-webpack')
 
 module.exports = (env, argv) => {
   const webpackEnv = argv.mode
   const isEnvDevelopment = webpackEnv === 'development'
   const isEnvProduction = webpackEnv === 'production'
   // console.log(env, argv)
-  console.log(isEnvProduction, isEnvDevelopment)
+  console.log(isEnvProduction, isEnvDevelopment, process.env.Github_Key)
+  console.log(process.env)
 
   const getStyleLoaders = (cssOptions, preProcessor) => {
     const loaders = [
@@ -168,8 +170,9 @@ module.exports = (env, argv) => {
     },
   }
 
-  // if (isEnvDevelopment) {
-  // }
+  if (isEnvDevelopment) {
+    config.plugins.push(new Dotenv())
+  }
 
   // new webpack.BannerPlugin({
   //   banner: "hash:[hash], chunkhash:[chunkhash], name:[name], filebase:[filebase], query:[query], file:[file]"
