@@ -35,8 +35,8 @@ function FileLists() {
 
   return (
     <div className={styles.fileList}>
-      <Header />
-      <button onClick={btnClick}>click</button>
+      {/* <Header /> */}
+      {/* <button onClick={btnClick}>click</button> */}
       <div>search</div>
       <ul>
         {list.map((item, index) => {
@@ -44,6 +44,7 @@ function FileLists() {
           return (
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events
             <li onClick={() => fileClickHandle(index)} className={className} key={index.toString()}>
+              <i className="iconfont icon-jiantou" />
               {item}
             </li>
           )
