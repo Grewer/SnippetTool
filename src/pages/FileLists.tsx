@@ -41,6 +41,7 @@ function FileLists() {
     <div className={styles.fileList}>
       {/* <Header /> */}
       {/* <button onClick={btnClick}>click</button> */}
+      <span>!!{process.env.github_key}</span>
       <div>search</div>
       <ul>
         {list.map((item, index) => {
