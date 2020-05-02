@@ -12,22 +12,32 @@
 
 .item {
   height: 32px;
-  padding-left: 16px;
+  padding-left: 12px;
   line-height: 32px;
   color: #72706B;
   cursor: pointer;
 
-  &:hover{
+  &:hover {
     background-color: #E8E7E4;
   }
 
-  &:active{
+  &:active {
     background-color: #D8D6D4;
   }
 
-  &.active{
+  &.active {
     background-color: #E8E7E4;
-    color: #37352F;
-    font-weight: 600;
+    color: #2a2824;
   }
+
+  > i:global(.iconfont) {
+    margin-right: 4px;
+
+    &:hover {
+      background-color: #DaD9D7;
+      border-radius: 2px;
+    }
+  }
+
+
 }

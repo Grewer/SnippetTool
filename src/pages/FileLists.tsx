@@ -33,6 +33,10 @@ function FileLists() {
     // })
   }
 
+  const iconClickHandle = useCallback(index => {
+    console.log(index)
+  }, [])
+
   return (
     <div className={styles.fileList}>
       {/* <Header /> */}
@@ -42,9 +46,8 @@ function FileLists() {
         {list.map((item, index) => {
           const className = active === index ? `${styles.item} ${styles.active}` : styles.item
           return (
-            // eslint-disable-next-line jsx-a11y/click-events-have-key-events
             <li onClick={() => fileClickHandle(index)} className={className} key={index.toString()}>
-              <i className="iconfont icon-jiantou" />
+              <i onClick={() => iconClickHandle(index)} className="iconfont icon-jiantou" />
               {item}
             </li>
           )

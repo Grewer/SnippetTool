@@ -14,7 +14,7 @@ module.exports = (env, argv) => {
   const isEnvProduction = webpackEnv === 'production'
   // console.log(env, argv)
   console.log(isEnvProduction, isEnvDevelopment, process.env.Github_Key)
-  console.log(process.env)
+  // console.log(process.env)
 
   const getStyleLoaders = (cssOptions, preProcessor) => {
     const loaders = [
@@ -64,6 +64,7 @@ module.exports = (env, argv) => {
         minify: true,
         cache: true,
         inject: true,
+        iconfontUrl: '//at.alicdn.com/t/font_1794830_h5uht3dn2y.css',
       }),
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify('development'),
