@@ -24,7 +24,7 @@ https://segmentfault.com/a/1190000015144126
 
 https://developer.github.com/v3/repos/contents/#get-contents
 
-现在(2020.04) 我在 GitHub 上发现了 v4 版本,后面使用的应该是v4 版本了
+现在(2020.04) 我在 GitHub 上发现了 v4 版本
 
 
 ## 框架选择声明
