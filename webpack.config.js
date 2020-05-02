@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { spawn } = require('child_process')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const dotenv = require('dotenv')
+const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin')
 
 const { resolve } = path
 
@@ -15,8 +16,8 @@ module.exports = (env, argv) => {
   const isEnvDevelopment = webpackEnv === 'development'
   const isEnvProduction = webpackEnv === 'production'
   // console.log(env, argv)
-  console.log(isEnvProduction, isEnvDevelopment, process.env.Github_Key)
-  console.log(process.env)
+  console.log(isEnvProduction, isEnvDevelopment)
+  // console.log(process.env)
   const getStyleLoaders = (cssOptions, preProcessor) => {
     const loaders = [
       isEnvDevelopment && require.resolve('style-loader'),
@@ -67,6 +68,7 @@ module.exports = (env, argv) => {
         inject: true,
         iconfontUrl: process.env.iconfont,
       }),
+      new HtmlWebpackHarddiskPlugin(),
       new webpack.DefinePlugin({
         'process.env.isDev': JSON.stringify(isEnvDevelopment),
         'process.env.github_key': JSON.stringify(process.env.github_key),

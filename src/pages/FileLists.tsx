@@ -41,8 +41,7 @@ function FileLists() {
     <div className={styles.fileList}>
       {/* <Header /> */}
       {/* <button onClick={btnClick}>click</button> */}
-      <span>!!{process.env.github_key}</span>
-      <div>search</div>
+      <div>全局的搜索按钮</div>
       <ul>
         {list.map((item, index) => {
           const className = active === index ? `${styles.item} ${styles.active}` : styles.item
