@@ -19,8 +19,6 @@ module.exports = (env, argv) => {
   console.log(isEnvProduction, isEnvDevelopment)
   // console.log(process.env)
 
-  console.log(isEnvProduction, isEnvDevelopment, process.env.Github_Key)
-  console.log(process.env)
   const getStyleLoaders = (cssOptions, preProcessor) => {
     const loaders = [
       isEnvDevelopment && require.resolve('style-loader'),
@@ -71,7 +69,7 @@ module.exports = (env, argv) => {
         inject: true,
         iconfontUrl: process.env.iconfont,
       }),
-      new HtmlWebpackHarddiskPlugin(),
+      // new HtmlWebpackHarddiskPlugin(),
       new webpack.DefinePlugin({
         'process.env.isDev': JSON.stringify(isEnvDevelopment),
         'process.env.github_key': JSON.stringify(process.env.github_key),
@@ -178,9 +176,8 @@ module.exports = (env, argv) => {
     },
   }
 
-  if (isEnvDevelopment) {
-    // config.plugins.push(new Dotenv())
-  }
+  // if (isEnvDevelopment) {
+  // }
 
   // new webpack.BannerPlugin({
   //   banner: "hash:[hash], chunkhash:[chunkhash], name:[name], filebase:[filebase], query:[query], file:[file]"

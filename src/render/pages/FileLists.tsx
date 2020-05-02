@@ -41,9 +41,9 @@ function FileLists() {
 
   return (
     <div className={styles.fileList}>
-      {/* <Header /> */}
+      <Header />
       {/* <button onClick={btnClick}>click</button> */}
-      <div>全局的搜索按钮</div>
+      <div>全局的搜索按钮34</div>
       <ul>
         {list.map((item, index) => {
           const className = active === index ? `${styles.item} ${styles.active}` : styles.item
