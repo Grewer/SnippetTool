@@ -4,8 +4,11 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { spawn } = require('child_process')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const dotenv = require('dotenv')
 
 const { resolve } = path
+
+dotenv.config()
 
 module.exports = (env, argv) => {
   const webpackEnv = argv.mode
@@ -15,6 +18,8 @@ module.exports = (env, argv) => {
   // console.log(env, argv)
   // console.log(process.env)
 
+  console.log(isEnvProduction, isEnvDevelopment, process.env.Github_Key)
+  console.log(process.env)
   const getStyleLoaders = (cssOptions, preProcessor) => {
     const loaders = [
       isEnvDevelopment && require.resolve('style-loader'),
@@ -63,10 +68,11 @@ module.exports = (env, argv) => {
         minify: true,
         cache: true,
         inject: true,
-        iconfontUrl: '//at.alicdn.com/t/font_1794830_h5uht3dn2y.css',
+        iconfontUrl: process.env.iconfont,
       }),
       new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify('development'),
+        'process.env.isDev': JSON.stringify(isEnvDevelopment),
+        'process.env.github_key': JSON.stringify(process.env.github_key),
       }),
       new webpack.WatchIgnorePlugin([/\.js$/, /\.d\.ts$/]),
       new MiniCssExtractPlugin({
