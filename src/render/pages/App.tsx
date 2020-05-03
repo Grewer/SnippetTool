@@ -1,24 +1,16 @@
 import React from 'react'
-import Loki from 'lokijs'
+import { ipcRenderer } from 'electron'
 import FileLists from '~/pages/FileLists'
 import Editor from '~/pages/Editor'
 import useMount from '~/hooks/useMount'
 
 function App() {
   console.log('render App')
-  useMount(() => {
+  useMount(async () => {
     // 此操作放入主渲染程序
-    // const db = new Loki('db/Main.json', {
-    //   persistenceMethod: 'fs',
-    // })
-    // const users = db.addCollection('title', { indices: ['id'] })
-    // const newUser = {
-    //   name: `user_${new Date().getTime()}`,
-    // }
-    // users.insert(newUser as any)
-    //
-    // db.saveDatabase()
-    // console.log(db)
+    console.log('loading...')
+    await ipcRenderer.invoke('app-init')
+    console.log('loading end')
   })
 
   return (

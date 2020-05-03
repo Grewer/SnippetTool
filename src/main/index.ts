@@ -1,5 +1,6 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow } from 'electron'
 import * as url from 'url'
+import Events, { registryEvent } from './events'
 
 let mainWindow: BrowserWindow
 
@@ -45,6 +46,8 @@ function createWindow() {
     mainWindow.show()
   })
 }
+
+registryEvent(Events)
 
 app.on('ready', createWindow)
 app.on('window-all-closed', () => {
