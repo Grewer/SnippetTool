@@ -69,7 +69,7 @@ module.exports = (env, argv) => {
         inject: true,
         iconfontUrl: process.env.iconfont,
       }),
-      // new HtmlWebpackHarddiskPlugin(),
+      new HtmlWebpackHarddiskPlugin(),
       new webpack.DefinePlugin({
         'process.env.isDev': JSON.stringify(isEnvDevelopment),
         'process.env.github_key': JSON.stringify(process.env.github_key),
