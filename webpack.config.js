@@ -71,7 +71,7 @@ module.exports = (env, argv) => {
       }),
       new HtmlWebpackHarddiskPlugin(),
       new webpack.DefinePlugin({
-        'process.env.isDev': JSON.stringify(isEnvDevelopment),
+        'process.env.dev': JSON.stringify(isEnvDevelopment),
         'process.env.github_key': JSON.stringify(process.env.github_key),
       }),
       new webpack.WatchIgnorePlugin([/\.js$/, /\.d\.ts$/]),
