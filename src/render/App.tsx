@@ -40,13 +40,15 @@ function App() {
       setState(createAction('setLoading', true))
     }, 200)
     try {
-      await appInit()
-      console.log(state)
+      const result = await appInit()
+      console.log(state, result)
       if (!state.loading) {
         clearTimeout(timeout)
       }
       setState(createAction('setValue', '12'))
-    } catch (e) {}
+    } catch (e) {
+      alert('项目初始化失败')
+    }
     console.log('loading end')
   })
 

@@ -49,9 +49,9 @@ module.exports = (env, argv) => {
     entry: './src/render/index',
     target: 'electron-renderer',
     // output: {
-    //     filename: '[name].js',
+    //   filename: '[name].js',
     //     libraryTarget: 'commonjs2',
-    //     path: path.join(__dirname, '/dist/'),
+    // path: path.join(__dirname, '/dist/'),
     //     publicPath: './'
     // },
     resolve: {

@@ -52,6 +52,9 @@ app.on('window-all-closed', () => {
     app.quit()
   }
 })
+
+app.allowRendererProcessReuse = true
+
 app.on('activate', () => {
   if (mainWindow === null) {
     createWindow()
