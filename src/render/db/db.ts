@@ -17,7 +17,9 @@ export const appInit = () => {
         _collection.insert({ name: `user_${new Date().getTime()}` })
         db.saveDatabase()
       }
+
       resolve()
+
       console.log(_collection.data)
       // callback(_collection);
     })

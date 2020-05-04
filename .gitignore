@@ -2,3 +2,4 @@
 /dist/
 src/main/index.js
 /.env
+/db/
