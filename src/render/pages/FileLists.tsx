@@ -44,6 +44,10 @@ function FileLists() {
       <Header />
       {/* <button onClick={btnClick}>click</button> */}
       <div>全局的搜索按钮34</div>
+      <div className={styles.title}>
+        文件夹列表
+        <i className="iconfont icon-jia" />
+      </div>
       <ul>
         {list.map((item, index) => {
           const className = active === index ? `${styles.item} ${styles.active}` : styles.item
@@ -51,11 +55,22 @@ function FileLists() {
             <li onClick={() => fileClickHandle(index)} className={className} key={index.toString()}>
               <i onClick={() => iconClickHandle(index)} className="iconfont icon-jiantou" />
               {item}
+              <Control />
             </li>
           )
         })}
       </ul>
     </div>
+  )
+}
+
+function Control(props) {
+  // hover显示
+  return (
+    <span>
+      <i className="iconfont icon-more" />
+      <i className="iconfont icon-jia" />
+    </span>
   )
 }
 
