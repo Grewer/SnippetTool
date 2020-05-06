@@ -53,8 +53,10 @@ function FileLists() {
           const className = active === index ? `${styles.item} ${styles.active}` : styles.item
           return (
             <li onClick={() => fileClickHandle(index)} className={className} key={index.toString()}>
-              <i onClick={() => iconClickHandle(index)} className="iconfont icon-jiantou" />
-              {item}
+              <span className={styles.fileName}>
+                <i onClick={() => iconClickHandle(index)} className="iconfont icon-jiantou" />
+                {item}
+              </span>
               <Control />
             </li>
           )
@@ -67,7 +69,7 @@ function FileLists() {
 function Control(props) {
   // hover显示
   return (
-    <span>
+    <span className={styles.control}>
       <i className="iconfont icon-more" />
       <i className="iconfont icon-jia" />
     </span>
