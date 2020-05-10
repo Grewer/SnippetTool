@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react'
+import React, { useReducer, useState } from 'react'
 import createAction from '~/action/createAction'
 import GlobalLoading from '~/components/GlobalLoading'
 import { appInit } from '~/db/db'
