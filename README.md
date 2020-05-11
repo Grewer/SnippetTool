@@ -52,3 +52,8 @@ grewer
 优点二: 打出的包特别小例如: electron 打包 100M ,而 tauri 打出的包在 5M ,差距明显
 
 原理可以参考 pwa, 即一个 webview
+
+
+## 打包
+只用在electron-packager打包命令中加入 --asar 这一个参数，就会自动在
+outputpath/resources/路径下生成app.asar文件

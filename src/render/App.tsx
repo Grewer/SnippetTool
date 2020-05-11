@@ -1,4 +1,5 @@
-import React, { useReducer, useState } from 'react'
+import React, { useReducer } from 'react'
+import AddFileOrDir from '~/modals/AddFileOrDir'
 import createAction from '~/action/createAction'
 import GlobalLoading from '~/components/GlobalLoading'
 import { appInit } from '~/db/db'
@@ -56,6 +57,7 @@ function App() {
     <GlobalLoading loading={state.loading} text="环境加载中...">
       <FileLists />
       <Editor />
+      <AddFileOrDir />
     </GlobalLoading>
   )
 }
