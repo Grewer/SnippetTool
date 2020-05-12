@@ -17,11 +17,16 @@
     "resolveJsonModule": true,
     "baseUrl": "./",
     "paths": {
-      "~/*": ["src/render/*"]
+      "~/*": [
+        "src/render/*"
+      ]
     }
   },
-  "include": ["*"],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "package-lock.json",
+    "db/*",
+    ".env",
+    "README.md"
   ]
 }

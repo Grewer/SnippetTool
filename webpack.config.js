@@ -12,7 +12,7 @@ const { resolve } = path
 dotenv.config()
 
 module.exports = (env, argv) => {
-  const webpackEnv = argv.mode
+  const webpackEnv = (argv || { mode: 'development' }).mode
   const isEnvDevelopment = webpackEnv === 'development'
   const isEnvProduction = webpackEnv === 'production'
   // console.log(env, argv)

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import styles from './FileLists.less'
 import fetch from '~/utils'
+import AddFileOrDir from '~/modals/AddFileOrDir'
 
 /**
  * 类型分为文件和文件夹
@@ -39,6 +40,10 @@ function FileLists() {
     console.log(index)
   }, [])
 
+  const addFileOrDir = useCallback(() => {
+    AddFileOrDir().open()
+  }, [])
+
   return (
     <div className={styles.fileList}>
       <Header />
@@ -46,7 +51,7 @@ function FileLists() {
       <div>全局的搜索按钮34</div>
       <div className={styles.title}>
         文件夹列表
-        <i className="iconfont icon-jia" />
+        <i onClick={addFileOrDir} className="iconfont icon-jia" />
       </div>
       <ul>
         {list.map((item, index) => {

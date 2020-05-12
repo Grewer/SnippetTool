@@ -1,16 +1,31 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import styles from './BaseModal.less'
+import './BaseModal.global.less'
 
 const { body } = document
 
-function BaseModal(props: { children: React.ReactNode }) {
-  return ReactDOM.createPortal(
-    <div className={styles.container}>
-      <div className={styles.box}>{props.children}</div>
-    </div>,
-    body
-  )
+function BaseModal(Component) {
+  const showDom = document.createElement('div')
+  showDom.classList.add('modal-container')
+  body.appendChild(showDom)
+  const clickHandle = ev => {
+    const { target } = ev
+    // console.dir(target)
+    if (target.classList.contains('modal-container')) {
+      close()
+    }
+  }
+
+  showDom.addEventListener('click', clickHandle, {
+    capture: false,
+  })
+
+  const close = () => {
+    showDom.removeEventListener('click', clickHandle)
+    ReactDOM.unmountComponentAtNode(showDom)
+    body.removeChild(showDom)
+  }
+  ReactDOM.render(<Component onClose={close} />, showDom)
 }
 
 export default BaseModal
