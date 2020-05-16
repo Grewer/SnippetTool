@@ -5,27 +5,33 @@ import FormContext from '~/context/FormContext'
 const cancelSubmit = ev => {
   ev.preventDefault()
 }
-function WrapFormContext(Component) {
-  return function Middle(props) {
-    console.log(props)
-    const { values, checkMsg, onChange } = useContext(FormContext)
-    return <Component value={values[name]} checkMsg={checkMsg[name]} onChange={onChange} />
-  }
+
+function WrapFormContext(props, b) {
+  console.log('WrapFormContext', props, b)
+  const { children, ...rest } = props
+  const context = useContext(FormContext)
+  return React.createElement(children, { ...rest, ...context })
 }
+
+const factory = React.createFactory(WrapFormContext)
 
 function Form(props) {
   const { children } = props
   const value = {
     values: {},
     checkMsg: {},
-    onChange: () => {},
+    onChange: () => {
+      console.log('run onChange')
+    },
   }
+
   // useReducer
   return (
     <FormContext.Provider value={value}>
       <form onSubmit={cancelSubmit} className={styles.form}>
         {React.Children.map(children, child => {
-          return child
+          console.log(child)
+          return factory(child.props, child.type)
         })}
       </form>
     </FormContext.Provider>

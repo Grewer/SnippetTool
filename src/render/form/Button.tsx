@@ -20,4 +20,6 @@ function Button() {
   )
 }
 
+Button.button = 'submit'
+
 export default Button

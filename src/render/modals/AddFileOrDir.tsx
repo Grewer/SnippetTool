@@ -11,8 +11,7 @@ const Component = props => {
   return (
     <div className="modal-box">
       <Form>
-        {/* <Input name="fileName" placeholder="输入文件名称" /> */}
-        <Input />
+        <Input name="fileName" placeholder="输入文件名称" />
         <Button />
       </Form>
     </div>
