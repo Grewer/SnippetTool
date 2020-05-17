@@ -3,6 +3,6 @@ import React from 'react'
 const FormContext = React.createContext({
   values: {},
   checkMsg: {},
-  onChange: () => {},
+  onChange: (value: any, name: string) => {},
 })
 export default FormContext

@@ -1,9 +1,10 @@
 import React from 'react'
 import styles from './Form.less'
 
-function Button() {
+function Button(props) {
+  console.log('run Button', props)
   const submitHandle = () => {
-    alert('run')
+    // alert('run')
     // submit: ƒ submit()
     // requestSubmit: ƒ requestSubmit()
     // reset: ƒ reset()
@@ -15,7 +16,7 @@ function Button() {
   }
   return (
     <button onClick={submitHandle} type="submit" className={styles.button}>
-      Button
+      {props.children}
     </button>
   )
 }
