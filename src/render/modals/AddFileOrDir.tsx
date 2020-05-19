@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import BaseModal from './BaseModal'
 import Input from '~/form/Input'
 import Button from '~/form/Button'
@@ -8,9 +8,13 @@ import Form from '~/form/Form'
 
 const Component = props => {
   // Form 使用 items 来创建比较好
+  const submit = useCallback(values => {
+    console.log(values)
+  }, [])
+
   return (
     <div className="modal-box">
-      <Form>
+      <Form submit={submit}>
         <Input name="fileName" placeholder="输入文件名称" />
         <Button>提交</Button>
       </Form>

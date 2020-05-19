@@ -1,15 +1,12 @@
-import React, { useContext, useReducer } from 'react'
+import React, { ReactElement, useCallback, useContext, useReducer } from 'react'
 import styles from './Form.less'
 import FormContext from '~/context/FormContext'
-
-const cancelSubmit = ev => {
-  ev.preventDefault()
-}
 
 function WrapFormContext(props) {
   const { children, name, ...rest } = props
   const { values, onChange } = useContext(FormContext)
   console.log('WrapFormContext', props, values)
+
   const _onChange = ev => {
     console.log('run _onChange', ev, ev.target, ev.target.value)
     onChange(ev.target.value, name)
@@ -20,27 +17,25 @@ function WrapFormContext(props) {
 const factory = React.createFactory(WrapFormContext)
 
 function Reducers(state, action) {
-  const { type, payload } = state
+  const { type, payload } = action
   switch (type) {
     case 'setValue':
-      state.values[payload.name] = payload.val
-      return { ...state }
+      console.log('run setValue', action, state)
+      state.values = Object.assign(state.values, payload)
+      return state
     default:
       return state
   }
 }
 
-function Form(props) {
-  const { children } = props
+interface IForm<T = any> {
+  submit(values: T): any
 
-  // const value = {
-  //   values: {},
-  //   checkMsg: {},
-  //   onChange: (val, name) => {
-  //     console.log('run onChange', value)
-  //     value.values[name] = val
-  //   },
-  // }
+  children: ReactElement[]
+}
+
+function Form(props: IForm) {
+  const { children, submit } = props
 
   const [value, dispatch] = useReducer(Reducers, {
     values: {},
@@ -49,31 +44,28 @@ function Form(props) {
       dispatch({
         type: 'setValue',
         payload: {
-          name,
-          value,
+          [name]: val,
         },
       })
-      console.log('run onChange', val, name)
     },
   })
 
-  // const onChange = (val, name) => {
-  //   dispatch({
-  //     type: 'setValue',
-  //     payload: {
-  //       name,
-  //       value,
-  //     },
-  //   })
-  //   console.log('run onChange', val, name)
-  // }
+  console.log('render Form')
 
-  // useReducer
+  const _submit = useCallback(
+    ev => {
+      ev.preventDefault()
+      submit(value.values)
+    },
+    [submit, value.values]
+  )
+
   return (
     <FormContext.Provider value={value}>
-      <form onSubmit={cancelSubmit} className={styles.form}>
+      <form onSubmit={_submit} className={styles.form}>
         {React.Children.map(children, child => {
           console.log(child)
+          // @ts-ignore
           if (child.type.button) {
             return child
           }
