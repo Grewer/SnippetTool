@@ -3,9 +3,8 @@
 }
 
 .input {
-  background-color: #F7F7F5;
+  background: rgba(242, 241, 238, 0.6);
   outline: 0;
-  border: 1px solid #DBDBD9;
   height: 30px;
   line-height: 30px;
   color: #1c1b18;
@@ -13,9 +12,11 @@
   padding: 0 8px;
   width: 100%;
   border-radius: 4px;
+  box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px inset, rgba(15, 15, 15, 0.1) 0px 1px 1px inset;
+  border: 0;
 
   &:focus {
-    border-color: #959da5;
+    box-shadow: rgba(46, 170, 220, 0.7) 0px 0px 0px 1px inset, rgba(46, 170, 220, 0.4) 0px 0px 0px 2px !important
   }
 }
 
@@ -26,16 +27,24 @@
   font-size: 14px;
   width: auto;
   border-radius: 4px;
-  background-color: #35aef1;
-  border: 1px solid #3b9fd4;
+  background-color: rgba(23, 164, 241, 0.9);
   outline: 0;
   cursor: pointer;
   color: #ffffff;
   font-weight: 500;
   margin: 20px auto;
   display: block;
+  user-select: none;
+  transition: background 120ms ease-in 0s;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  padding-left: 12px;
+  padding-right: 12px;
+  box-shadow: rgba(15, 15, 15, 0.1) 0px 1px 2px , rgba(23, 164, 241, 0.4) 0px 0px 0px 1px inset;
+  border: 0;
 
-  &:hover {
-    background-color: #3b9fd4;
+  &:active {
+    background-color: #138bc9;
   }
 }
