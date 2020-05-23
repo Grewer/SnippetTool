@@ -19,14 +19,15 @@ const Component = props => {
         <Radio
           data={[
             {
-              id: 1,
+              id: '1',
               name: '文件',
             },
             {
-              id: 2,
+              id: '2',
               name: '文件夹',
             },
           ]}
+          name="fileType"
         />
         <Input name="fileName" placeholder="输入文件名称" />
         <Button>提交</Button>

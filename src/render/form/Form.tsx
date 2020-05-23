@@ -7,11 +7,11 @@ function WrapFormContext(props) {
   const { values, onChange } = useContext(FormContext)
   console.log('WrapFormContext', props, values)
 
-  const _onChange = ev => {
-    console.log('run _onChange', ev, ev.target, ev.target.value)
-    onChange(ev.target.value, name)
+  const _onChange = value => {
+    // console.log('run _onChange', ev, ev.target, ev.target.value)
+    onChange(value, name)
   }
-  return React.createElement(children, Object.assign(rest, { value: values[name], onChange: _onChange }))
+  return React.createElement(children, Object.assign(rest, { name, value: values[name], onChange: _onChange }))
 }
 
 const factory = React.createFactory(WrapFormContext)
