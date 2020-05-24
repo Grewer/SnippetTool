@@ -20,7 +20,8 @@
     "lokijs": "^1.5.8",
     "marked": "^0.8.2",
     "react": "^16.12.0",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "shallowequal": "^1.1.0"
   },
   "devDependencies": {
     "@grew/eslint-config": "^0.1.4",
@@ -28,6 +29,7 @@
     "@types/node": "^12.12.22",
     "@types/react": "^16.9.17",
     "@types/react-dom": "^16.9.5",
+    "@types/shallowequal": "^1.1.1",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.4.2",
     "electron-debug": "^3.0.1",

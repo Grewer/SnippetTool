@@ -23,7 +23,7 @@ function Radio(props: IRadio) {
       {data.map(item => {
         console.log('checked', item.id === value)
         return (
-          <label>
+          <label key={item.id}>
             <input name="FileOrFolder" checked={item.id === value} onChange={_onchange} type="radio" value={item.id} />
             文件{' '}
           </label>

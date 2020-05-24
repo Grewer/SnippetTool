@@ -30,6 +30,7 @@ const Component = props => {
           name="fileType"
         />
         <Input name="fileName" placeholder="输入文件名称" />
+        <Input name="fileName2" placeholder="test" />
         <Button>提交</Button>
       </Form>
     </div>
