@@ -1,11 +1,11 @@
-import React, { ReactElement, useCallback, useContext, useReducer } from 'react'
+import React, { FunctionComponent, ReactElement, useCallback, useContext, useReducer } from 'react'
 import styles from './Form.less'
 import FormContext from '~/context/FormContext'
 
 const WrapFormContext = props => {
   const { children, name, ...rest } = props
   const { values, onChange } = useContext(FormContext)
-  console.log('[WrapFormContext]', props, values)
+  // console.log('[WrapFormContext]', props, values)
 
   const _onChange = useCallback(
     value => {
@@ -16,43 +16,31 @@ const WrapFormContext = props => {
   )
 
   const value = {
-    ...rest,
-
     name,
-    value: values[name],
+    value: values[name] || '',
     onChange: _onChange,
   }
 
-  return <WrapRender {...value}>{children}</WrapRender>
-  // return React.createElement(children, Object.assign(rest, { name, value: values[name], onChange: _onChange }))
+  return (
+    <PreventRender {...rest} {...value}>
+      {children}
+    </PreventRender>
+  )
 }
 
-const WrapRender = React.memo(props => {
+const PreventRender: React.FC<{ children: React.FunctionComponent<any> }> = React.memo(props => {
   const { children, ...rest } = props
-  console.log('[WrapRender]', props)
-  // @ts-ignore
+  console.log('[PreventRender]', props)
   return React.createElement(children, rest)
 })
 
-const factory = React.createFactory(
-  WrapFormContext
-  // React.memo(WrapFormContext, (prevProps, nextProps) => {
-  //   console.log(prevProps, nextProps, shallowEqual(prevProps, nextProps))
-  //   return shallowEqual(prevProps, nextProps)
-  // })
-)
-
-// todo 进行深层次的比较
+const factory = React.createFactory(WrapFormContext)
 
 function Reducers(state, action) {
   const { type, payload } = action
   switch (type) {
     case 'setValue':
       console.log('run setValue', action, state)
-      state.values = Object.assign(state.values, payload)
-      return { ...state }
-    case 'forceSetValue':
-      console.log('run forceSetValue', action, state)
       state.values = Object.assign(state.values, payload)
       return { ...state }
     default:
@@ -96,7 +84,7 @@ function Form(props: IForm) {
     <FormContext.Provider value={value}>
       <form onSubmit={_submit} className={styles.form}>
         {React.Children.map(children, child => {
-          console.log(child)
+          // console.log(child)
           // @ts-ignore
           if (child.type.button) {
             return child
