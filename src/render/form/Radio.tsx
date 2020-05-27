@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react'
 import { IFormItem } from '~/form/interface'
+import styles from './Radio.less'
 
 interface IRadio extends IFormItem {
   data: { id: string; name: string }[]
@@ -21,11 +22,11 @@ function Radio(props: IRadio) {
   return (
     <fieldset name={name}>
       {data.map(item => {
-        console.log('checked', item.id === value)
+        // console.log('checked', item.id === value)
         return (
-          <label key={item.id}>
+          <label className={styles.label} key={item.id}>
             <input name="FileOrFolder" checked={item.id === value} onChange={_onchange} type="radio" value={item.id} />
-            文件{' '}
+            {item.name}
           </label>
         )
       })}
