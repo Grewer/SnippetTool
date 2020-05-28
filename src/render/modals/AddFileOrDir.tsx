@@ -9,6 +9,7 @@ import Radio from '~/form/Radio'
 
 const Component = props => {
   // Form 使用 items 来创建比较好
+  // props 用来传值
   const submit = useCallback(values => {
     console.log(values)
   }, [])
@@ -37,9 +38,9 @@ const Component = props => {
   )
 }
 
-function AddFileOrDir() {
+function AddFileOrDir(props = {}) {
   const open = () => {
-    BaseModal(Component)
+    BaseModal(Component, props)
   }
 
   return {

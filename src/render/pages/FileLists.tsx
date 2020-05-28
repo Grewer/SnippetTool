@@ -37,7 +37,7 @@ function FileLists() {
   }
 
   const iconClickHandle = useCallback(index => {
-    console.log(index)
+    // AddFileOrDir().open()
   }, [])
 
   const addFileOrDir = useCallback(() => {
@@ -72,6 +72,10 @@ function FileLists() {
 }
 
 function Control(props) {
+  const Add = () => {
+    AddFileOrDir().open()
+  }
+
   // hover显示
   return (
     <span className={styles.control}>

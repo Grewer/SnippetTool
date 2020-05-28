@@ -4,7 +4,7 @@ import './BaseModal.global.less'
 
 const { body } = document
 
-function BaseModal(Component) {
+function BaseModal(Component, props?: any) {
   const showDom = document.createElement('div')
   showDom.classList.add('modal-container')
   body.appendChild(showDom)
@@ -25,7 +25,7 @@ function BaseModal(Component) {
     ReactDOM.unmountComponentAtNode(showDom)
     body.removeChild(showDom)
   }
-  ReactDOM.render(<Component onClose={close} />, showDom)
+  ReactDOM.render(<Component onClose={close} {...props} />, showDom)
 }
 
 export default BaseModal
