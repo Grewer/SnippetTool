@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react'
 import createAction from '~/action/createAction'
 import GlobalLoading from '~/components/GlobalLoading'
-import { appInit } from '~/db/db'
+import DB from '~/db/db'
 import FileLists from '~/pages/FileLists'
 import Editor from '~/pages/Editor'
 import useMount from '~/hooks/useMount'
@@ -42,7 +42,7 @@ function App() {
       setState(createAction('setLoading', true))
     }, 200)
     try {
-      const result = await appInit()
+      const result = await DB.appInit()
       console.log(state, result)
       if (!state.loading) {
         clearTimeout(timeout)

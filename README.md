@@ -57,3 +57,11 @@ grewer
 ## 打包
 只用在electron-packager打包命令中加入 --asar 这一个参数，就会自动在
 outputpath/resources/路径下生成app.asar文件
+
+
+## db 方案
+
+创建一个 store 用来存储 db 的映射
+
+
+db 的操作 增删改查 通过 new DB(xxx/xxx.json) 来创建
