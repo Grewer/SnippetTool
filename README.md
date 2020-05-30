@@ -65,3 +65,12 @@ outputpath/resources/路径下生成app.asar文件
 
 
 db 的操作 增删改查 通过 new DB(xxx/xxx.json) 来创建
+
+
+## lokijs
+
+
+LokiJS是一个内存数据库，将性能考虑放在第一位。
+LokiJS支持索引和更快的文档访问，执行性能非常好（近50万OPS/秒）。其内置DynamicView类可以用于数据子集的索引，甚至获取更快的性能。
+
+LokiJS即可运行在Node.js端和浏览器端。

@@ -1,19 +1,21 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import styles from './FileLists.less'
 import fetch from '~/utils'
 import AddFileOrDir from '~/modals/AddFileOrDir'
+import ConfigContext from '~/context/ConfigContext'
 
 /**
  * 类型分为文件和文件夹
  * @constructor
  */
 function FileLists() {
-  const [list, setList]: [any[], React.Dispatch<React.SetStateAction<any[]>>] = useState([] as any[])
+  const { fileList } = useContext(ConfigContext)
+
   const [active, setActive] = useState()
 
-  useEffect(() => {
-    setList([...Array(50)].map((v, k) => k + 1))
-  }, [])
+  // useEffect(() => {
+  //   setList([...Array(50)].map((v, k) => k + 1))
+  // }, [])
 
   const fileClickHandle = useCallback(index => {
     setActive(index)
@@ -54,7 +56,7 @@ function FileLists() {
         <i onClick={addFileOrDir} className="iconfont icon-jia" />
       </div>
       <ul>
-        {list.map((item, index) => {
+        {fileList.map((item, index) => {
           const className = active === index ? `${styles.item} ${styles.active}` : styles.item
           return (
             <li onClick={() => fileClickHandle(index)} className={className} key={index.toString()}>

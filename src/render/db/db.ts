@@ -15,18 +15,29 @@ class DBStore {
 
     return new Promise((resolve, reject) => {
       DB.loadDatabase({}, error => {
-        let _collection = DB.getCollection('title')
-        console.log('title', _collection)
-        if (!_collection) {
-          console.log('Collection %s does not exit. Creating ...', 'title')
-          _collection = DB.addCollection('title') // 初始化字段
-          _collection.insert({ name: `user_${new Date().getTime()}` })
+        let coll = DB.getCollection('fileList')
+
+        console.log('fileList', coll)
+        if (!coll) {
+          console.log('Collection %s does not exit. Creating ...', 'fileList')
+          coll = DB.addCollection('fileList') // 初始化字段
+          // _collection.insert({ name: `user_${new Date().getTime()}` })
           DB.saveDatabase()
         }
 
-        resolve()
+        const dv = coll.addDynamicView('a_complex_view')
+        // console.log(dv)
+        // console.log(dv.data())
+        //
+        // dv.applyWhere(function aCustomFilter(obj) {
+        //   return true
+        // })
+        //
+        // console.log(dv.data())
 
-        console.log(_collection.data)
+        resolve(dv.data())
+
+        // console.log(_collection.data)
       })
     })
   }
