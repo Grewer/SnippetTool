@@ -83,13 +83,13 @@ function Form(props: IForm) {
   return (
     <FormContext.Provider value={value}>
       <form onSubmit={_submit} className={styles.form}>
-        {React.Children.map(children, child => {
+        {React.Children.map(children, element => {
           // console.log(child)
           // @ts-ignore
-          if (child.type.button) {
-            return child
+          if (element.type.button) {
+            return element
           }
-          return factory(child.props, child.type)
+          return factory(element.props, element.type)
         })}
       </form>
     </FormContext.Provider>

@@ -4,6 +4,7 @@ import Input from '~/form/Input'
 import Button from '~/form/Button'
 import Form from '~/form/Form'
 import Radio from '~/form/Radio'
+import GlobalLoading from '~/components/GlobalLoading'
 
 // 摸态框表单,用来添加文件或文件夹
 
@@ -12,29 +13,34 @@ const Component = props => {
   // props 用来传值
   const submit = useCallback(values => {
     console.log(values)
+    // global.loading
   }, [])
 
+  // TODO 不是点击 mask  而是提供按钮关闭
+
   return (
-    <div className="modal-box">
-      <div className="modal-title">添加全局文件/文件夹</div>
-      <Form submit={submit}>
-        <Radio
-          data={[
-            {
-              id: '1',
-              name: '文件',
-            },
-            {
-              id: '2',
-              name: '文件夹',
-            },
-          ]}
-          name="fileType"
-        />
-        <Input name="fileName" placeholder="输入文件名称" />
-        <Button>提交</Button>
-      </Form>
-    </div>
+    <GlobalLoading loading={false}>
+      <div className="modal-box">
+        <div className="modal-title">添加全局文件/文件夹</div>
+        <Form submit={submit}>
+          <Radio
+            data={[
+              {
+                id: '1',
+                name: '文件',
+              },
+              {
+                id: '2',
+                name: '文件夹',
+              },
+            ]}
+            name="fileType"
+          />
+          <Input name="fileName" placeholder="输入文件名称" />
+          <Button>提交</Button>
+        </Form>
+      </div>
+    </GlobalLoading>
   )
 }
 

@@ -74,3 +74,18 @@ LokiJS是一个内存数据库，将性能考虑放在第一位。
 LokiJS支持索引和更快的文档访问，执行性能非常好（近50万OPS/秒）。其内置DynamicView类可以用于数据子集的索引，甚至获取更快的性能。
 
 LokiJS即可运行在Node.js端和浏览器端。
+
+
+## 数据库设计
+
+### fileList
+
+name : 名称
+
+type : 类型 (1=文件,2=文件夹)
+
+createTime : 创建时间
+
+updateTime : 更新时间
+
+isDel : 是否删除(0/undefined=未删除,1=删除)
