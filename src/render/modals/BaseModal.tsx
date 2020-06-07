@@ -8,24 +8,26 @@ function BaseModal(Component, props?: any) {
   const showDom = document.createElement('div')
   showDom.classList.add('modal-container')
   body.appendChild(showDom)
-  const clickHandle = ev => {
-    const { target } = ev
-    // console.dir(target)
-    if (target.classList.contains('modal-container')) {
-      close()
-    }
-  }
-
-  showDom.addEventListener('click', clickHandle, {
-    capture: false,
-  })
 
   const close = () => {
-    showDom.removeEventListener('click', clickHandle)
     ReactDOM.unmountComponentAtNode(showDom)
     body.removeChild(showDom)
   }
   ReactDOM.render(<Component onClose={close} {...props} />, showDom)
 }
+
+export const ModalTitle: React.FC<{
+  title: string
+  onClose: () => void
+}> = React.memo(props => {
+  return (
+    <div className="modal-title">
+      <span>{props.title}</span>
+      <span className="modal-close-icon" onClick={props.onClose}>
+        x
+      </span>
+    </div>
+  )
+})
 
 export default BaseModal

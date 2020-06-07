@@ -89,3 +89,10 @@ createTime : 创建时间
 updateTime : 更新时间
 
 isDel : 是否删除(0/undefined=未删除,1=删除)
+
+
+// totoList
+
+eslint:
+去除 jsx-a11y/no-static-element-interactions
+jsx-a11y/click-events-have-key-events

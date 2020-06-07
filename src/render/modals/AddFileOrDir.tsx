@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import BaseModal from './BaseModal'
+import BaseModal, { ModalTitle } from './BaseModal'
 import Input from '~/form/Input'
 import Button from '~/form/Button'
 import Form from '~/form/Form'
@@ -16,12 +16,10 @@ const Component = props => {
     // global.loading
   }, [])
 
-  // TODO 不是点击 mask  而是提供按钮关闭
-
   return (
     <GlobalLoading loading={false}>
       <div className="modal-box">
-        <div className="modal-title">添加全局文件/文件夹</div>
+        <ModalTitle title="添加全局文件/文件夹" onClose={props.onClose} />
         <Form submit={submit}>
           <Radio
             data={[

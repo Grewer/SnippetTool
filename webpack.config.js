@@ -76,8 +76,8 @@ module.exports = (env, argv) => {
       }),
       new webpack.WatchIgnorePlugin([/\.js$/, /\.d\.ts$/]),
       new MiniCssExtractPlugin({
-        filename: 'dist/css/[name].[contenthash:8].css',
-        chunkFilename: 'dist/css/[name].[contenthash:8].chunk.css',
+        filename: 'css/[name].[contenthash:8].css',
+        chunkFilename: 'css/[name].[contenthash:8].chunk.css',
       }),
     ],
     module: {
@@ -92,9 +92,9 @@ module.exports = (env, argv) => {
           use: [
             {
               loader: 'file-loader',
-              options: {
-                publicPath: 'dist',
-              },
+              // options: {
+              //   publicPath: 'dist',
+              // },
             },
           ],
           include: resolve('src'),
