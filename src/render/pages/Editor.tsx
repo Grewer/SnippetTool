@@ -23,13 +23,13 @@ function Editor() {
   }, [])
   return (
     <textarea
-      defaultValue="# Hello World
-
-```js
-function(){
-  return 1;
-}
-```"
+//       defaultValue="# Hello World
+//
+// ```js
+// function(){
+//   return 1;
+// }
+// ```"
       id="myTextarea"
     />
   )
