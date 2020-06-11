@@ -42,7 +42,11 @@ class DBStore {
     })
   }
 
-  getConfigDB = () => {
+  getConfigDB = name => {
+    return this.cache[name]
+  }
+
+  getBaseDB = (): Loki => {
     return this.cache[configDBName]
   }
 }

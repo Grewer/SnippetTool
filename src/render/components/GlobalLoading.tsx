@@ -12,7 +12,7 @@ function GlobalLoading(props: IProps) {
   console.log('run loading')
   return (
     <>
-      {loading && <Loading text={text}/>}
+      {loading && <Loading text={text} />}
       {children}
     </>
   )

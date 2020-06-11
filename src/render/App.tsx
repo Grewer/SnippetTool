@@ -52,6 +52,7 @@ function App() {
       }
       setState(createAction('setFileList', result))
     } catch (e) {
+      console.error(e)
       alert('项目初始化失败')
     }
     console.log('loading end')

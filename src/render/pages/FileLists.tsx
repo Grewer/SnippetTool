@@ -62,7 +62,7 @@ function FileLists() {
             <li onClick={() => fileClickHandle(index)} className={className} key={index.toString()}>
               <span className={styles.fileName}>
                 <i onClick={() => iconClickHandle(index)} className="iconfont icon-jiantou" />
-                {item}
+                {item.fileName}
               </span>
               <Control />
             </li>

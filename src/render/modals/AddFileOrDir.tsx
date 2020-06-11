@@ -5,6 +5,7 @@ import Button from '~/form/Button'
 import Form from '~/form/Form'
 import Radio from '~/form/Radio'
 import setupLoading from '~/components/setupLoading'
+import DB from '~/db/db'
 
 // 摸态框表单,用来添加文件或文件夹
 
@@ -14,7 +15,20 @@ const Component = props => {
   const submit = useCallback(values => {
     console.log(values)
     // global.loading
-    setupLoading('', 1000)
+    const loading = setupLoading('', 0)
+    try {
+      const baseDB = DB.getBaseDB()
+      const fileList: Collection<any> = baseDB.getCollection('fileList')
+
+      console.log(DB.getBaseDB())
+      console.log(fileList)
+      fileList.insert(values)
+      baseDB.saveDatabase()
+      loading.close()
+    } catch (e) {
+      console.log(e)
+      loading.close()
+    }
   }, [])
 
   return (
