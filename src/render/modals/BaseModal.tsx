@@ -13,17 +13,17 @@ function BaseModal(Component, props?: any) {
     ReactDOM.unmountComponentAtNode(showDom)
     body.removeChild(showDom)
   }
-  ReactDOM.render(<Component onClose={close} {...props} />, showDom)
+  ReactDOM.render(<Component close={close} {...props} />, showDom)
 }
 
 export const ModalTitle: React.FC<{
   title: string
-  onClose: () => void
+  close: () => void
 }> = React.memo(props => {
   return (
     <div className="modal-title">
       <span>{props.title}</span>
-      <span className="modal-close-icon" onClick={props.onClose}>
+      <span className="modal-close-icon" onClick={props.close}>
         x
       </span>
     </div>

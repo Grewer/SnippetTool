@@ -10,30 +10,33 @@ import DB from '~/db/db'
 // 摸态框表单,用来添加文件或文件夹
 
 const Component = props => {
+  console.log(props)
+  const { close } = props
   // Form 使用 items 来创建比较好
   // props 用来传值
-  const submit = useCallback(values => {
-    console.log(values)
-    // global.loading
-    const loading = setupLoading('', 0)
-    try {
-      const baseDB = DB.getBaseDB()
-      const fileList: Collection<any> = baseDB.getCollection('fileList')
 
-      console.log(DB.getBaseDB())
-      console.log(fileList)
-      fileList.insert(values)
-      baseDB.saveDatabase()
-      loading.close()
-    } catch (e) {
-      console.log(e)
-      loading.close()
-    }
-  }, [])
+  const submit = useCallback(
+    async values => {
+      console.log(values)
+      // global.loading
+      const loading = setupLoading('', 0)
+      try {
+        // todo 判断文件还是文件夹
+        await DB.addFile(values)
+        close()
+        loading.close()
+        // todo message
+      } catch (e) {
+        console.log(e)
+        loading.close()
+      }
+    },
+    [close]
+  )
 
   return (
     <div className="modal-box">
-      <ModalTitle title="添加全局文件/文件夹" onClose={props.onClose} />
+      <ModalTitle title="添加全局文件/文件夹" close={close} />
       <Form submit={submit}>
         <Radio
           data={[

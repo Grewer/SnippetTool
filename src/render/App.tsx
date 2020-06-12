@@ -14,13 +14,18 @@ const AppReducer = (state, action: { type: string; payload: any }) => {
     case 'setFileList':
       return {
         ...state,
-        fileList: action.payload,
+        ...action.payload,
         loading: false,
       }
     case 'setLoading':
       return {
         ...state,
         loading: action.payload,
+      }
+    case 'updateFile':
+      return {
+        ...state,
+        ...action.payload,
       }
     default:
       return state
@@ -38,6 +43,17 @@ function App() {
 
   console.log('render App', state)
 
+  const listen = event => {
+    setState(
+      createAction('updateFile', {
+        fileList: DB.getFileView()?.data(),
+      })
+    )
+    // DB.getFileView()?.
+    // Error: Document is already in collection, please use update()
+    console.log('listen', event)
+  }
+
   useMount(async () => {
     // 此操作放入主渲染程序
     console.log('loading...')
@@ -45,12 +61,12 @@ function App() {
       setState(createAction('setLoading', true))
     }, 200)
     try {
-      const result = await DB.appInit()
+      const result = await DB.appInit(listen)
       console.log(state, result)
       if (!state.loading) {
         clearTimeout(timeout)
       }
-      setState(createAction('setFileList', result))
+      setState(createAction('setFileList', { fileList: result.data(), dynamicData: result }))
     } catch (e) {
       console.error(e)
       alert('项目初始化失败')
@@ -58,11 +74,13 @@ function App() {
     console.log('loading end')
   })
 
+  // useEffect(() => {}, [])
+
   return (
     <GlobalLoading loading={state.loading} text="环境加载中...">
       <Provider value={state}>
-        <FileLists />
-        <Editor />
+        <FileLists/>
+        <Editor/>
       </Provider>
     </GlobalLoading>
   )

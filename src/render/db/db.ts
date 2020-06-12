@@ -3,10 +3,16 @@ import Loki from 'lokijs'
 
 const configDBName = 'db/Main.json'
 
+export interface IFile {
+  fileType: '1' | '2'
+  fileName: string
+}
+
 class DBStore {
   cache = {}
+  private dynamicData?: DynamicView<any>
 
-  appInit = () => {
+  appInit = (listen): Promise<DynamicView<any>> => {
     jetpack.dir(`db`)
     const DB = new Loki(configDBName, {
       persistenceMethod: 'fs',
@@ -15,17 +21,24 @@ class DBStore {
 
     return new Promise((resolve, reject) => {
       DB.loadDatabase({}, error => {
+        if (error) {
+          reject(error)
+        }
+
         let coll = DB.getCollection('fileList')
 
         console.log('fileList', coll)
         if (!coll) {
           console.log('Collection %s does not exit. Creating ...', 'fileList')
-          coll = DB.addCollection('fileList') // 初始化字段
+          coll = DB.addCollection('fileList', { autoupdate: true }) // 初始化字段
           // _collection.insert({ name: `user_${new Date().getTime()}` })
           DB.saveDatabase()
         }
 
-        const dv = coll.addDynamicView('a_complex_view')
+        const dv = coll.addDynamicView('fileList')
+
+        dv.on('fileChange', listen)
+
         // console.log(dv)
         // console.log(dv.data())
         //
@@ -35,7 +48,9 @@ class DBStore {
         //
         // console.log(dv.data())
 
-        resolve(dv.data())
+        this.dynamicData = dv
+
+        resolve(dv)
 
         // console.log(_collection.data)
       })
@@ -48,6 +63,26 @@ class DBStore {
 
   getBaseDB = (): Loki => {
     return this.cache[configDBName]
+  }
+
+  getFileView = () => {
+    return this.dynamicData
+  }
+
+  addFile = (values: IFile) => {
+    return new Promise((resolve, reject) => {
+      const baseDB = DB.getBaseDB()
+      const fileList: Collection<any> = baseDB.getCollection('fileList')
+      fileList.insert(values)
+      baseDB.saveDatabase(err => {
+        if (err) {
+          reject(err)
+        } else {
+          this.dynamicData?.emit('fileChange', '这是参数')
+          resolve()
+        }
+      })
+    })
   }
 }
 
