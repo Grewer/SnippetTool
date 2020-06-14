@@ -16,23 +16,23 @@ function Editor() {
     const myTextarea = document.getElementById('myTextarea') as HTMLTextAreaElement
     const cm = HyperMD.fromTextArea(myTextarea, {
       /* optional editor options here */
-      hmdModeLoader: false, // see NOTEs below
+      hmdModeLoader: false, // 这个选项忘记了是什么 后面补上是否需要
       lineNumbers: false, // 是否显示行数
       gutters: [], // 行数右边的小按钮,因为我改了样式,会让这个功能有 bug, 所以直接隐藏
     })
   }, [])
   return (
     <textarea
-//       defaultValue="# Hello World
-//
-// ```js
-// function(){
-//   return 1;
-// }
-// ```"
+      //       defaultValue="# Hello World
+      //
+      // ```js
+      // function(){
+      //   return 1;
+      // }
+      // ```"
       id="myTextarea"
     />
   )
 }
 
-export default Editor
+export default React.memo(Editor)

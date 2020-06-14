@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import styles from './FileLists.less'
 import fetch from '~/utils'
 import AddFileOrDir from '~/modals/AddFileOrDir'
@@ -61,8 +61,7 @@ function FileLists() {
           return (
             <li onClick={() => fileClickHandle(index)} className={className} key={index.toString()}>
               <span className={styles.fileName}>
-                <i onClick={() => iconClickHandle(index)} className="iconfont icon-jiantou" />
-                {item.fileName}
+                {item.fileType === '2' && <i onClick={() => iconClickHandle(index)} className="iconfont icon-jiantou" />} {item.fileName}
               </span>
               <Control />
             </li>
@@ -91,4 +90,4 @@ function Header() {
   return <div className={styles.header}>{/* 这里是拖曳区域 */}</div>
 }
 
-export default FileLists
+export default React.memo(FileLists)

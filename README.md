@@ -75,6 +75,19 @@ LokiJS支持索引和更快的文档访问，执行性能非常好（近50万OPS
 
 LokiJS即可运行在Node.js端和浏览器端。
 
+```typescript jsx
+let user = {id: 1, name: 'new name'};
+let obj = coll.findObject({'id': user.id});
+if (obj) {
+  user['$loki'] = obj['$loki'];
+  user['meta'] = obj['meta'];
+  coll.update(user);
+} else {
+  coll.insert(user);
+}
+```
+
+
 
 ## 数据库设计
 

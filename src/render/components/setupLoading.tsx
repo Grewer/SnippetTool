@@ -1,22 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Loading from '~/components/Loading'
-
-const { body } = document
+import createBodyElement from '~/utils/createBodyElement'
 
 function setupLoading(msg, timeout = 1000) {
-  const showDom = document.createElement('div')
-  showDom.classList.add('api-global-loading')
-  body.appendChild(showDom)
-
-  const close = () => {
-    ReactDOM.unmountComponentAtNode(showDom)
-    body.removeChild(showDom)
-  }
+  const { Dom, close } = createBodyElement('api-global-loading')
 
   timeout > 0 && setTimeout(close, timeout)
 
-  ReactDOM.render(<Loading text={msg} />, showDom)
+  ReactDOM.render(<Loading text={msg} />, Dom)
 
   return {
     close,

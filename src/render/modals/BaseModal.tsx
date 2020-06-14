@@ -1,19 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './BaseModal.global.less'
-
-const { body } = document
+import createBodyElement from '~/utils/createBodyElement'
 
 function BaseModal(Component, props?: any) {
-  const showDom = document.createElement('div')
-  showDom.classList.add('modal-container')
-  body.appendChild(showDom)
+  const { Dom, close } = createBodyElement('modal-container')
 
-  const close = () => {
-    ReactDOM.unmountComponentAtNode(showDom)
-    body.removeChild(showDom)
-  }
-  ReactDOM.render(<Component close={close} {...props} />, showDom)
+  ReactDOM.render(<Component close={close} {...props} />, Dom)
 }
 
 export const ModalTitle: React.FC<{

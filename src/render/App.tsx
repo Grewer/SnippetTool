@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react'
+import React, { useCallback, useReducer } from 'react'
 import createAction from '~/action/createAction'
 import GlobalLoading from '~/components/GlobalLoading'
 import DB from '~/db/db'
@@ -39,20 +39,15 @@ function App() {
     config: {},
   })
 
-  // const []
-
   console.log('render App', state)
 
-  const listen = event => {
+  const listen = useCallback(event => {
     setState(
       createAction('updateFile', {
         fileList: DB.getFileView()?.data(),
       })
     )
-    // DB.getFileView()?.
-    // Error: Document is already in collection, please use update()
-    console.log('listen', event)
-  }
+  }, [])
 
   useMount(async () => {
     // 此操作放入主渲染程序
@@ -79,8 +74,8 @@ function App() {
   return (
     <GlobalLoading loading={state.loading} text="环境加载中...">
       <Provider value={state}>
-        <FileLists/>
-        <Editor/>
+        <FileLists />
+        <Editor />
       </Provider>
     </GlobalLoading>
   )

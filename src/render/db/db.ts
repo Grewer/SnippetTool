@@ -37,18 +37,12 @@ class DBStore {
 
         const dv = coll.addDynamicView('fileList')
 
-        dv.on('fileChange', listen)
-
-        // console.log(dv)
-        // console.log(dv.data())
-        //
-        // dv.applyWhere(function aCustomFilter(obj) {
-        //   return true
-        // })
-        //
-        // console.log(dv.data())
-
         this.dynamicData = dv
+
+        coll.on('insert', listen)
+
+        // console.log(coll.events)
+        // 可查看他的默认事件
 
         resolve(dv)
 
@@ -78,7 +72,6 @@ class DBStore {
         if (err) {
           reject(err)
         } else {
-          this.dynamicData?.emit('fileChange', '这是参数')
           resolve()
         }
       })
