@@ -3,6 +3,7 @@ import styles from './FileLists.less'
 import fetch from '~/utils'
 import AddFileOrDir from '~/modals/AddFileOrDir'
 import ConfigContext from '~/context/ConfigContext'
+import IFileType from '~/enum/FileType'
 
 /**
  * 类型分为文件和文件夹
@@ -61,7 +62,7 @@ function FileLists() {
           return (
             <li onClick={() => fileClickHandle(index)} className={className} key={index.toString()}>
               <span className={styles.fileName}>
-                {item.fileType === '2' && <i onClick={() => iconClickHandle(index)} className="iconfont icon-jiantou" />} {item.fileName}
+                {item.fileType === IFileType.folder && <i onClick={() => iconClickHandle(index)} className="iconfont icon-jiantou" />} {item.fileName}
               </span>
               <Control />
             </li>
