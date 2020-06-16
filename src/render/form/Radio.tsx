@@ -3,12 +3,12 @@ import { IFormItem } from '~/form/interface'
 import styles from './Radio.less'
 
 interface IRadio extends IFormItem {
-  data: { id: string; name: string }[]
+  options: { id: string; name: string }[]
   name?: string
 }
 
 function Radio(props: IRadio) {
-  const { data, name, value, onChange } = props
+  const { options, name, value, onChange } = props
   console.log('[Radio]', props)
 
   const _onchange = useCallback(
@@ -21,7 +21,7 @@ function Radio(props: IRadio) {
 
   return (
     <fieldset name={name}>
-      {data.map(item => {
+      {options.map(item => {
         // console.log('checked', item.id === value)
         return (
           <label className={styles.label} key={item.id}>

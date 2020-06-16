@@ -3,22 +3,26 @@ import styles from './Form.less'
 import FormContext from '~/context/FormContext'
 
 const WrapFormContext = props => {
-  const { children, name, ...rest } = props
-  const { values, onChange } = useContext(FormContext)
-  // console.log('[WrapFormContext]', props, values)
+  const { children, name, check, ...rest } = props
+  const { values, onChange, checkMsg } = useContext(FormContext)
+  console.log('[WrapFormContext]', props, values)
 
   const _onChange = useCallback(
     value => {
-      // console.log('run _onChange', ev, ev.target, ev.target.value)
-      onChange(value, name)
+      let msg = ''
+      if (check.required && (value === undefined || value === null || value === '')) {
+        msg = '请输入此字段'
+      }
+      onChange(value, name, msg)
     },
-    [name, onChange]
+    [name, onChange, check]
   )
 
   const value = {
     name,
     value: values[name] || '',
     onChange: _onChange,
+    checkMsg: checkMsg[name] || '',
   }
 
   return (
@@ -30,7 +34,7 @@ const WrapFormContext = props => {
 
 const PreventRender: React.FC<{ children: React.FunctionComponent<any> }> = React.memo(props => {
   const { children, ...rest } = props
-  console.log('[PreventRender]', props)
+  // console.log('[PreventRender]', props)
   return React.createElement(children, rest)
 })
 
@@ -41,7 +45,10 @@ function Reducers(state, action) {
   switch (type) {
     case 'setValue':
       console.log('run setValue', action, state)
-      state.values = Object.assign(state.values, payload)
+      if (payload.checkMsg) {
+        state.checkMsg = Object.assign(state.checkMsg, { [payload.name]: payload.checkMsg })
+      }
+      state.values = Object.assign(state.values, { [payload.name]: payload.val })
       return { ...state }
     default:
       return state
@@ -49,7 +56,7 @@ function Reducers(state, action) {
 }
 
 interface IForm<T = any> {
-  submit(values: T): any
+  submit(values: T, error: boolean | string): any
 
   children: ReactElement[]
 }
@@ -60,11 +67,13 @@ function Form(props: IForm) {
   const [value, dispatch] = useReducer(Reducers, {
     values: {},
     checkMsg: {},
-    onChange: (val, name) => {
+    onChange: (val, name, checkMsg) => {
       dispatch({
         type: 'setValue',
         payload: {
-          [name]: val,
+          name,
+          val,
+          checkMsg,
         },
       })
     },
@@ -75,9 +84,15 @@ function Form(props: IForm) {
   const _submit = useCallback(
     ev => {
       ev.preventDefault()
-      submit(value.values)
+      let error = false
+      const errorArray = Object.keys(value.checkMsg)
+      if (errorArray.length) {
+        error = value.checkMsg[errorArray[0]]
+      }
+      // todo check 一遍
+      submit(value.values, error)
     },
-    [submit, value.values]
+    [submit, value.checkMsg, value.values]
   )
 
   return (

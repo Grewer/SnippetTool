@@ -9,6 +9,8 @@ import DB from '~/db/db'
 
 // 摸态框表单,用来添加文件或文件夹
 
+const inputCheck = { required: true }
+
 const Component = props => {
   console.log(props)
   const { close } = props
@@ -16,7 +18,11 @@ const Component = props => {
   // props 用来传值
 
   const submit = useCallback(
-    async values => {
+    async (values, error) => {
+      if (error) {
+        console.error(`submit Error${error}`)
+        return
+      }
       console.log(values)
       // global.loading
       const loading = setupLoading('', 0)
@@ -33,13 +39,12 @@ const Component = props => {
     },
     [close]
   )
-
   return (
     <div className="modal-box">
       <ModalTitle title="添加全局文件/文件夹" close={close} />
       <Form submit={submit}>
         <Radio
-          data={[
+          options={[
             {
               id: '1',
               name: '文件',
@@ -51,7 +56,7 @@ const Component = props => {
           ]}
           name="fileType"
         />
-        <Input name="fileName" placeholder="输入文件名称" />
+        <Input name="fileName" check={inputCheck} placeholder="输入文件名称" />
         <Button>提交</Button>
       </Form>
     </div>
