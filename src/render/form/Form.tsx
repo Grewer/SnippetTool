@@ -5,17 +5,19 @@ import FormContext from '~/context/FormContext'
 const WrapFormContext = props => {
   const { children, name, check, ...rest } = props
   const { values, onChange, checkMsg } = useContext(FormContext)
-  console.log('[WrapFormContext]', props, values)
+  // console.log('[WrapFormContext]', props, values)
 
   const _onChange = useCallback(
     value => {
       let msg = ''
-      if (check.required && (value === undefined || value === null || value === '')) {
-        msg = '请输入此字段'
+      if (check?.required) {
+        if (value === undefined || value === null || value === '') {
+          msg = '请输入此字段'
+        }
       }
       onChange(value, name, msg)
     },
-    [name, onChange, check]
+    [check, onChange, name]
   )
 
   const value = {
@@ -45,10 +47,14 @@ function Reducers(state, action) {
   switch (type) {
     case 'setValue':
       console.log('run setValue', action, state)
-      if (payload.checkMsg) {
+      if (payload.checkMsg || state.checkMsg[payload.name]) {
         state.checkMsg = Object.assign(state.checkMsg, { [payload.name]: payload.checkMsg })
       }
       state.values = Object.assign(state.values, { [payload.name]: payload.val })
+      return { ...state }
+
+    case 'setError':
+      state.checkMsg = Object.assign(state.checkMsg, { [payload.name]: payload.checkMsg })
       return { ...state }
     default:
       return state
@@ -79,20 +85,33 @@ function Form(props: IForm) {
     },
   })
 
-  console.log('render Form')
+  console.log('render Form', value)
 
   const _submit = useCallback(
     ev => {
       ev.preventDefault()
       let error = false
-      const errorArray = Object.keys(value.checkMsg)
-      if (errorArray.length) {
-        error = value.checkMsg[errorArray[0]]
+      React.Children.forEach(children, child => {
+        const { check, name } = child.props
+        if (check) {
+          if (check.required && !value.values[name]) {
+            error = true
+            dispatch({
+              type: 'setError',
+              payload: {
+                name,
+                checkMsg: check.required,
+              },
+            })
+          }
+        }
+      })
+      if (error) {
+        return
       }
-      // todo check 一遍
       submit(value.values, error)
     },
-    [submit, value.checkMsg, value.values]
+    [children, submit, value.values]
   )
 
   return (

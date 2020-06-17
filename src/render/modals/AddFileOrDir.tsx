@@ -9,7 +9,7 @@ import DB from '~/db/db'
 
 // 摸态框表单,用来添加文件或文件夹
 
-const inputCheck = { required: true }
+const inputCheck = { required: '请输入文件名' }
 
 const Component = props => {
   console.log(props)

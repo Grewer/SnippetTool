@@ -8,7 +8,7 @@ interface IProps extends IK {
   placeholder?: string
   name?: string
   check?: {
-    required?: boolean
+    required?: string
   }
   checkMsg?: string
 }
@@ -26,7 +26,7 @@ function Input(props: IProps) {
 
   return (
     <fieldset name={name}>
-      <input className={styles.input} value={value} onChange={_onChange} type="text" {...rest} />
+      <input className={`${styles.input} ${checkMsg ? styles.inputError : ''}`} value={value} onChange={_onChange} type="text" {...rest} />
       {checkMsg && <div className={styles.error}>{checkMsg}</div>}
     </fieldset>
   )
