@@ -1,6 +1,7 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import styles from './Form.less'
 import { IFormItem } from '~/form/interface'
+import classNames from '~/utils/classNames'
 
 type IK = IFormItem & JSX.IntrinsicElements['input']
 
@@ -24,10 +25,23 @@ function Input(props: IProps) {
     [onChange]
   )
 
+  const { input, error } = useMemo(() => {
+    return {
+      input: classNames({
+        [styles.input]: true,
+        [styles.inputError]: checkMsg,
+      }),
+      error: classNames({
+        [styles.error]: true,
+        [styles.errorAnimation]: checkMsg,
+      }),
+    }
+  }, [checkMsg])
+
   return (
     <fieldset name={name}>
-      <input className={`${styles.input} ${checkMsg ? styles.inputError : ''}`} value={value} onChange={_onChange} type="text" {...rest} />
-      {checkMsg && <div className={styles.error}>{checkMsg}</div>}
+      <input className={input} value={value} onChange={_onChange} type="text" {...rest} />
+      <div className={error}>{checkMsg}</div>
     </fieldset>
   )
 }

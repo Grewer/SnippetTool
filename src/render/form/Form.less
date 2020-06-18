@@ -36,7 +36,7 @@
   cursor: pointer;
   color: #ffffff;
   font-weight: 500;
-  margin: 10px auto;
+  margin: 0 auto;
   display: block;
   user-select: none;
   transition: background 120ms ease-in 0s;
@@ -75,9 +75,28 @@
 
 }
 
+.radioLabel {
+  font-size: 14px;
+  margin-right: 10px;
+}
+
 
 .error {
   font-size: 12px;
   color: red;
   margin-top: 5px;
+  min-height: 22px;
+}
+
+.errorAnimation{
+  animation: popup ease 300ms;
+}
+
+@keyframes popup {
+  from{
+    transform: translateY(50%);
+  }
+  to{
+    transform: translateY(0);
+  }
 }

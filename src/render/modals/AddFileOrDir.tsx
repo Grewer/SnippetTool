@@ -10,6 +10,7 @@ import DB from '~/db/db'
 // 摸态框表单,用来添加文件或文件夹
 
 const inputCheck = { required: '请输入文件名' }
+const radioCheck = { required: '请选择类型' }
 
 const Component = props => {
   console.log(props)
@@ -44,6 +45,7 @@ const Component = props => {
       <ModalTitle title="添加全局文件/文件夹" close={close} />
       <Form submit={submit}>
         <Radio
+          check={radioCheck}
           options={[
             {
               id: '1',

@@ -6,6 +6,7 @@ const { spawn } = require('child_process')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const dotenv = require('dotenv')
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 
 const { resolve } = path
 

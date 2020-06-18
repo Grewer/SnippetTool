@@ -109,3 +109,50 @@ isDel : 是否删除(0/undefined=未删除,1=删除)
 eslint:
 去除 jsx-a11y/no-static-element-interactions
 jsx-a11y/click-events-have-key-events
+
+
+### TODO 插件
+purifycss-webpack
+有时候我们 css 写得多了或者重复了，这就造成了多余的代码，我们希望在生产环境进行去除。
+```
+const path = require('path')
+const PurifyCssWebpack = require('purifycss-webpack') // 引入PurifyCssWebpack插件
+const glob = require('glob') // 引入glob模块,用于扫描全部html文件中所引用的css
+
+module.exports = merge(common, {
+  plugins: [
+    new PurifyCssWebpack({
+      paths: glob.sync(path.join(__dirname, 'src/*.html')),
+    }),
+  ],
+})
+```
+
+optimize-css-assets-webpack-plugin
+我们希望减小 css 打包后的体积，可以用到 optimize-css-assets-webpack-plugin。
+```
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin") // 压缩css代码
+
+optimization: {
+  minimizer: [
+    // 压缩css
+    new OptimizeCSSAssetsPlugin({})
+  ]
+ }
+```
+
+terser-webpack-plugin
+Webpack4.0 默认是使用 terser-webpack-plugin 这个压缩插件，在此之前是使用 uglifyjs-webpack-plugin，两者的区别是后者对 ES6 的压缩不是很好，同时我们可以开启 parallel 参数，使用多进程压缩，加快压缩。
+```
+const TerserPlugin = require('terser-webpack-plugin') // 压缩js代码
+
+optimization: {
+  minimizer: [
+    new TerserPlugin({
+      parallel: 4, // 开启几个进程来处理压缩，默认是 os.cpus().length - 1
+      cache: true, // 是否缓存
+      sourceMap: false,
+    }),
+  ]
+}
+```
