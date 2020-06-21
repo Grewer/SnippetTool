@@ -1,41 +1,7 @@
-import React, { ReactElement, useCallback, useContext, useReducer } from 'react'
+import React, { ReactElement, useCallback, useReducer } from 'react'
 import styles from './Form.less'
 import FormContext from '~/context/FormContext'
-import ErrorTip from '~/form/ErrorTip'
-
-const WrapFormContext = props => {
-  const { children, name, check, ...rest } = props
-  const { values, onChange, checkMsg } = useContext(FormContext)
-  // console.log('[WrapFormContext]', props, values)
-
-  const _onChange = useCallback(
-    value => {
-      let msg = ''
-      if (check?.required) {
-        if (value === undefined || value === null || value === '') {
-          msg = '请输入此字段'
-        }
-      }
-      onChange(value, name, msg)
-    },
-    [check, onChange, name]
-  )
-
-  const value = {
-    name,
-    value: values[name] || '',
-    onChange: _onChange,
-    checkMsg: checkMsg[name] || '',
-  }
-
-  return (
-    <ErrorTip {...rest} {...value}>
-      {children}
-    </ErrorTip>
-  )
-}
-
-const factory = React.createFactory(WrapFormContext)
+import FormFactory from '~/form/FormFactory'
 
 function Reducers(state, action) {
   const { type, payload } = action
@@ -118,7 +84,7 @@ function Form(props: IForm) {
           if (element.type.button) {
             return element
           }
-          return factory(element.props, element.type)
+          return FormFactory(element.props, element.type)
         })}
       </form>
     </FormContext.Provider>
