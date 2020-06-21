@@ -25,15 +25,11 @@ function Input(props: IProps) {
     [onChange]
   )
 
-  const { input, error } = useMemo(() => {
+  const { input } = useMemo(() => {
     return {
       input: classNames({
         [styles.input]: true,
         [styles.inputError]: checkMsg,
-      }),
-      error: classNames({
-        [styles.error]: true,
-        [styles.errorAnimation]: checkMsg,
       }),
     }
   }, [checkMsg])
@@ -41,7 +37,6 @@ function Input(props: IProps) {
   return (
     <fieldset name={name}>
       <input className={input} value={value} onChange={_onChange} type="text" {...rest} />
-      <div className={error}>{checkMsg}</div>
     </fieldset>
   )
 }

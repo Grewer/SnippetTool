@@ -1,7 +1,6 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import { IFormItem } from '~/form/interface'
 import styles from './Form.less'
-import classNames from '~/utils/classNames'
 
 interface IRadio extends IFormItem {
   options: { id: string; name: string }[]
@@ -13,7 +12,7 @@ interface IRadio extends IFormItem {
 }
 
 function Radio(props: IRadio) {
-  const { options, name, value, checkMsg, onChange } = props
+  const { options, name, value, onChange } = props
   console.log('[Radio]', props)
 
   const _onchange = useCallback(
@@ -23,15 +22,6 @@ function Radio(props: IRadio) {
     },
     [onChange]
   )
-
-  const { error } = useMemo(() => {
-    return {
-      error: classNames({
-        [styles.error]: true,
-        [styles.errorAnimation]: checkMsg,
-      }),
-    }
-  }, [checkMsg])
 
   return (
     <fieldset name={name}>
@@ -44,7 +34,6 @@ function Radio(props: IRadio) {
           </label>
         )
       })}
-      <div className={error}>{checkMsg}</div>
     </fieldset>
   )
 }

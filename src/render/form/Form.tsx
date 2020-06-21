@@ -1,6 +1,7 @@
-import React, { FunctionComponent, ReactElement, useCallback, useContext, useReducer } from 'react'
+import React, { ReactElement, useCallback, useContext, useReducer } from 'react'
 import styles from './Form.less'
 import FormContext from '~/context/FormContext'
+import ErrorTip from '~/form/ErrorTip'
 
 const WrapFormContext = props => {
   const { children, name, check, ...rest } = props
@@ -28,17 +29,11 @@ const WrapFormContext = props => {
   }
 
   return (
-    <PreventRender {...rest} {...value}>
+    <ErrorTip {...rest} {...value}>
       {children}
-    </PreventRender>
+    </ErrorTip>
   )
 }
-
-const PreventRender: React.FC<{ children: React.FunctionComponent<any> }> = React.memo(props => {
-  const { children, ...rest } = props
-  // console.log('[PreventRender]', props)
-  return React.createElement(children, rest)
-})
 
 const factory = React.createFactory(WrapFormContext)
 
