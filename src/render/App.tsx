@@ -1,11 +1,11 @@
 import React, { useCallback, useReducer } from 'react'
 import createAction from '~/action/createAction'
-import DBStore from '~/db/DBStore'
 import FileLists from '~/pages/FileLists'
 import Editor from '~/pages/Editor'
 import useMount from '~/hooks/useMount'
 import ConfigContext from '~/context/ConfigContext'
 import LazyRequest from '~/utils/Lazy'
+import BaseDBStore from '~/db/DBStore'
 
 const { Provider } = ConfigContext
 const AppReducer = (state, action: { type: string; payload: any }) => {
@@ -44,7 +44,7 @@ function App() {
   const listen = useCallback(event => {
     setState(
       createAction('updateFile', {
-        fileList: DBStore.getFileView()?.data(),
+        fileList: BaseDBStore.getFileView()?.data(),
       })
     )
   }, [])
@@ -55,7 +55,7 @@ function App() {
 
     LazyRequest({
       request: async () => {
-        const result = await DBStore.appInit(listen)
+        const result = await BaseDBStore.appInit(listen)
         setState(createAction('setFileList', { fileList: result.data(), dynamicData: result }))
       },
       msg: '环境加载中...',

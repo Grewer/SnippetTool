@@ -11,50 +11,20 @@ export interface IFile {
 }
 
 class DBStore {
-  cache = {}
+  cache = {} as any
   private dynamicData?: DynamicView<any>
+  private createDB?: CreateDB
 
-  appInit = async (listen): Promise<DynamicView<any>> => {
-    const db = await new CreateDB({ dbName: '123', view: true })
-
-    console.log(db)
-
+  appInit = async listen => {
     jetpack.dir(`db`)
-    const DB = new Loki(configDBName, {
-      persistenceMethod: 'fs',
-    })
+
+    const createDB = new CreateDB({ dbName: 'Main', insertListen: listen, view: true })
+    const { DB, view } = await createDB.init()
+
     this.cache[configDBName] = DB
-
-    return new Promise((resolve, reject) => {
-      DB.loadDatabase({}, error => {
-        if (error) {
-          reject(error)
-        }
-
-        let coll = DB.getCollection('fileList')
-
-        console.log('fileList', coll)
-        if (!coll) {
-          console.log('Collection %s does not exit. Creating ...', 'fileList')
-          coll = DB.addCollection('fileList', { autoupdate: true }) // 初始化字段
-          // _collection.insert({ name: `user_${new Date().getTime()}` })
-          DB.saveDatabase()
-        }
-
-        const dv = coll.addDynamicView('fileList')
-
-        this.dynamicData = dv
-
-        coll.on('insert', listen)
-
-        // console.log(coll.events)
-        // 可查看他的默认事件
-
-        resolve(dv)
-
-        // console.log(_collection.data)
-      })
-    })
+    this.createDB = createDB
+    this.dynamicData = view
+    return Promise.resolve(view)
   }
 
   getBaseDB = (): Loki => {
@@ -66,50 +36,8 @@ class DBStore {
   }
 
   addFile = (values: IFile) => {
-    return new Promise((resolve, reject) => {
-      const baseDB = DBStore.getBaseDB()
-      const fileList: Collection<any> = baseDB.getCollection('fileList')
-      const fileListItem: {
-        fileName: string
-        fileType: IFileType
-        path?: string
-      } = {
-        ...values,
-      }
-      if (values.fileType === IFileType.folder) {
-        const name = `db/${values.fileName}.json`
-        const DB = new Loki(name, {
-          persistenceMethod: 'fs',
-        })
-        DB.loadDatabase({}, error => {
-          if (error) {
-            reject(error)
-          }
-
-          let coll = DB.getCollection('fileList')
-
-          console.log('fileList', coll)
-          if (!coll) {
-            console.log('Collection %s does not exit. Creating ...', 'fileList')
-            coll = DB.addCollection('fileList', { autoupdate: true }) // 初始化字段
-            // _collection.insert({ name: `user_${new Date().getTime()}` })
-            DB.saveDatabase()
-          }
-
-          // console.log(_collection.data)
-        })
-        fileListItem.path = values.fileName
-        this.cache[name] = DB
-      }
-      fileList.insert(fileListItem)
-      baseDB.saveDatabase(err => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve()
-        }
-      })
-    })
+    // todo
+    return this.createDB?.addFile(values)
   }
 }
 

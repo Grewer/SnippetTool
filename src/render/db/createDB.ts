@@ -1,6 +1,6 @@
 import Loki from 'lokijs'
 import IFileType from '~/enum/FileType'
-import DBStore, { IFile } from '~/db/DBStore'
+import BaseDBStore, { IFile } from '~/db/DBStore'
 
 interface IProps {
   dbName: string
@@ -18,7 +18,8 @@ class CreateDB {
     this.props = props
   }
 
-  init = () => {
+  init = (): Promise<any> => {
+    // 类型 TODO
     const { dbName, insertListen, view } = this.props
     const path = `db/${dbName}.json`
     const NEWDB = new Loki(path, {
@@ -49,14 +50,15 @@ class CreateDB {
         // console.log(coll.events)
         // 可查看他的默认事件
 
-        resolve({ DB: DBStore, view: view && coll.addDynamicView('fileList') })
+        resolve({ DB: NEWDB, view: view && coll.addDynamicView('fileList') })
         // console.log(_collection.data)
       })
     })
   }
 
   addFile = async (values: IFile) => {
-    const baseDB = DBStore.getBaseDB()
+    const baseDB = BaseDBStore.getBaseDB()
+    console.log(baseDB, BaseDBStore.getBaseDB)
     const fileList: Collection<any> = baseDB.getCollection('fileList')
     const fileListItem: {
       fileName: string
@@ -71,7 +73,16 @@ class CreateDB {
       fileListItem.path = createDB.path
     }
     fileList.insert(fileListItem)
-    this.DB?.saveDatabase()
+
+    return new Promise((resolve, reject) => {
+      this.DB?.saveDatabase(err => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve()
+        }
+      })
+    })
   }
 }
 
