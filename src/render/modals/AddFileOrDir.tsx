@@ -5,7 +5,7 @@ import Button from '~/form/Button'
 import Form from '~/form/Form'
 import Radio from '~/form/Radio'
 import setupLoading from '~/components/setupLoading'
-import DB from '~/db/db'
+import DBStore from '~/db/DBStore'
 
 // 摸态框表单,用来添加文件或文件夹
 
@@ -29,7 +29,7 @@ const Component = props => {
       const loading = setupLoading('', 0)
       try {
         // todo 判断文件还是文件夹
-        await DB.addFile(values)
+        await DBStore.addFile(values)
         close()
         loading.close()
         // todo message

@@ -1,10 +1,12 @@
 import jetpack from 'fs-jetpack'
 import Loki from 'lokijs'
+import IFileType from '~/enum/FileType'
+import CreateDB from '~/db/createDB'
 
 const configDBName = 'db/Main.json'
 
 export interface IFile {
-  fileType: '1' | '2'
+  fileType: IFileType
   fileName: string
 }
 
@@ -12,7 +14,11 @@ class DBStore {
   cache = {}
   private dynamicData?: DynamicView<any>
 
-  appInit = (listen): Promise<DynamicView<any>> => {
+  appInit = async (listen): Promise<DynamicView<any>> => {
+    const db = await new CreateDB({ dbName: '123', view: true })
+
+    console.log(db)
+
     jetpack.dir(`db`)
     const DB = new Loki(configDBName, {
       persistenceMethod: 'fs',
@@ -61,9 +67,41 @@ class DBStore {
 
   addFile = (values: IFile) => {
     return new Promise((resolve, reject) => {
-      const baseDB = DB.getBaseDB()
+      const baseDB = DBStore.getBaseDB()
       const fileList: Collection<any> = baseDB.getCollection('fileList')
-      fileList.insert(values)
+      const fileListItem: {
+        fileName: string
+        fileType: IFileType
+        path?: string
+      } = {
+        ...values,
+      }
+      if (values.fileType === IFileType.folder) {
+        const name = `db/${values.fileName}.json`
+        const DB = new Loki(name, {
+          persistenceMethod: 'fs',
+        })
+        DB.loadDatabase({}, error => {
+          if (error) {
+            reject(error)
+          }
+
+          let coll = DB.getCollection('fileList')
+
+          console.log('fileList', coll)
+          if (!coll) {
+            console.log('Collection %s does not exit. Creating ...', 'fileList')
+            coll = DB.addCollection('fileList', { autoupdate: true }) // 初始化字段
+            // _collection.insert({ name: `user_${new Date().getTime()}` })
+            DB.saveDatabase()
+          }
+
+          // console.log(_collection.data)
+        })
+        fileListItem.path = values.fileName
+        this.cache[name] = DB
+      }
+      fileList.insert(fileListItem)
       baseDB.saveDatabase(err => {
         if (err) {
           reject(err)
@@ -75,6 +113,6 @@ class DBStore {
   }
 }
 
-const DB = new DBStore()
+const BaseDBStore = new DBStore()
 
-export default DB
+export default BaseDBStore
