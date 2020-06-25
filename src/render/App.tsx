@@ -56,7 +56,7 @@ function App() {
     LazyRequest({
       request: async () => {
         const result = await BaseDBStore.appInit(listen)
-        setState(createAction('setFileList', { fileList: result.data(), dynamicData: result }))
+        result && setState(createAction('setFileList', { fileList: result.data(), dynamicData: result }))
       },
       msg: '环境加载中...',
       errorCallback: e => {

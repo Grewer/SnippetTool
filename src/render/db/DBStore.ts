@@ -2,6 +2,7 @@ import jetpack from 'fs-jetpack'
 import Loki from 'lokijs'
 import IFileType from '~/enum/FileType'
 import CreateDB from '~/db/createDB'
+import { IFileListItem } from '~/defined/Main'
 
 const configDBName = 'db/Main.json'
 
@@ -12,7 +13,7 @@ export interface IFile {
 
 class DBStore {
   cache = {} as any
-  private dynamicData?: DynamicView<any>
+  private dynamicData?: DynamicView<IFileListItem>
   private createDB?: CreateDB
 
   appInit = async listen => {
