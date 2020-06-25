@@ -1,10 +1,10 @@
 import Loki from 'lokijs'
 import IFileType from '~/enum/FileType'
-import BaseDBStore, { IFile } from '~/db/DBStore'
-import { IFileListItem } from '~/defined/Main'
+import BaseDBStore from '~/db/DBStore'
+import { IFileListItem } from '~/definition/Main'
 
 interface IProps {
-  dbName: string
+  dbName: string // dbName 约等于文件名
   insertListen?: () => void
   view: boolean
 }
@@ -23,14 +23,13 @@ class CreateDB {
     DB: Loki
     view?: DynamicView<IFileListItem>
   }> => {
-    // 类型 TODO
     const { dbName, insertListen, view } = this.props
     const path = `db/${dbName}.json`
     const NEWDB = new Loki(path, {
       persistenceMethod: 'fs',
     })
     this.dbName = dbName
-    this.path = name
+    this.path = path
     return new Promise((resolve, reject) => {
       NEWDB.loadDatabase({}, error => {
         if (error) {
@@ -60,15 +59,11 @@ class CreateDB {
     })
   }
 
-  addFile = async (values: IFile) => {
+  addFile = async (values: IFileListItem) => {
     const baseDB = BaseDBStore.getBaseDB()
     console.log(baseDB, BaseDBStore.getBaseDB)
     const fileList: Collection<IFileListItem> = baseDB.getCollection('fileList')
-    const fileListItem: {
-      fileName: string
-      fileType: IFileType
-      path?: string
-    } = {
+    const fileListItem: IFileListItem = {
       ...values,
     }
     if (values.fileType === IFileType.folder) {

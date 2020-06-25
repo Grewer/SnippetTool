@@ -1,20 +1,14 @@
 import jetpack from 'fs-jetpack'
 import Loki from 'lokijs'
-import IFileType from '~/enum/FileType'
 import CreateDB from '~/db/createDB'
-import { IFileListItem } from '~/defined/Main'
+import { IFileListItem } from '~/definition/Main'
 
 const configDBName = 'db/Main.json'
-
-export interface IFile {
-  fileType: IFileType
-  fileName: string
-}
 
 class DBStore {
   cache = {} as any
   private dynamicData?: DynamicView<IFileListItem>
-  private createDB?: CreateDB
+  private baseCreateDB?: CreateDB
 
   appInit = async listen => {
     jetpack.dir(`db`)
@@ -23,7 +17,7 @@ class DBStore {
     const { DB, view } = await createDB.init()
 
     this.cache[configDBName] = DB
-    this.createDB = createDB
+    this.baseCreateDB = createDB
     this.dynamicData = view
     return Promise.resolve(view)
   }
@@ -36,9 +30,10 @@ class DBStore {
     return this.dynamicData
   }
 
-  addFile = (values: IFile) => {
-    // todo
-    return this.createDB?.addFile(values)
+  addFile = (values: IFileListItem) => {
+    // 在跟文件夹下添加文件/文件夹
+    return this.baseCreateDB?.addFile(values)
+    // TODO 添加完文件夹后的操作
   }
 }
 

@@ -1,11 +1,11 @@
 import React, { useCallback, useReducer } from 'react'
-import createAction from '~/action/createAction'
 import FileLists from '~/pages/FileLists'
 import Editor from '~/pages/Editor'
 import useMount from '~/hooks/useMount'
 import ConfigContext from '~/context/ConfigContext'
 import LazyRequest from '~/utils/Lazy'
 import BaseDBStore from '~/db/DBStore'
+import createAction from '~/utils/createAction'
 
 const { Provider } = ConfigContext
 const AppReducer = (state, action: { type: string; payload: any }) => {
