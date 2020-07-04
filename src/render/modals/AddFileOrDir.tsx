@@ -28,7 +28,6 @@ const Component = props => {
       // global.loading
       const loading = setupLoading('', 0)
       try {
-        // todo 判断文件还是文件夹
         await DBStore.addFile(values)
         close()
         loading.close()

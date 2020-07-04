@@ -59,10 +59,10 @@ class CreateDB {
     })
   }
 
-  addFile = async (values: IFileListItem) => {
-    const baseDB = BaseDBStore.getBaseDB()
-    console.log(baseDB, BaseDBStore.getBaseDB)
-    const fileList: Collection<IFileListItem> = baseDB.getCollection('fileList')
+  addFile = async (values: IFileListItem, DB: Loki) => {
+    // TODO   这里不应该是全局的 DB, 应该是当前 DB
+    console.log(DB)
+    const fileList: Collection<IFileListItem> = DB.getCollection('fileList')
     const fileListItem: IFileListItem = {
       ...values,
     }

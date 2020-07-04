@@ -6,7 +6,7 @@ import { IFileListItem } from '~/definition/Main'
 const configDBName = 'db/Main.json'
 
 class DBStore {
-  cache = {} as any
+  cache = {} as any // TODO 类型添加
   private dynamicData?: DynamicView<IFileListItem>
   private baseCreateDB?: CreateDB
 
@@ -32,8 +32,8 @@ class DBStore {
 
   addFile = (values: IFileListItem) => {
     // 在跟文件夹下添加文件/文件夹
-    return this.baseCreateDB?.addFile(values)
-    // TODO 添加完文件夹后的操作
+    return this.baseCreateDB?.addFile(values, this.getBaseDB())
+    // 这是全局的添加  需要另一个方法 将文件夹和子文件夹挂钩
   }
 }
 
