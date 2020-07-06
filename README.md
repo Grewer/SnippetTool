@@ -156,3 +156,8 @@ optimization: {
   ]
 }
 ```
+
+
+### 关于代理的实现
+
+https://github.com/felicienfrancois/node-electron-proxy-agent/blob/master/index.js

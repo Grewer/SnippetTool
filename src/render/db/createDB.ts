@@ -1,6 +1,5 @@
 import Loki from 'lokijs'
 import IFileType from '~/enum/FileType'
-import BaseDBStore from '~/db/DBStore'
 import { IFileListItem } from '~/definition/Main'
 
 interface IProps {
@@ -66,11 +65,17 @@ class CreateDB {
     const fileListItem: IFileListItem = {
       ...values,
     }
-    if (values.fileType === IFileType.folder) {
+
+    // 文件夹
+    if (fileListItem.fileType === IFileType.folder) {
       const createDB = new CreateDB({ dbName: values.fileName, view: false })
       await createDB.init()
       fileListItem.path = createDB.path
+    } else {
+      // 文件
+      fileListItem.content = ''
     }
+
     fileList.insert(fileListItem)
 
     return new Promise((resolve, reject) => {

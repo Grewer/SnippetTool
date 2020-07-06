@@ -54,7 +54,7 @@ function FileLists() {
       <div>全局的搜索按钮34</div>
       <div className={styles.title}>
         文件夹列表
-        <i onClick={addFileOrDir} className="iconfont icon-jia" />
+        <i onClick={() => addFileOrDir()} className="iconfont icon-jia" />
       </div>
       <ul>
         {fileList.map((item, index) => {
@@ -64,7 +64,7 @@ function FileLists() {
               <span className={styles.fileName}>
                 {item.fileType === IFileType.folder && <i onClick={() => iconClickHandle(index)} className="iconfont icon-jiantou" />} {item.fileName}
               </span>
-              <Control />
+              <Control fileType={item.fileType} />
             </li>
           )
         })}
@@ -73,7 +73,7 @@ function FileLists() {
   )
 }
 
-function Control(props) {
+function Control(props: { fileType: IFileType }) {
   const Add = () => {
     AddFileOrDir().open()
   }
@@ -82,7 +82,7 @@ function Control(props) {
   return (
     <span className={styles.control}>
       <i className="iconfont icon-more" />
-      <i className="iconfont icon-jia" />
+      {props.fileType === IFileType.folder && <i className="iconfont icon-jia" />}
     </span>
   )
 }
