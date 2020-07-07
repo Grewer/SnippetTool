@@ -37,6 +37,7 @@ function App() {
     loading: false,
     fileList: [],
     config: {},
+    fileItem: {},
   })
 
   console.log('render App', state)

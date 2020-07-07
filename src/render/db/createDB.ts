@@ -1,4 +1,5 @@
 import Loki from 'lokijs'
+import { v1 } from 'uuid'
 import IFileType from '~/enum/FileType'
 import { IFileListItem } from '~/definition/Main'
 
@@ -17,6 +18,8 @@ class CreateDB {
   constructor(props: IProps) {
     this.props = props
   }
+
+  static baseDBName = 'db/Main.json'
 
   init = (): Promise<{
     DB: Loki
@@ -60,7 +63,7 @@ class CreateDB {
 
   addFile = async (values: IFileListItem, DB: Loki) => {
     // TODO   这里不应该是全局的 DB, 应该是当前 DB
-    console.log(DB)
+    console.log(DB, DB.getName())
     const fileList: Collection<IFileListItem> = DB.getCollection('fileList')
     const fileListItem: IFileListItem = {
       ...values,
@@ -75,6 +78,10 @@ class CreateDB {
       // 文件
       fileListItem.content = ''
     }
+
+    fileListItem.parentIds = [] // 这里如果是全局的话就为空数组, 子文件需要加 id
+
+    fileListItem.id = v1()
 
     fileList.insert(fileListItem)
 

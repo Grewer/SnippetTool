@@ -4,6 +4,8 @@ import IFileType from '~/enum/FileType'
 
 interface IFileListItemCommon {
   fileName: string
+  id: string
+  parentIds: string[]
 }
 
 // 文件类型
