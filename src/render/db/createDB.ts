@@ -2,68 +2,51 @@ import Loki from 'lokijs'
 import { v1 } from 'uuid'
 import IFileType from '~/enum/FileType'
 import { IFileListItem } from '~/definition/Main'
+import LokiDB from '~/db/LokiDB'
 
-interface IProps {
+/**
+ * 封装事件操作
+ */
+
+export interface ICreateDB {
   dbName: string // dbName 约等于文件名
   insertListen?: () => void
   view: boolean
 }
 
 class CreateDB {
-  private props: IProps
+  private props: ICreateDB
   path = ''
   DB?: LokiConstructor
   dbName?: string
 
-  constructor(props: IProps) {
+  constructor(props: ICreateDB) {
     this.props = props
   }
 
   static baseDBName = 'db/Main.json'
 
-  init = (): Promise<{
+  init = async (): Promise<{
     DB: Loki
     view?: DynamicView<IFileListItem>
   }> => {
     const { dbName, insertListen, view } = this.props
     const path = `db/${dbName}.json`
-    const NEWDB = new Loki(path, {
-      persistenceMethod: 'fs',
-    })
+
+    const db = new LokiDB(path)
+
+    const result = await db.create(insertListen, view)
+
+    this.DB = db.coreDB
     this.dbName = dbName
     this.path = path
-    return new Promise((resolve, reject) => {
-      NEWDB.loadDatabase({}, error => {
-        if (error) {
-          reject(error)
-        }
 
-        let coll = NEWDB.getCollection('fileList')
-
-        console.log('fileList', coll)
-
-        if (!coll) {
-          console.log('Collection %s does not exit. Creating ...', 'fileList')
-          coll = NEWDB.addCollection('fileList', { autoupdate: true }) // 初始化字段
-          // _collection.insert({ name: `user_${new Date().getTime()}` })
-          NEWDB.saveDatabase()
-        }
-
-        insertListen && coll.on('insert', insertListen)
-
-        this.DB = NEWDB
-        // console.log(coll.events)
-        // 可查看他的默认事件
-
-        resolve({ DB: NEWDB, view: view ? coll.addDynamicView('fileList') : undefined })
-        // console.log(_collection.data)
-      })
-    })
+    return result
   }
 
-  addFile = async (values: IFileListItem, DB: Loki) => {
-    // TODO   这里不应该是全局的 DB, 应该是当前 DB
-    console.log(DB, DB.getName())
+  addFile = async (values: IFileListItem, DB: LokiDB) => {
+    // console.log(DB, DB.getName())
+
     const fileList: Collection<IFileListItem> = DB.getCollection('fileList')
     const fileListItem: IFileListItem = {
       ...values,
@@ -85,15 +68,7 @@ class CreateDB {
 
     fileList.insert(fileListItem)
 
-    return new Promise((resolve, reject) => {
-      this.DB?.saveDatabase(err => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve()
-        }
-      })
-    })
+    await this.DB?.saveDatabase()
   }
 }
 

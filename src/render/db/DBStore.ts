@@ -1,7 +1,7 @@
 import jetpack from 'fs-jetpack'
-import Loki from 'lokijs'
 import CreateDB from '~/db/createDB'
 import { IFileListItem } from '~/definition/Main'
+import LokiDB from '~/db/LokiDB'
 
 const configDBName = 'db/Main.json'
 
@@ -22,7 +22,7 @@ class DBStore {
     return Promise.resolve(view)
   }
 
-  getBaseDB = (): Loki => {
+  getBaseDB = (): LokiDB => {
     return this.cache[configDBName]
   }
 
