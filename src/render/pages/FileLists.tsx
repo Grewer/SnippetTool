@@ -4,23 +4,31 @@ import fetch from '~/utils'
 import AddFileOrDir from '~/modals/AddFileOrDir'
 import ConfigContext from '~/context/ConfigContext'
 import IFileType from '~/enum/FileType'
+import { IFileListItem } from '~/definition/Main'
 
 /**
  * 类型分为文件和文件夹
  * @constructor
  */
-function FileLists() {
-  const { fileList } = useContext(ConfigContext)
 
-  const [active, setActive] = useState()
+function FileLists() {
+  const { fileList, current, setCurrent } = useContext(ConfigContext)
+
+  console.log('render FileLists', current)
 
   // useEffect(() => {
   //   setList([...Array(50)].map((v, k) => k + 1))
   // }, [])
 
-  const fileClickHandle = useCallback(index => {
-    setActive(index)
-  }, [])
+  const fileClickHandle = useCallback(
+    (item: IFileListItem) => {
+      // setActive(index)
+      if (item.fileType === IFileType.file) {
+        setCurrent(item)
+      }
+    },
+    [setCurrent]
+  )
 
   const btnClick = () => {
     fetch.config.withCredentials = true
@@ -47,6 +55,8 @@ function FileLists() {
     AddFileOrDir().open()
   }, [])
 
+  const currentId = current.id
+
   return (
     <div className={styles.fileList}>
       <Header />
@@ -58,9 +68,10 @@ function FileLists() {
       </div>
       <ul>
         {fileList.map((item, index) => {
-          const className = active === index ? `${styles.item} ${styles.active}` : styles.item
+          const { id } = item
+          const className = currentId === id ? `${styles.item} ${styles.active}` : styles.item
           return (
-            <li onClick={() => fileClickHandle(index)} className={className} key={index.toString()}>
+            <li onClick={() => fileClickHandle(item)} className={className} key={id}>
               <span className={styles.fileName}>
                 {item.fileType === IFileType.folder && <i onClick={() => iconClickHandle(index)} className="iconfont icon-jiantou" />} {item.fileName}
               </span>

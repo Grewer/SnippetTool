@@ -6,7 +6,7 @@ import { IFileListItem } from '~/definition/Main'
  * 封装 Loki 操作
  */
 class LokiDB {
-  coreDB: LokiConstructor
+  coreDB: Loki
 
   constructor(filename: string, options?: Partial<LokiConstructorOptions> & Partial<LokiConfigOptions> & Partial<ThrottledSaveDrainOptions>) {
     this.coreDB = new Loki(filename, {

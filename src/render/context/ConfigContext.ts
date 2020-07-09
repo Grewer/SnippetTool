@@ -1,12 +1,11 @@
 import React from 'react'
-import IFileType from '~/enum/FileType'
+import { IFileListItem } from '~/definition/Main'
 
 const ConfigContext = React.createContext({
   loading: false,
-  fileList: [] as {
-    fileName: string
-    fileType: IFileType
-  }[],
+  fileList: [] as IFileListItem[],
   config: {},
+  setCurrent: (current: IFileListItem) => {},
+  current: {} as IFileListItem,
 })
 export default ConfigContext

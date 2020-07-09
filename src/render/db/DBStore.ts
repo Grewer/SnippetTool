@@ -6,7 +6,7 @@ import LokiDB from '~/db/LokiDB'
 const configDBName = 'db/Main.json'
 
 class DBStore {
-  cache = {} as any // TODO 类型添加
+  cache = {} as { [key: string]: any }
   private dynamicData?: DynamicView<IFileListItem>
   private baseCreateDB?: CreateDB
 

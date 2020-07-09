@@ -3,3 +3,4 @@
 src/main/index.js
 /.env
 /db/
+/yarn.lock

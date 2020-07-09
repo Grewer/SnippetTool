@@ -1,4 +1,3 @@
-import Loki from 'lokijs'
 import { v1 } from 'uuid'
 import IFileType from '~/enum/FileType'
 import { IFileListItem } from '~/definition/Main'
@@ -17,7 +16,7 @@ export interface ICreateDB {
 class CreateDB {
   private props: ICreateDB
   path = ''
-  DB?: LokiConstructor
+  DB?: LokiDB
   dbName?: string
 
   constructor(props: ICreateDB) {
@@ -37,7 +36,7 @@ class CreateDB {
 
     const result = await db.create(insertListen, view)
 
-    this.DB = db.coreDB
+    this.DB = db
     this.dbName = dbName
     this.path = path
 

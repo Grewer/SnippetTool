@@ -6,6 +6,7 @@ import ConfigContext from '~/context/ConfigContext'
 import LazyRequest from '~/utils/Lazy'
 import BaseDBStore from '~/db/DBStore'
 import createAction from '~/utils/createAction'
+import { IFileListItem } from '~/definition/Main'
 
 const { Provider } = ConfigContext
 const AppReducer = (state, action: { type: string; payload: any }) => {
@@ -27,6 +28,8 @@ const AppReducer = (state, action: { type: string; payload: any }) => {
         ...state,
         ...action.payload,
       }
+    case 'setCurrent':
+      return { ...state, current: action.payload }
     default:
       return state
   }
@@ -37,7 +40,10 @@ function App() {
     loading: false,
     fileList: [],
     config: {},
-    fileItem: {},
+    current: {},
+    setCurrent: (item: IFileListItem) => {
+      setState(createAction('setCurrent', item))
+    },
   })
 
   console.log('render App', state)
