@@ -1,12 +1,10 @@
 import jetpack from 'fs-jetpack'
 import CreateDB from '~/db/createDB'
 import { IFileListItem } from '~/definition/Main'
-import LokiDB from '~/db/LokiDB'
-
-const configDBName = 'db/Main.json'
+import { baseDBName } from '~/config'
 
 class DBStore {
-  cache = {} as { [key: string]: any }
+  cache = {} as { [key: string]: Loki }
   private dynamicData?: DynamicView<IFileListItem>
   private baseCreateDB?: CreateDB
 
@@ -15,15 +13,16 @@ class DBStore {
 
     const createDB = new CreateDB({ dbName: 'Main', insertListen: listen, view: true })
     const { DB, view } = await createDB.init()
+    console.log('createDB', createDB)
 
-    this.cache[configDBName] = DB
+    this.cache[baseDBName] = DB
     this.baseCreateDB = createDB
     this.dynamicData = view
     return Promise.resolve(view)
   }
 
-  getBaseDB = (): LokiDB => {
-    return this.cache[configDBName]
+  getBaseDB = (dbName: string): Loki => {
+    return this.cache[dbName]
   }
 
   getFileView = () => {
@@ -32,9 +31,17 @@ class DBStore {
 
   addFile = (values: IFileListItem) => {
     // 在跟文件夹下添加文件/文件夹
-    return this.baseCreateDB?.addFile(values, this.getBaseDB())
+    return this.baseCreateDB?.addFile(values, this.getBaseDB(baseDBName))
     // 这是全局的添加  需要另一个方法 将文件夹和子文件夹挂钩
   }
+
+  updateContent = (item, content) => {
+    item.content = content
+    const db = this.getBaseDB(item.dbName)
+    console.log('run updateContent')
+    db.saveDatabase()
+  }
+  // TODO  数据库操作过于冗余,待解决
 }
 
 const BaseDBStore = new DBStore()

@@ -43,13 +43,13 @@ class CreateDB {
     return result
   }
 
-  addFile = async (values: IFileListItem, DB: LokiDB) => {
-    // console.log(DB, DB.getName())
+  addFile = async (values: Pick<IFileListItem, 'fileType' | 'fileName'>, DB: Loki) => {
+    console.log(DB)
 
     const fileList: Collection<IFileListItem> = DB.getCollection('fileList')
     const fileListItem: IFileListItem = {
       ...values,
-    }
+    } as IFileListItem
 
     // 文件夹
     if (fileListItem.fileType === IFileType.folder) {
@@ -59,6 +59,7 @@ class CreateDB {
     } else {
       // 文件
       fileListItem.content = ''
+      fileListItem.dbName = DB.filename
     }
 
     fileListItem.parentIds = [] // 这里如果是全局的话就为空数组, 子文件需要加 id

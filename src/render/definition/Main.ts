@@ -9,9 +9,10 @@ interface IFileListItemCommon {
 }
 
 // 文件类型
-interface IFileListItemFile extends IFileListItemCommon {
+export interface IFileListItemFile extends IFileListItemCommon {
   fileType: IFileType.file
   content: string
+  dbName: string
 }
 
 // 文件夹类型

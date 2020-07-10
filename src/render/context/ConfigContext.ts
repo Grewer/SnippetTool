@@ -1,11 +1,11 @@
 import React from 'react'
-import { IFileListItem } from '~/definition/Main'
+import { IFileListItem, IFileListItemFile } from '~/definition/Main'
 
 const ConfigContext = React.createContext({
   loading: false,
   fileList: [] as IFileListItem[],
   config: {},
-  setCurrent: (current: IFileListItem) => {},
-  current: {} as IFileListItem,
+  setCurrent: (current: IFileListItemFile) => {},
+  current: {} as IFileListItemFile,
 })
 export default ConfigContext
