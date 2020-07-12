@@ -37,13 +37,27 @@ function Editor() {
 
   useEffect(() => {
     const myTextarea = document.getElementById('myTextarea') as HTMLTextAreaElement
-    const cm = HyperMD.fromTextArea(myTextarea, {
+    const cm: cm_t = HyperMD.fromTextArea(myTextarea, {
       /* optional editor options here */
       hmdModeLoader: false, // 这个选项忘记了是什么 后面补上是否需要
       lineNumbers: false, // 是否显示行数
       gutters: [], // 行数右边的小按钮,因为我改了样式,会让这个功能有 bug, 所以直接隐藏
+      // on
+      extraKeys: {
+        'Cmd-S': ev => {
+          console.log('extraKeys,save', ev)
+        },
+      },
     })
+    // 判断 Mac or win
+    // var runKey = (mac ? "Cmd" : "Ctrl") + "-Enter";
+
     cmRef.current = cm
+
+    // todo cm.off(type: string, func: (...args))
+    cm.on('change', ev => {
+      console.log('change', ev)
+    })
   }, [])
 
   return <textarea id="myTextarea" />
