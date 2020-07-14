@@ -1,7 +1,7 @@
 import { v1 } from 'uuid'
+import Loki from 'lokijs'
 import IFileType from '~/enum/FileType'
 import { IFileListItem } from '~/definition/Main'
-import LokiDB from '~/db/LokiDB'
 
 /**
  * 封装事件操作
@@ -16,7 +16,7 @@ export interface ICreateDB {
 class CreateDB {
   private props: ICreateDB
   path = ''
-  DB?: LokiDB
+  DB?: Loki
   dbName?: string
 
   constructor(props: ICreateDB) {
@@ -32,15 +32,37 @@ class CreateDB {
     const { dbName, insertListen, view } = this.props
     const path = `db/${dbName}.json`
 
-    const db = new LokiDB(path)
-
-    const result = await db.create(insertListen, view)
+    const db = new Loki(path, {
+      persistenceMethod: 'fs',
+    })
 
     this.DB = db
     this.dbName = dbName
     this.path = path
 
-    return result
+    return new Promise((resolve, reject) => {
+      db.loadDatabase({}, error => {
+        if (error) {
+          reject(error)
+        }
+
+        let coll = db.getCollection('fileList')
+
+        console.log('fileList', coll)
+
+        if (!coll) {
+          console.log('Collection %s does not exit. Creating ...', 'fileList')
+          coll = db.addCollection('fileList', { autoupdate: true }) // 初始化字段
+          db.saveDatabase(err => {
+            err && reject(error)
+          })
+        }
+
+        insertListen && coll.on('insert', insertListen)
+
+        resolve({ DB: db, view: view ? coll.addDynamicView('fileList') : undefined })
+      })
+    })
   }
 
   addFile = async (values: Pick<IFileListItem, 'fileType' | 'fileName'>, DB: Loki) => {
@@ -68,7 +90,16 @@ class CreateDB {
 
     fileList.insert(fileListItem)
 
-    await this.DB?.saveDatabase()
+    return new Promise((resolve, reject) => {
+      console.log('saveDatabase', this.DB)
+      this.DB?.saveDatabase(err => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve()
+        }
+      })
+    })
   }
 }
 
