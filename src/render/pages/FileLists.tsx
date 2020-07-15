@@ -1,4 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
+import BasePopover from '~/popover/Popover'
+import FileMorePopover from '~/popover/FileMorePopover'
 import styles from './FileLists.less'
 import fetch from '~/utils'
 import AddFileOrDir from '~/modals/AddFileOrDir'
@@ -58,33 +60,17 @@ function FileLists() {
     AddFileOrDir().open()
   }, [])
 
-  const [{ top, left, show }, setPosition] = useState({ top: 0, left: 0, show: false })
-
-  const moreClick = useCallback(
-    ev => {
+  const [popoverClick] = useState(() => {
+    const show = BasePopover(FileMorePopover, 'fileMore-popover')
+    return ev => {
       ev.stopPropagation()
-      console.dir(ev.target.getBoundingClientRect())
       const distance = ev.target.getBoundingClientRect()
-      // top: 218
-      // left: 168
-      setPosition({
+      show({
         top: distance.top,
         left: distance.left,
-        show: true,
       })
-    },
-    [setPosition]
-  )
-
-  useEffect(() => {
-    document.addEventListener(
-      'click',
-      ev => {
-        // todo 是否使用
-      },
-      false
-    )
-  }, [])
+    }
+  })
 
   const currentId = current.id
 
@@ -106,12 +92,11 @@ function FileLists() {
               <span className={styles.fileName}>
                 {item.fileType === IFileType.folder && <i onClick={() => iconClickHandle(index)} className="iconfont icon-jiantou" />} {item.fileName}
               </span>
-              <Control moreClick={moreClick} fileType={item.fileType} />
+              <Control moreClick={popoverClick} fileType={item.fileType} />
             </li>
           )
         })}
       </ul>
-      {show && <div style={{ background: '#fff', width: '100px', height: '100px', position: 'absolute', top, left }}>显示的悬浮窗口</div>}
     </div>
   )
 }
@@ -124,13 +109,7 @@ function Control(props: { fileType: IFileType; moreClick: (event: React.MouseEve
   // hover显示
   return (
     <span className={styles.control}>
-      <i
-        className="iconfont icon-more"
-        onMouseEnter={ev => {
-          console.log('onMouseEnter')
-        }}
-        onClick={props.moreClick}
-      />
+      <i className="iconfont icon-more" onClick={props.moreClick} />
       {props.fileType === IFileType.folder && <i className="iconfont icon-jia" />}
     </span>
   )

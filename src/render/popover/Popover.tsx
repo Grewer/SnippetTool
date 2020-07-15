@@ -5,11 +5,17 @@ import createBodyElement from '~/utils/createBodyElement'
 function BasePopover(Component, classKey: string, props?: any) {
   const { Dom } = createBodyElement(classKey)
 
-  const show = () => {
-    Dom.style.display = 'block'
+  const show = ({ top = 0, left = 0 }) => {
+    Dom.style.cssText = `
+                          position:absolute;
+                          display:block;
+                          top:${top + 16}px;
+                          left:${left + 8}px
+                        `
   }
 
   document.addEventListener('click', () => {
+    // todo 修改
     Dom.style.display = 'none'
   })
 
