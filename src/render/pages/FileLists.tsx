@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import styles from './FileLists.less'
 import fetch from '~/utils'
 import AddFileOrDir from '~/modals/AddFileOrDir'
@@ -22,12 +22,15 @@ function FileLists() {
 
   const fileClickHandle = useCallback(
     (item: IFileListItem) => {
+      if (current.id === item.id) {
+        return
+      }
       // setActive(index)
       if (item.fileType === IFileType.file) {
         setCurrent(item)
       }
     },
-    [setCurrent]
+    [setCurrent, current]
   )
 
   const btnClick = () => {
@@ -55,6 +58,34 @@ function FileLists() {
     AddFileOrDir().open()
   }, [])
 
+  const [{ top, left, show }, setPosition] = useState({ top: 0, left: 0, show: false })
+
+  const moreClick = useCallback(
+    ev => {
+      ev.stopPropagation()
+      console.dir(ev.target.getBoundingClientRect())
+      const distance = ev.target.getBoundingClientRect()
+      // top: 218
+      // left: 168
+      setPosition({
+        top: distance.top,
+        left: distance.left,
+        show: true,
+      })
+    },
+    [setPosition]
+  )
+
+  useEffect(() => {
+    document.addEventListener(
+      'click',
+      ev => {
+        // todo 是否使用
+      },
+      false
+    )
+  }, [])
+
   const currentId = current.id
 
   return (
@@ -75,16 +106,17 @@ function FileLists() {
               <span className={styles.fileName}>
                 {item.fileType === IFileType.folder && <i onClick={() => iconClickHandle(index)} className="iconfont icon-jiantou" />} {item.fileName}
               </span>
-              <Control fileType={item.fileType} />
+              <Control moreClick={moreClick} fileType={item.fileType} />
             </li>
           )
         })}
       </ul>
+      {show && <div style={{ background: '#fff', width: '100px', height: '100px', position: 'absolute', top, left }}>显示的悬浮窗口</div>}
     </div>
   )
 }
 
-function Control(props: { fileType: IFileType }) {
+function Control(props: { fileType: IFileType; moreClick: (event: React.MouseEvent) => void }) {
   const Add = () => {
     AddFileOrDir().open()
   }
@@ -92,7 +124,13 @@ function Control(props: { fileType: IFileType }) {
   // hover显示
   return (
     <span className={styles.control}>
-      <i className="iconfont icon-more" />
+      <i
+        className="iconfont icon-more"
+        onMouseEnter={ev => {
+          console.log('onMouseEnter')
+        }}
+        onClick={props.moreClick}
+      />
       {props.fileType === IFileType.folder && <i className="iconfont icon-jia" />}
     </span>
   )
