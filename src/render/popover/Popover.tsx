@@ -10,7 +10,7 @@ function BasePopover(Component, classKey: string, props?: any) {
   const show = ({ top = 0, left = 0 }) => {
     Dom.style.cssText = `
                           display:block;
-                          transform:translate(${left + 16}px, ${top + 8}px);
+                          transform:translate(${left - 45}px, ${top + 25}px);
                         `
   }
 

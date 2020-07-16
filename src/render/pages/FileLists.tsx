@@ -13,6 +13,18 @@ import { IFileListItem } from '~/definition/Main'
  * @constructor
  */
 
+const popoverClick = (() => {
+  const show = BasePopover(FileMorePopover, 'popover-fileMore')
+  return ev => {
+    ev.stopPropagation()
+    const distance = ev.target.getBoundingClientRect()
+    show({
+      top: distance.top,
+      left: distance.left,
+    })
+  }
+})()
+
 function FileLists() {
   const { fileList, current, setCurrent } = useContext(ConfigContext)
 
@@ -59,18 +71,6 @@ function FileLists() {
   const addFileOrDir = useCallback(() => {
     AddFileOrDir().open()
   }, [])
-
-  const [popoverClick] = useState(() => {
-    const show = BasePopover(FileMorePopover, 'popover-fileMore')
-    return ev => {
-      ev.stopPropagation()
-      const distance = ev.target.getBoundingClientRect()
-      show({
-        top: distance.top,
-        left: distance.left,
-      })
-    }
-  })
 
   const currentId = current.id
 
