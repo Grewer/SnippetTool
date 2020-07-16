@@ -5,17 +5,23 @@ import createBodyElement from '~/utils/createBodyElement'
 function BasePopover(Component, classKey: string, props?: any) {
   const { Dom } = createBodyElement(classKey)
 
+  Dom.style.display = 'none'
+
   const show = ({ top = 0, left = 0 }) => {
     Dom.style.cssText = `
-                          position:absolute;
                           display:block;
-                          top:${top + 16}px;
-                          left:${left + 8}px
+                          transform:translate(${left + 16}px, ${top + 8}px);
                         `
   }
 
-  document.addEventListener('click', () => {
-    // todo 修改
+  document.addEventListener('click', ev => {
+    const ele = ev.target as HTMLElement
+    if (ele.classList.contains('icon-more')) {
+      return
+    }
+    if (ele.className.includes('popover')) {
+      return
+    }
     Dom.style.display = 'none'
   })
 

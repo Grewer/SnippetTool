@@ -1,7 +1,8 @@
 import React from 'react'
+import './popover.global.less'
 
 const FileMorePopover = props => {
-  return <div style={{ background: '#fff', width: '100px', height: '100px' }}>显示的悬浮窗口</div>
+  return <div className="popover-wrap">显示的悬浮窗口</div>
 }
 
 export default FileMorePopover

@@ -61,7 +61,7 @@ function FileLists() {
   }, [])
 
   const [popoverClick] = useState(() => {
-    const show = BasePopover(FileMorePopover, 'fileMore-popover')
+    const show = BasePopover(FileMorePopover, 'popover-fileMore')
     return ev => {
       ev.stopPropagation()
       const distance = ev.target.getBoundingClientRect()
