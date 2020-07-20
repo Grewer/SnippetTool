@@ -5,6 +5,7 @@ import { cm_t } from 'hypermd/core/type'
 import ConfigContext from '~/context/ConfigContext'
 import BaseDBStore from '~/db/DBStore'
 import debounce from '~/utils/debounce'
+import useMount from '~/hooks/useMount'
 
 // Load these modes if you want highlighting ...
 require('codemirror/mode/htmlmixed/htmlmixed') // for embedded HTML
@@ -48,12 +49,12 @@ function Editor() {
       cmRef.current.off('change', autoSave)
     }
 
-    // todo 键入后 2 秒保存 或者 按下 cmd+s 时 保存
+    // 键入后 2 秒保存 或者 按下 cmd+s 时 保存
   }, [autoSave, current])
 
   console.log('render Editor', current)
 
-  useEffect(() => {
+  useMount(() => {
     const myTextarea = document.getElementById('myTextarea') as HTMLTextAreaElement
     cmRef.current = HyperMD.fromTextArea(myTextarea, {
       /* optional editor options here */
@@ -61,7 +62,7 @@ function Editor() {
       lineNumbers: false, // 是否显示行数
       gutters: [], // 行数右边的小按钮,因为我改了样式,会让这个功能有 bug, 所以直接隐藏
     })
-  }, [])
+  })
 
   return <textarea id="myTextarea" />
 }

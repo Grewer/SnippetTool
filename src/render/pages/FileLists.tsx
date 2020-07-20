@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { createRef, useCallback, useContext, useEffect, useRef, useState } from 'react'
 import BasePopover from '~/popover/Popover'
 import FileMorePopover from '~/popover/FileMorePopover'
 import styles from './FileLists.less'
@@ -7,32 +7,17 @@ import AddFileOrDir from '~/modals/AddFileOrDir'
 import ConfigContext from '~/context/ConfigContext'
 import IFileType from '~/enum/FileType'
 import { IFileListItem } from '~/definition/Main'
+import useMount from '~/hooks/useMount'
 
 /**
  * 类型分为文件和文件夹
  * @constructor
  */
 
-const popoverClick = (() => {
-  const show = BasePopover(FileMorePopover, 'popover-fileMore')
-  return ev => {
-    ev.stopPropagation()
-    const distance = ev.target.getBoundingClientRect()
-    show({
-      top: distance.top,
-      left: distance.left,
-    })
-  }
-})()
-
 function FileLists() {
   const { fileList, current, setCurrent } = useContext(ConfigContext)
 
   console.log('render FileLists', current)
-
-  // useEffect(() => {
-  //   setList([...Array(50)].map((v, k) => k + 1))
-  // }, [])
 
   const fileClickHandle = useCallback(
     (item: IFileListItem) => {
@@ -74,6 +59,18 @@ function FileLists() {
 
   const currentId = current.id
 
+  const popoverClick = (ev, item) => {
+    ev.stopPropagation()
+    const show = BasePopover(FileMorePopover, 'popover-fileMore', { item })
+    const distance = ev.target.getBoundingClientRect()
+    show({
+      top: distance.top,
+      left: distance.left,
+    })
+  }
+
+  // console.log('render popoverClickRef', popoverClickRef)
+
   return (
     <div className={styles.fileList}>
       <Header />
@@ -92,7 +89,7 @@ function FileLists() {
               <span className={styles.fileName}>
                 {item.fileType === IFileType.folder && <i onClick={() => iconClickHandle(index)} className="iconfont icon-jiantou" />} {item.fileName}
               </span>
-              <Control moreClick={popoverClick} fileType={item.fileType} />
+              <Control moreClick={ev => popoverClick(ev, item)} fileType={item.fileType} />
             </li>
           )
         })}
