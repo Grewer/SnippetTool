@@ -28,6 +28,9 @@ https://developer.github.com/v3/repos/contents/#get-contents
 
 现在(2020.04) 我在 GitHub 上发现了 v4 版本
 
+2020.07
+可以使用 `@octokit/rest` 库访问 GitHub
+
 ## 框架选择声明
 
 一开始我选择的框架就是 electron, 但是因为当时用的技术和手法太多老旧,所以想重构一下
