@@ -1,11 +1,10 @@
 import React, { FC, memo, useCallback, useContext, useState } from 'react'
-import BasePopover from '~/popover/Popover'
 import FileMorePopover from '~/popover/FileMorePopover'
 import styles from './FileLists.less'
-import AddFileOrDir from '~/modals/AddFileOrDir'
 import ConfigContext from '~/context/ConfigContext'
 import IFileType from '~/enum/FileType'
 import { IFileListItem } from '~/definition/Main'
+import FileListHeader from '~/pages/FileListHeader'
 
 /**
  * 类型分为文件和文件夹
@@ -15,11 +14,11 @@ import { IFileListItem } from '~/definition/Main'
 function FileLists() {
   console.log('%c render FileLists', 'background:yellow;')
 
-  const addFileOrDir = useCallback(() => {
-    AddFileOrDir().open()
-  }, [])
-
-  const [popover, setPopover] = useState({ position: '', item: {}, setPopover: value => {} })
+  const [popover, setPopover] = useState({
+    position: '',
+    item: {},
+    setPopover: value => {},
+  })
 
   const popoverClick = useCallback((ev, item) => {
     ev.stopPropagation()
@@ -39,13 +38,7 @@ function FileLists() {
 
   return (
     <div className={styles.fileList}>
-      <Header />
-      {/* <button onClick={btnClick}>click</button> */}
-      <div>全局的搜索按钮34</div>
-      <div className={styles.title}>
-        文件夹列表
-        <i onClick={() => addFileOrDir()} className="iconfont icon-jia" />
-      </div>
+      <FileListHeader />
       <FileListView popoverClick={popoverClick} />
       <FileMorePopover popover={popover} />
     </div>
@@ -95,10 +88,6 @@ const FileListView: FC<{ popoverClick: (ev, item) => void }> = memo(props => {
 })
 
 function Control(props: { fileType: IFileType; moreClick: (event: React.MouseEvent) => void }) {
-  const Add = () => {
-    AddFileOrDir().open()
-  }
-
   // hover显示
   return (
     <span className={styles.control}>
@@ -106,10 +95,6 @@ function Control(props: { fileType: IFileType; moreClick: (event: React.MouseEve
       {props.fileType === IFileType.folder && <i className="iconfont icon-jia" />}
     </span>
   )
-}
-
-function Header() {
-  return <div className={styles.header}>{/* 这里是拖曳区域 */}</div>
 }
 
 export default React.memo(FileLists)

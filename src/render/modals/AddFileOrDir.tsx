@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react'
+import React, { memo, useCallback } from 'react'
+import ReactDOM from 'react-dom'
 import BaseModal, { ModalTitle } from './BaseModal'
 import Input from '~/form/Input'
 import Button from '~/form/Button'
@@ -7,14 +8,16 @@ import Radio from '~/form/Radio'
 import setupLoading from '~/components/setupLoading'
 import DBStore from '~/db/DBStore'
 
+const { body } = document
+
 // 摸态框表单,用来添加文件或文件夹
 
 const inputCheck = { required: '请输入文件名' }
 const radioCheck = { required: '请选择类型' }
 
-const Component = props => {
+const AddFileOrDir = props => {
   console.log(props)
-  const { close } = props
+  const { close, visible } = props
   // Form 使用 items 来创建比较好
   // props 用来传值
 
@@ -40,38 +43,34 @@ const Component = props => {
     [close]
   )
   return (
-    <div className="modal-box">
-      <ModalTitle title="添加全局文件/文件夹" close={close} />
-      <Form submit={submit}>
-        <Radio
-          check={radioCheck}
-          options={[
-            {
-              id: '1',
-              name: '文件',
-            },
-            {
-              id: '2',
-              name: '文件夹',
-            },
-          ]}
-          name="fileType"
-        />
-        <Input name="fileName" check={inputCheck} placeholder="输入文件名称" />
-        <Button>提交</Button>
-      </Form>
-    </div>
+    visible &&
+    ReactDOM.createPortal(
+      <div className="modal-container">
+        <div className="modal-box">
+          <ModalTitle title="添加全局文件/文件夹" close={close} />
+          <Form submit={submit}>
+            <Radio
+              check={radioCheck}
+              options={[
+                {
+                  id: '1',
+                  name: '文件',
+                },
+                {
+                  id: '2',
+                  name: '文件夹',
+                },
+              ]}
+              name="fileType"
+            />
+            <Input name="fileName" check={inputCheck} placeholder="输入文件名称" />
+            <Button>提交</Button>
+          </Form>
+        </div>
+      </div>,
+      body
+    )
   )
 }
 
-function AddFileOrDir(props = {}) {
-  const open = () => {
-    BaseModal(Component, props)
-  }
-
-  return {
-    open,
-  }
-}
-
-export default AddFileOrDir
+export default memo(AddFileOrDir)
