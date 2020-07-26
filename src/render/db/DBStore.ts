@@ -8,10 +8,10 @@ class DBStore {
   private dynamicData?: DynamicView<IFileListItem>
   private baseCreateDB?: CreateDB
 
-  appInit = async listen => {
+  appInit = async insertListen => {
     jetpack.dir(`db`)
 
-    const createDB = new CreateDB({ dbName: 'Main', insertListen: listen, view: true })
+    const createDB = new CreateDB({ dbName: 'Main', insertListen, view: true })
     const { DB, view } = await createDB.init()
     console.log('createDB', createDB)
 

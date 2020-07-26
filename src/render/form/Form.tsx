@@ -46,7 +46,8 @@ function Form(props: IForm) {
     },
   })
 
-  console.log('render Form', value)
+  console.log('%c render Form', 'background:yellow;', value)
+
 
   const _submit = useCallback(
     ev => {

@@ -52,7 +52,7 @@ function Editor() {
     // 键入后 2 秒保存 或者 按下 cmd+s 时 保存
   }, [autoSave, current])
 
-  console.log('render Editor', current)
+  console.log('%c render Editor', 'background:yellow;', current)
 
   useMount(() => {
     const myTextarea = document.getElementById('myTextarea') as HTMLTextAreaElement

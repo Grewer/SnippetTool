@@ -46,12 +46,14 @@ function App() {
     },
   })
 
-  console.log('render App', state)
+  console.log('%c render App', 'background:yellow;', state)
 
-  const listen = useCallback(event => {
+  const insertListen = useCallback(event => {
+    console.log('listen run', event)
     setState(
       createAction('updateFile', {
         fileList: BaseDBStore.getFileView()?.data(),
+        current: event,
       })
     )
   }, [])
@@ -62,7 +64,7 @@ function App() {
 
     LazyRequest({
       request: async () => {
-        const result = await BaseDBStore.appInit(listen)
+        const result = await BaseDBStore.appInit(insertListen)
         result && setState(createAction('setFileList', { fileList: result.data(), dynamicData: result }))
       },
       msg: '环境加载中...',
