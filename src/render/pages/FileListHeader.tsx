@@ -17,7 +17,7 @@ const FileListHeader = memo(() => {
         文件夹列表
         <i onClick={() => addFileOrDir()} className="iconfont icon-jia" />
       </div>
-      <AddFileOrDir visible={visible} />
+      <AddFileOrDir visible={visible} setVisible={setVisible} />
     </>
   )
 })

@@ -1,7 +1,6 @@
-import React, { useCallback, useContext, useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import './popover.global.less'
 import ReactDOM from 'react-dom'
-import ConfigContext from '~/context/ConfigContext'
 
 const { body } = document
 
@@ -15,6 +14,7 @@ const FileMorePopover = props => {
   const deleteHandler = useCallback(() => {
     console.log(props)
   }, [props])
+
   const moveHandler = useCallback(() => {}, [])
   const renameHandler = useCallback(() => {}, [])
 

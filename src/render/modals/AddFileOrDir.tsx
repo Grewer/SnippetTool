@@ -1,6 +1,6 @@
-import React, { memo, useCallback } from 'react'
+import React, { FC, memo, useCallback } from 'react'
 import ReactDOM from 'react-dom'
-import BaseModal, { ModalTitle } from './BaseModal'
+import { ModalTitle } from './BaseModal'
 import Input from '~/form/Input'
 import Button from '~/form/Button'
 import Form from '~/form/Form'
@@ -15,9 +15,14 @@ const { body } = document
 const inputCheck = { required: '请输入文件名' }
 const radioCheck = { required: '请选择类型' }
 
-const AddFileOrDir = props => {
+interface IProps {
+  visible: boolean
+  setVisible: (visible: boolean) => void
+}
+
+const AddFileOrDir: FC<IProps> = memo(props => {
   console.log(props)
-  const { close, visible } = props
+  const { setVisible, visible } = props
   // Form 使用 items 来创建比较好
   // props 用来传值
 
@@ -31,46 +36,43 @@ const AddFileOrDir = props => {
       // global.loading
       const loading = setupLoading('', 0)
       try {
-        await DBStore.addFile(values)
-        close()
-        loading.close()
-        // todo message
+        await DBStore.addGlobalFile(values)
+        setVisible(false)
       } catch (e) {
         console.log(e)
+      } finally {
         loading.close()
       }
     },
-    [close]
+    [setVisible]
   )
-  return (
-    visible &&
-    ReactDOM.createPortal(
-      <div className="modal-container">
-        <div className="modal-box">
-          <ModalTitle title="添加全局文件/文件夹" close={close} />
-          <Form submit={submit}>
-            <Radio
-              check={radioCheck}
-              options={[
-                {
-                  id: '1',
-                  name: '文件',
-                },
-                {
-                  id: '2',
-                  name: '文件夹',
-                },
-              ]}
-              name="fileType"
-            />
-            <Input name="fileName" check={inputCheck} placeholder="输入文件名称" />
-            <Button>提交</Button>
-          </Form>
-        </div>
-      </div>,
-      body
-    )
-  )
-}
-
-export default memo(AddFileOrDir)
+  return visible
+    ? ReactDOM.createPortal(
+        <div className="modal-container">
+          <div className="modal-box">
+            <ModalTitle title="添加全局文件/文件夹" close={close} />
+            <Form submit={submit}>
+              <Radio
+                check={radioCheck}
+                options={[
+                  {
+                    id: '1',
+                    name: '文件',
+                  },
+                  {
+                    id: '2',
+                    name: '文件夹',
+                  },
+                ]}
+                name="fileType"
+              />
+              <Input name="fileName" check={inputCheck} placeholder="输入文件名称" />
+              <Button>提交</Button>
+            </Form>
+          </div>
+        </div>,
+        body
+      )
+    : null
+})
+export default AddFileOrDir

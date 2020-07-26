@@ -29,8 +29,8 @@ class DBStore {
     return this.dynamicData
   }
 
-  addFile = (values: IFileListItem) => {
-    // 在跟文件夹下添加文件/文件夹
+  addGlobalFile = (values: IFileListItem) => {
+    // 在根文件夹下添加文件/文件夹
     return this.baseCreateDB?.addFile(values, this.getBaseDB(baseDBName))
     // 这是全局的添加  需要另一个方法 将文件夹和子文件夹挂钩
   }

@@ -1,13 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import './BaseModal.global.less'
-import createBodyElement from '~/utils/createBodyElement'
-
-function BaseModal(Component, props?: any) {
-  const { Dom, close } = createBodyElement('modal-container')
-
-  ReactDOM.render(<Component close={close} {...props} />, Dom)
-}
 
 export const ModalTitle: React.FC<{
   title: string
@@ -22,5 +14,3 @@ export const ModalTitle: React.FC<{
     </div>
   )
 })
-
-export default BaseModal
