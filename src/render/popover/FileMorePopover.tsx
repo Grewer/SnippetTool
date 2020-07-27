@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react'
 import './popover.global.less'
 import ReactDOM from 'react-dom'
+import BaseDBStore from '~/db/DBStore'
 
 const { body } = document
 
@@ -12,8 +13,9 @@ const FileMorePopover = props => {
   const containerRef: React.MutableRefObject<any> = useRef()
 
   const deleteHandler = useCallback(() => {
-    console.log(props)
-  }, [props])
+    console.log(item)
+    BaseDBStore.deleteGlobalFile(item)
+  }, [item])
 
   const moveHandler = useCallback(() => {}, [])
   const renameHandler = useCallback(() => {}, [])

@@ -101,6 +101,16 @@ class CreateDB {
       })
     })
   }
+
+  removeFile = (DB, item) => {
+    const fileList: Collection<IFileListItem> = DB.getCollection('fileList')
+    fileList.removeWhere(val => {
+      return val.id === item.id
+    })
+    DB.saveDatabase()
+    // 成功删除, 但是视图并没有保存 TODO 添加监听事件
+    console.log(fileList)
+  }
 }
 
 export default CreateDB

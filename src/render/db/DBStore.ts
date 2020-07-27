@@ -35,10 +35,16 @@ class DBStore {
     // 这是全局的添加  需要另一个方法 将文件夹和子文件夹挂钩
   }
 
+  deleteGlobalFile = item => {
+    const db = this.getBaseDB(item.dbName)
+    this.baseCreateDB?.removeFile(db, item)
+  }
+
   updateContent = (item, content) => {
     item.content = content
     const db = this.getBaseDB(item.dbName)
     console.log('run updateContent')
+    // users.update(stan);
     db.saveDatabase()
   }
   // TODO  数据库操作过于冗余,待解决
