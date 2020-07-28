@@ -64,6 +64,7 @@ const AddFileOrDir: FC<IProps> = memo(props => {
                     name: '文件夹',
                   },
                 ]}
+                // defaultValue="1" todo add
                 name="fileType"
               />
               <Input name="fileName" check={inputCheck} placeholder="输入文件名称" />

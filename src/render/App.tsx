@@ -50,10 +50,11 @@ function App() {
 
   const insertListen = useCallback(event => {
     console.log('listen run', event)
+    // setTimeout(() => console.log(BaseDBStore.getFileView()?.data()), 1000)
     setState(
       createAction('updateFile', {
         fileList: BaseDBStore.getFileView()?.data(),
-        current: event,
+        // current: event,
       })
     )
   }, [])

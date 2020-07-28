@@ -28,6 +28,7 @@ function Radio(props: IRadio) {
       {options.map(item => {
         // console.log('checked', item.id === value)
         return (
+          // eslint-disable-next-line jsx-a11y/label-has-associated-control
           <label className={styles.radioLabel} key={item.id}>
             <input name="FileOrFolder" checked={item.id === value} onChange={_onchange} type="radio" value={item.id} />
             {item.name}

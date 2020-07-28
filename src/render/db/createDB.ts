@@ -57,8 +57,19 @@ class CreateDB {
             err && reject(error)
           })
         }
-
-        insertListen && coll.on('insert', insertListen)
+        // insert: [ƒ]
+        // update: []
+        // pre-insert: []
+        // pre-update: []
+        // close: []
+        // flushbuffer: []
+        // error: []
+        // delete: [ƒ]
+        // warning: [ƒ]
+        if (insertListen) {
+          insertListen && coll.on('insert', insertListen)
+          insertListen && coll.on('delete', insertListen)
+        }
 
         resolve({ DB: db, view: view ? coll.addDynamicView('fileList') : undefined })
       })
@@ -104,12 +115,18 @@ class CreateDB {
 
   removeFile = (DB, item) => {
     const fileList: Collection<IFileListItem> = DB.getCollection('fileList')
-    fileList.removeWhere(val => {
-      return val.id === item.id
+    fileList.remove(item)
+
+    return new Promise((resolve, reject) => {
+      console.log('saveDatabase', this.DB)
+      DB.saveDatabase(err => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve()
+        }
+      })
     })
-    DB.saveDatabase()
-    // 成功删除, 但是视图并没有保存 TODO 添加监听事件
-    console.log(fileList)
   }
 }
 
