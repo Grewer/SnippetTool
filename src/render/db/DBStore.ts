@@ -1,5 +1,5 @@
 import jetpack from 'fs-jetpack'
-import CreateDB from '~/db/createDB'
+import CreateDB, { ICreateDB } from '~/db/createDB'
 import { IFileListItem } from '~/definition/Main'
 import { baseDBName } from '~/config'
 
@@ -8,10 +8,10 @@ class DBStore {
   private dynamicData?: DynamicView<IFileListItem>
   private baseCreateDB?: CreateDB
 
-  appInit = async insertListen => {
+  appInit = async (listen: ICreateDB['listen']) => {
     jetpack.dir(`db`)
 
-    const createDB = new CreateDB({ dbName: 'Main', insertListen, view: true })
+    const createDB = new CreateDB({ dbName: 'Main', listen, view: true })
     const { DB, view } = await createDB.init()
     console.log('createDB', createDB)
 

@@ -9,9 +9,20 @@ import { IFileListItem } from '~/definition/Main'
 
 export interface ICreateDB {
   dbName: string // dbName 约等于文件名
-  insertListen?: () => void
+  listen?: {
+    insert?: (event) => void
+    update?: (event) => void
+    delete?: (event) => void
+  }
   view: boolean
 }
+
+// pre-insert: []
+// pre-update: []
+// close: []
+// flushbuffer: []
+// error: []
+// warning: [ƒ]
 
 class CreateDB {
   private props: ICreateDB
@@ -29,7 +40,7 @@ class CreateDB {
     DB: Loki
     view?: DynamicView<IFileListItem>
   }> => {
-    const { dbName, insertListen, view } = this.props
+    const { dbName, listen, view } = this.props
     const path = `db/${dbName}.json`
 
     const db = new Loki(path, {
@@ -57,18 +68,11 @@ class CreateDB {
             err && reject(error)
           })
         }
-        // insert: [ƒ]
-        // update: []
-        // pre-insert: []
-        // pre-update: []
-        // close: []
-        // flushbuffer: []
-        // error: []
-        // delete: [ƒ]
-        // warning: [ƒ]
-        if (insertListen) {
-          insertListen && coll.on('insert', insertListen)
-          insertListen && coll.on('delete', insertListen)
+
+        if (listen) {
+          Object.keys(listen).forEach(listenName => {
+            coll.on(listenName, listen[listenName])
+          })
         }
 
         resolve({ DB: db, view: view ? coll.addDynamicView('fileList') : undefined })

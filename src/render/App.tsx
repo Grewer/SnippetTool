@@ -1,4 +1,4 @@
-import React, { useCallback, useReducer } from 'react'
+import React, { useCallback, useMemo, useReducer } from 'react'
 import FileLists from '~/pages/FileLists'
 import Editor from '~/pages/Editor'
 import useMount from '~/hooks/useMount'
@@ -48,15 +48,23 @@ function App() {
 
   console.log('%c render App', 'background:yellow;', state)
 
-  const insertListen = useCallback(event => {
-    console.log('listen run', event)
-    // setTimeout(() => console.log(BaseDBStore.getFileView()?.data()), 1000)
-    setState(
-      createAction('updateFile', {
-        fileList: BaseDBStore.getFileView()?.data(),
-        // current: event,
-      })
-    )
+  const listen = useMemo(() => {
+    return {
+      insert: event =>
+        setState(
+          createAction('updateFile', {
+            fileList: BaseDBStore.getFileView()?.data(),
+            current: event,
+          })
+        ),
+      delete: () => {
+        setState(
+          createAction('updateFile', {
+            fileList: BaseDBStore.getFileView()?.data(),
+          })
+        )
+      },
+    }
   }, [])
 
   useMount(() => {
@@ -65,7 +73,7 @@ function App() {
 
     LazyRequest({
       request: async () => {
-        const result = await BaseDBStore.appInit(insertListen)
+        const result = await BaseDBStore.appInit(listen)
         result && setState(createAction('setFileList', { fileList: result.data(), dynamicData: result }))
       },
       msg: '环境加载中...',
