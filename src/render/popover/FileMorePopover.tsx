@@ -12,10 +12,19 @@ const FileMorePopover = props => {
 
   const containerRef: React.MutableRefObject<any> = useRef()
 
-  const deleteHandler = useCallback(() => {
+  const deleteHandler = useCallback(async () => {
     console.log(item)
-    BaseDBStore.deleteGlobalFile(item)
-  }, [item])
+    try {
+      BaseDBStore.deleteGlobalFile(item)
+      setPopover({
+        position: ``,
+        item: {},
+        setPopover,
+      })
+    } catch (e) {
+      alert(e)
+    }
+  }, [item, setPopover])
 
   const moveHandler = useCallback(() => {}, [])
   const renameHandler = useCallback(() => {}, [])

@@ -1,14 +1,11 @@
-import React, { memo, useCallback, useState } from 'react'
+import React, { memo, useCallback } from 'react'
 import styles from '~/pages/FileLists.less'
 import AddFileOrDir from '~/modals/AddFileOrDir'
 
 const FileListHeader = memo(() => {
-  const [visible, setVisible] = useState(false)
-
   const addFileOrDir = useCallback(() => {
-    setVisible(true)
+    AddFileOrDir().open()
   }, [])
-
   return (
     <>
       <DragArea />
@@ -17,7 +14,6 @@ const FileListHeader = memo(() => {
         文件夹列表
         <i onClick={() => addFileOrDir()} className="iconfont icon-jia" />
       </div>
-      <AddFileOrDir visible={visible} setVisible={setVisible} />
     </>
   )
 })
