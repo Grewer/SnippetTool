@@ -48,7 +48,6 @@ function Form(props: IForm) {
 
   console.log('%c render Form', 'background:yellow;', value)
 
-
   const _submit = useCallback(
     ev => {
       ev.preventDefault()
@@ -82,7 +81,7 @@ function Form(props: IForm) {
         {React.Children.map(children, element => {
           // console.log(child)
           // @ts-ignore
-          if (element.type.button) {
+          if (element.type.button || !element.props.name) {
             return element
           }
           return FormFactory(element.props, element.type)

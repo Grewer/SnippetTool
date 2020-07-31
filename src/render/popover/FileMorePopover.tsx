@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef } from 'react'
 import './popover.global.less'
 import ReactDOM from 'react-dom'
 import BaseDBStore from '~/db/DBStore'
+import RenameModal from '~/modals/RenameModal'
 
 const { body } = document
 
@@ -27,7 +28,9 @@ const FileMorePopover = props => {
   }, [item, setPopover])
 
   const moveHandler = useCallback(() => {}, [])
-  const renameHandler = useCallback(() => {}, [])
+  const renameHandler = useCallback(() => {
+    RenameModal({ item }).open()
+  }, [item])
 
   const triggerHandler = useCallback(
     e => {
