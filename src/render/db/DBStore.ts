@@ -27,28 +27,20 @@ class DBStore {
     return this.dynamicData
   }
 
-  // 删除 global 属性
-
-  addGlobalFile = (values: IFileListItem) => {
-    // 在根文件夹下添加文件/文件夹
+  addFile = (values: IFileListItem) => {
+    // 在根文件夹下添加文件/文件夹 todo 修改 dbname 的获取
     return this.getCreateDB(baseDBName).addFile(values)
-    // 这是全局的添加  需要另一个方法 将文件夹和子文件夹挂钩
   }
 
-  deleteGlobalFile = (item: IFileListItemFile) => {
+  deleteFile = (item: IFileListItemFile) => {
     this.getCreateDB(item.dbName).removeFile(item)
   }
 
-  updateContent = (item, content) => {
-    // item.content = content
-    // const db = this.getBaseDB(item.dbName)
-    // console.log('run updateContent')
-    // // users.update(stan);
-    // db.saveDatabase()
+  updateContent = (item: IFileListItemFile, content: string) => {
+    this.getCreateDB(item.dbName).updateContent(item, content)
   }
 
   rename = (item: IFileListItemFile, value) => {
-    console.log(item, value)
     this.getCreateDB(item.dbName).rename(item, value)
   }
 }

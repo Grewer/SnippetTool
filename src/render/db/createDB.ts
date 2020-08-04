@@ -104,22 +104,10 @@ class CreateDB {
 
     fileList.insert(fileListItem)
 
-    return new Promise((resolve, reject) => {
-      console.log('saveDatabase', this.DB)
-      this.DB?.saveDatabase(err => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve()
-        }
-      })
-    })
+    return this.saveDB()
   }
 
-  removeFile = item => {
-    const fileList: Collection<IFileListItem> = this.DB.getCollection('fileList')
-    fileList.remove(item)
-
+  saveDB = () => {
     return new Promise((resolve, reject) => {
       console.log('saveDatabase', this.DB)
       this.DB.saveDatabase(err => {
@@ -132,10 +120,25 @@ class CreateDB {
     })
   }
 
+  updateContent = (item: IFileListItemFile, content: string) => {
+    item.content = content
+    const coll = this.DB.getCollection('fileList')
+    coll.update(item)
+    return this.saveDB()
+  }
+
+  removeFile = item => {
+    const fileList: Collection<IFileListItem> = this.DB.getCollection('fileList')
+    fileList.remove(item)
+
+    return this.saveDB()
+  }
+
   rename = (item: IFileListItemFile, value: { fileName: string }) => {
     item.fileName = value.fileName
     const coll = this.DB.getCollection('fileList')
     coll.update(item)
+    return this.saveDB()
   }
 }
 

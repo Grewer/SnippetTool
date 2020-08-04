@@ -16,7 +16,7 @@ const FileMorePopover = props => {
   const deleteHandler = useCallback(async () => {
     console.log(item)
     try {
-      BaseDBStore.deleteGlobalFile(item)
+      BaseDBStore.deleteFile(item)
       setPopover({
         position: ``,
         item: {},

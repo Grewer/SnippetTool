@@ -30,7 +30,7 @@ const Component = props => {
       // global.loading
       const loading = setupLoading('', 0)
       try {
-        await DBStore.addGlobalFile(values)
+        await DBStore.addFile(values)
         close()
       } catch (e) {
         console.log(e)

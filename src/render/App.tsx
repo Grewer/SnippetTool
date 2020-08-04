@@ -64,6 +64,13 @@ function App() {
           })
         )
       },
+      update: () => {
+        setState(
+          createAction('updateFile', {
+            fileList: BaseDBStore.getFileView()?.data(),
+          })
+        )
+      },
     }
   }, [])
 
