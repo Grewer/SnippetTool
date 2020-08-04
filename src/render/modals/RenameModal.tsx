@@ -4,6 +4,7 @@ import Input from '~/form/Input'
 import Button from '~/form/Button'
 import Form from '~/form/Form'
 import setupLoading from '~/components/setupLoading'
+import BaseDBStore from '~/db/DBStore'
 
 // 摸态框表单,用来添加文件或文件夹
 
@@ -11,7 +12,7 @@ const inputCheck = { required: '请输入文件名' }
 
 const Component = props => {
   console.log(props)
-  const { close } = props
+  const { close, item } = props
 
   const submit = useCallback(
     async (values, error) => {
@@ -23,7 +24,7 @@ const Component = props => {
       // global.loading
       const loading = setupLoading('', 0)
       try {
-        // await DBStore.addGlobalFile(values)
+        await BaseDBStore.rename(item, values)
         close()
       } catch (e) {
         console.log(e)
@@ -31,7 +32,7 @@ const Component = props => {
         loading.close()
       }
     },
-    [close]
+    [close, item]
   )
   return (
     <div className="modal-box">

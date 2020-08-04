@@ -1,27 +1,25 @@
 import jetpack from 'fs-jetpack'
 import CreateDB, { ICreateDB } from '~/db/createDB'
-import { IFileListItem } from '~/definition/Main'
+import { IFileListItem, IFileListItemFile } from '~/definition/Main'
 import { baseDBName } from '~/config'
 
 class DBStore {
-  cache = {} as { [key: string]: Loki }
+  cache = {} as { [key: string]: CreateDB }
   private dynamicData?: DynamicView<IFileListItem>
-  private baseCreateDB?: CreateDB
 
   appInit = async (listen: ICreateDB['listen']) => {
     jetpack.dir(`db`)
 
     const createDB = new CreateDB({ dbName: 'Main', listen, view: true })
-    const { DB, view } = await createDB.init()
+    const { view } = await createDB.init()
     console.log('createDB', createDB)
 
-    this.cache[baseDBName] = DB
-    this.baseCreateDB = createDB
+    this.cache[baseDBName] = createDB
     this.dynamicData = view
     return Promise.resolve(view)
   }
 
-  getBaseDB = (dbName: string): Loki => {
+  getCreateDB = (dbName: string): CreateDB => {
     return this.cache[dbName]
   }
 
@@ -29,25 +27,30 @@ class DBStore {
     return this.dynamicData
   }
 
+  // 删除 global 属性
+
   addGlobalFile = (values: IFileListItem) => {
     // 在根文件夹下添加文件/文件夹
-    return this.baseCreateDB?.addFile(values, this.getBaseDB(baseDBName))
+    return this.getCreateDB(baseDBName).addFile(values)
     // 这是全局的添加  需要另一个方法 将文件夹和子文件夹挂钩
   }
 
-  deleteGlobalFile = item => {
-    const db = this.getBaseDB(item.dbName)
-    this.baseCreateDB?.removeFile(db, item)
+  deleteGlobalFile = (item: IFileListItemFile) => {
+    this.getCreateDB(item.dbName).removeFile(item)
   }
 
   updateContent = (item, content) => {
-    item.content = content
-    const db = this.getBaseDB(item.dbName)
-    console.log('run updateContent')
-    // users.update(stan);
-    db.saveDatabase()
+    // item.content = content
+    // const db = this.getBaseDB(item.dbName)
+    // console.log('run updateContent')
+    // // users.update(stan);
+    // db.saveDatabase()
   }
-  // TODO  数据库操作过于冗余,待解决
+
+  rename = (item: IFileListItemFile, value) => {
+    console.log(item, value)
+    this.getCreateDB(item.dbName).rename(item, value)
+  }
 }
 
 const BaseDBStore = new DBStore()

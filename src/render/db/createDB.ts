@@ -1,7 +1,7 @@
 import { v1 } from 'uuid'
 import Loki from 'lokijs'
 import IFileType from '~/enum/FileType'
-import { IFileListItem } from '~/definition/Main'
+import { IFileListItem, IFileListItemFile } from '~/definition/Main'
 
 /**
  * 封装事件操作
@@ -27,7 +27,7 @@ export interface ICreateDB {
 class CreateDB {
   private props: ICreateDB
   path = ''
-  DB?: Loki
+  DB!: Loki
   dbName?: string
 
   constructor(props: ICreateDB) {
@@ -37,7 +37,6 @@ class CreateDB {
   static baseDBName = 'db/Main.json'
 
   init = async (): Promise<{
-    DB: Loki
     view?: DynamicView<IFileListItem>
   }> => {
     const { dbName, listen, view } = this.props
@@ -75,15 +74,15 @@ class CreateDB {
           })
         }
 
-        resolve({ DB: db, view: view ? coll.addDynamicView('fileList') : undefined })
+        resolve({ view: view ? coll.addDynamicView('fileList') : undefined })
       })
     })
   }
 
-  addFile = async (values: Pick<IFileListItem, 'fileType' | 'fileName'>, DB: Loki) => {
-    console.log(DB)
+  addFile = async (values: Pick<IFileListItem, 'fileType' | 'fileName'>) => {
+    console.log(this.DB)
 
-    const fileList: Collection<IFileListItem> = DB.getCollection('fileList')
+    const fileList: Collection<IFileListItem> = this.DB.getCollection('fileList')
     const fileListItem: IFileListItem = {
       ...values,
     } as IFileListItem
@@ -96,7 +95,7 @@ class CreateDB {
     } else {
       // 文件
       fileListItem.content = ''
-      fileListItem.dbName = DB.filename
+      fileListItem.dbName = this.DB.filename
     }
 
     fileListItem.parentIds = [] // 这里如果是全局的话就为空数组, 子文件需要加 id
@@ -117,13 +116,13 @@ class CreateDB {
     })
   }
 
-  removeFile = (DB, item) => {
-    const fileList: Collection<IFileListItem> = DB.getCollection('fileList')
+  removeFile = item => {
+    const fileList: Collection<IFileListItem> = this.DB.getCollection('fileList')
     fileList.remove(item)
 
     return new Promise((resolve, reject) => {
       console.log('saveDatabase', this.DB)
-      DB.saveDatabase(err => {
+      this.DB.saveDatabase(err => {
         if (err) {
           reject(err)
         } else {
@@ -131,6 +130,12 @@ class CreateDB {
         }
       })
     })
+  }
+
+  rename = (item: IFileListItemFile, value: { fileName: string }) => {
+    item.fileName = value.fileName
+    const coll = this.DB.getCollection('fileList')
+    coll.update(item)
   }
 }
 
