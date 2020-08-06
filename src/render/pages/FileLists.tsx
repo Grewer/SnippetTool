@@ -3,7 +3,7 @@ import FileMorePopover from '~/popover/FileMorePopover'
 import styles from './FileLists.less'
 import ConfigContext from '~/context/ConfigContext'
 import IFileType from '~/enum/FileType'
-import { IFileListItem } from '~/definition/Main'
+import { IFileListItem, IFileListItemFile } from '~/definition/Main'
 import FileListHeader from '~/pages/FileListHeader'
 
 /**
@@ -14,9 +14,12 @@ import FileListHeader from '~/pages/FileListHeader'
 function FileLists() {
   console.log('%c render FileLists', 'background:yellow;')
 
-  const [popover, setPopover] = useState({
+  const [popover, setPopover]: [
+    { item: IFileListItemFile; setPopover: (value) => void; position: string },
+    React.Dispatch<React.SetStateAction<{ item: IFileListItemFile; setPopover: (value) => void; position: string }>>
+  ] = useState({
     position: '',
-    item: {},
+    item: {} as IFileListItemFile,
     setPopover: value => {},
   })
 

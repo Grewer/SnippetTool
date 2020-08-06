@@ -1,12 +1,21 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { FC, memo, useCallback, useEffect, useRef } from 'react'
 import './popover.global.less'
 import ReactDOM from 'react-dom'
 import BaseDBStore from '~/db/DBStore'
 import RenameModal from '~/modals/RenameModal'
+import { IFileListItemFile } from '~/definition/Main'
 
 const { body } = document
 
-const FileMorePopover = props => {
+interface IProps {
+  popover: {
+    position: string
+    item: IFileListItemFile
+    setPopover: (value) => void
+  }
+}
+
+const FileMorePopover: FC<IProps> = memo(props => {
   console.log('%c render FileMorePopover', 'background:yellow;', props)
 
   const { position, item, setPopover } = props.popover
@@ -14,7 +23,6 @@ const FileMorePopover = props => {
   const containerRef: React.MutableRefObject<any> = useRef()
 
   const deleteHandler = useCallback(async () => {
-    console.log(item)
     try {
       BaseDBStore.deleteFile(item)
       setPopover({
@@ -34,6 +42,9 @@ const FileMorePopover = props => {
 
   const triggerHandler = useCallback(
     e => {
+      if (!position) {
+        return
+      }
       const ele = e.target
       if (containerRef.current?.contains(ele) || ele.classList.contains('icon-more')) {
         console.log('click inside')
@@ -46,7 +57,7 @@ const FileMorePopover = props => {
         })
       }
     },
-    [setPopover]
+    [position, setPopover]
   )
 
   useEffect(() => {
@@ -86,6 +97,5 @@ const FileMorePopover = props => {
         body
       )
     : null
-}
-
+})
 export default FileMorePopover
