@@ -146,7 +146,7 @@ class CreateDB {
   }
 
   rename = (item: IFileListItemFile, value: { fileName: string }) => {
-    console.log('rename', item, this.DB, this)
+    // console.log('rename', item, this.DB, this)
     item.fileName = value.fileName
     const coll = this.DB.getCollection('fileList')
     coll.update(item)

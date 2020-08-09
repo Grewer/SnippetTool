@@ -4,6 +4,11 @@ import { IFileListItem, IFileListItemFile } from '~/definition/Main'
 import { baseDBName } from '~/config'
 import IFileType from '~/enum/FileType'
 
+/**
+ * 再度重构
+ * 关于文件数据的问题
+ */
+
 class DBStore {
   cache = new Map<string, CreateDB>()
 
@@ -22,9 +27,8 @@ class DBStore {
   }
 
   getCreateDB = async (dbName: string): Promise<CreateDB> => {
+    console.log('获取 createDB', dbName)
     if (!this.cache.has(dbName)) {
-      // return new CreateDB()
-      console.log('需要创建')
       const createDB = new CreateDB({ dbName, view: false })
       await createDB.init()
       this.cache.set(dbName, createDB)
@@ -42,9 +46,7 @@ class DBStore {
     // TODO 重命名问题
     const createDB = await this.getCreateDB(baseDBName)
     if (values.fileType === IFileType.folder) {
-      const db = await createDB.createFolderDB(values, true)
-      console.log(createDB, this.cache, db)
-      return Promise.resolve()
+      return createDB.createFolderDB(values, true)
     }
     return createDB.addFile(values)
   }
@@ -61,7 +63,6 @@ class DBStore {
 
   rename = async (item: IFileListItemFile, value) => {
     const db = await this.getCreateDB(item.dbName)
-    console.log(this.cache, item, db)
     return db.rename(item, value)
   }
 }
