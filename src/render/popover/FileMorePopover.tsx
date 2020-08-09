@@ -24,7 +24,7 @@ const FileMorePopover: FC<IProps> = memo(props => {
 
   const deleteHandler = useCallback(async () => {
     try {
-      BaseDBStore.deleteFile(item)
+      await BaseDBStore.deleteFile(item)
       setPopover({
         position: ``,
         item: {},

@@ -16,7 +16,7 @@ export interface IFileListItemFile extends IFileListItemCommon {
 }
 
 // 文件夹类型
-interface IFileListItemFolder extends IFileListItemCommon {
+export interface IFileListItemFolder extends IFileListItemCommon {
   fileType: IFileType.folder
   path: string // db PATH  包括 .json 后缀
 }

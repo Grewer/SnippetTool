@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useReducer } from 'react'
+import React, { useMemo, useReducer } from 'react'
 import FileLists from '~/pages/FileLists'
 import Editor from '~/pages/Editor'
 import useMount from '~/hooks/useMount'
@@ -7,6 +7,7 @@ import LazyRequest from '~/utils/Lazy'
 import BaseDBStore from '~/db/DBStore'
 import createAction from '~/utils/createAction'
 import { IFileListItem } from '~/definition/Main'
+import IFileType from '~/enum/FileType'
 
 const { Provider } = ConfigContext
 const AppReducer = (state, action: { type: string; payload: any }) => {
@@ -50,13 +51,18 @@ function App() {
 
   const listen = useMemo(() => {
     return {
-      insert: event =>
-        setState(
-          createAction('updateFile', {
-            fileList: BaseDBStore.getFileView()?.data(),
-            current: event,
-          })
-        ),
+      insert: event => {
+        const payload =
+          event.fileType === IFileType.folder
+            ? {
+                fileList: BaseDBStore.getFileView()?.data(),
+              }
+            : {
+                fileList: BaseDBStore.getFileView()?.data(),
+                current: event,
+              }
+        setState(createAction('updateFile', payload))
+      },
       delete: () => {
         setState(
           createAction('updateFile', {

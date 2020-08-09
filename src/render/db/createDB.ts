@@ -1,7 +1,7 @@
 import { v1 } from 'uuid'
 import Loki from 'lokijs'
-import IFileType from '~/enum/FileType'
-import { IFileListItem, IFileListItemFile } from '~/definition/Main'
+import { IFileListItem, IFileListItemFile, IFileListItemFolder } from '~/definition/Main'
+import { baseDBName } from '~/config'
 
 /**
  * 封装事件操作
@@ -26,15 +26,15 @@ export interface ICreateDB {
 
 class CreateDB {
   private props: ICreateDB
-  path = ''
+
+  // 初始就会创建 所以默认存在
   DB!: Loki
-  dbName?: string
+  dbName!: string
+  path = ''
 
   constructor(props: ICreateDB) {
     this.props = props
   }
-
-  static baseDBName = 'db/Main.json'
 
   init = async (): Promise<{
     view?: DynamicView<IFileListItem>
@@ -46,8 +46,8 @@ class CreateDB {
       persistenceMethod: 'fs',
     })
 
-    this.DB = db
     this.dbName = dbName
+    this.DB = db
     this.path = path
 
     return new Promise((resolve, reject) => {
@@ -83,38 +83,49 @@ class CreateDB {
     console.log(this.DB)
 
     const fileList: Collection<IFileListItem> = this.DB.getCollection('fileList')
-    const fileListItem: IFileListItem = {
+    const fileListItem: IFileListItemFile = {
       ...values,
-    } as IFileListItem
-
-    // 文件夹
-    if (fileListItem.fileType === IFileType.folder) {
-      const createDB = new CreateDB({ dbName: values.fileName, view: false })
-      await createDB.init()
-      fileListItem.path = createDB.path
-    } else {
-      // 文件
-      fileListItem.content = ''
-      fileListItem.dbName = this.DB.filename
-    }
-
-    fileListItem.parentIds = [] // 这里如果是全局的话就为空数组, 子文件需要加 id
-
-    fileListItem.id = v1()
+      dbName: this.dbName,
+      content: '',
+      parentIds: [], // 这里如果是全局的话就为空数组, 子文件需要加 id
+      id: v1(),
+    } as IFileListItemFile
 
     fileList.insert(fileListItem)
 
     return this.saveDB()
   }
 
-  saveDB = () => {
-    return new Promise((resolve, reject) => {
+  createFolderDB = async (values: Pick<IFileListItem, 'fileType' | 'fileName'>, isGlobal = false): Promise<CreateDB> => {
+    console.log(this.DB)
+
+    const fileList: Collection<IFileListItem> = this.DB.getCollection('fileList')
+
+    // 文件夹
+    const createDB = new CreateDB({ dbName: values.fileName, view: false })
+    await createDB.init()
+
+    const fileListItem: IFileListItemFolder = {
+      ...values,
+      dbName: isGlobal ? baseDBName : createDB.dbName,
+      path: createDB.path,
+      parentIds: [], // 这里如果是全局的话就为空数组, 子文件需要加 id
+      id: v1(),
+    } as IFileListItemFolder
+
+    fileList.insert(fileListItem)
+
+    return this.saveDB<CreateDB>(createDB)
+  }
+
+  saveDB = <T = any>(value?: T) => {
+    return new Promise<T>((resolve, reject) => {
       console.log('saveDatabase', this.DB)
       this.DB.saveDatabase(err => {
         if (err) {
           reject(err)
         } else {
-          resolve()
+          resolve(value)
         }
       })
     })
@@ -135,6 +146,7 @@ class CreateDB {
   }
 
   rename = (item: IFileListItemFile, value: { fileName: string }) => {
+    console.log('rename', item, this.DB, this)
     item.fileName = value.fileName
     const coll = this.DB.getCollection('fileList')
     coll.update(item)
