@@ -109,6 +109,7 @@ class CreateDB {
       ...values,
       dbName: isGlobal ? baseDBName : createDB.dbName,
       path: createDB.path,
+      load: false,
       parentIds: [], // 这里如果是全局的话就为空数组, 子文件需要加 id
       id: v1(),
     } as IFileListItemFolder

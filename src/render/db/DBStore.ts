@@ -4,11 +4,6 @@ import { IFileListItem, IFileListItemFile } from '~/definition/Main'
 import { baseDBName } from '~/config'
 import IFileType from '~/enum/FileType'
 
-/**
- * 再度重构
- * 关于文件数据的问题
- */
-
 class DBStore {
   cache = new Map<string, CreateDB>()
 
