@@ -14,7 +14,7 @@ const radioCheck = { required: '请选择类型' }
 
 const Component = props => {
   console.log(props)
-  const { close } = props
+  const { close, global, item } = props
 
   // const { setVisible, visible } = props
   // Form 使用 items 来创建比较好
@@ -30,7 +30,11 @@ const Component = props => {
       // global.loading
       const loading = setupLoading('', 0)
       try {
-        await DBStore.addGlobalFile(values)
+        if (global) {
+          await DBStore.addGlobalFile(values)
+        } else {
+          await DBStore.addLocalFile(values, item)
+        }
         close()
       } catch (e) {
         console.log(e)
@@ -38,11 +42,11 @@ const Component = props => {
         loading.close()
       }
     },
-    [close]
+    [close, global, item]
   )
   return (
     <div className="modal-box">
-      <ModalTitle title="添加全局文件/文件夹" close={close} />
+      <ModalTitle title={`添加${global ? '全局' : ''}文件/文件夹`} close={close} />
       <Form submit={submit}>
         <Radio
           check={radioCheck}

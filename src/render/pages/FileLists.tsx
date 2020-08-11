@@ -5,6 +5,7 @@ import ConfigContext from '~/context/ConfigContext'
 import IFileType from '~/enum/FileType'
 import { IFileListItem, IFileListItemFile } from '~/definition/Main'
 import FileListHeader from '~/pages/FileListHeader'
+import AddFileOrDir from '~/modals/AddFileOrDir'
 
 /**
  * 类型分为文件和文件夹
@@ -72,6 +73,13 @@ const FileListView: FC<{ popoverClick: (ev, item) => void }> = memo(props => {
     // AddFileOrDir().open()
   }, [])
 
+  const addLocalFolder = useCallback(item => {
+    AddFileOrDir({
+      global: false,
+      item,
+    }).open()
+  }, [])
+
   return (
     <ul>
       {fileList.map((item, index) => {
@@ -82,7 +90,7 @@ const FileListView: FC<{ popoverClick: (ev, item) => void }> = memo(props => {
             <span className={styles.fileName}>
               {item.fileType === IFileType.folder && <i onClick={() => iconClickHandle(index)} className="iconfont icon-jiantou" />} {item.fileName}
             </span>
-            <Control moreClick={ev => props.popoverClick(ev, item)} fileType={item.fileType} />
+            <Control item={item} addLocalFolder={addLocalFolder} moreClick={props.popoverClick} fileType={item.fileType} />
           </li>
         )
       })}
@@ -90,12 +98,18 @@ const FileListView: FC<{ popoverClick: (ev, item) => void }> = memo(props => {
   )
 })
 
-function Control(props: { fileType: IFileType; moreClick: (event: React.MouseEvent) => void }) {
+function Control(props: {
+  item: IFileListItem
+  fileType: IFileType
+  moreClick: (event: React.MouseEvent, item: IFileListItem) => void
+  addLocalFolder: (item: IFileListItem) => void
+}) {
   // hover显示
+  const { item } = props
   return (
     <span className={styles.control}>
-      <i className="iconfont icon-more" onClick={props.moreClick} />
-      {props.fileType === IFileType.folder && <i className="iconfont icon-jia" />}
+      <i className="iconfont icon-more" onClick={ev => props.moreClick(ev, item)} />
+      {props.fileType === IFileType.folder && <i onClick={() => props.addLocalFolder(item)} className="iconfont icon-jia" />}
     </span>
   )
 }

@@ -21,15 +21,16 @@ class DBStore {
     return Promise.resolve(view)
   }
 
-  getCreateDB = async (dbName: string): Promise<CreateDB> => {
-    console.log('获取 createDB', dbName)
-    if (!this.cache.has(dbName)) {
-      const createDB = new CreateDB({ dbName, view: false })
+  getCreateDB = async (dbName: string, isGlobal = false): Promise<CreateDB> => {
+    const _dbName = isGlobal ? baseDBName : dbName
+    console.log('获取 createDB', _dbName)
+    if (!this.cache.has(_dbName)) {
+      const createDB = new CreateDB({ dbName: _dbName, view: false })
       await createDB.init()
-      this.cache.set(dbName, createDB)
+      this.cache.set(_dbName, createDB)
       return createDB
     }
-    return this.cache.get(dbName) as CreateDB
+    return this.cache.get(_dbName) as CreateDB
   }
 
   getFileView = () => {
@@ -39,26 +40,32 @@ class DBStore {
   addGlobalFile = async (values: IFileListItem) => {
     // 在根文件夹下添加文件/文件夹
     // TODO 重命名问题
-    const createDB = await this.getCreateDB(baseDBName)
+    const createDB = await this.getCreateDB(baseDBName, true)
     if (values.fileType === IFileType.folder) {
       return createDB.createFolderDB(values, true)
     }
-    return createDB.addFile(values)
+    return createDB.addFile(values, true)
   }
 
   deleteFile = async (item: IFileListItemFile) => {
-    const db = await this.getCreateDB(item.dbName)
+    const db = await this.getCreateDB(item.dbName, item.isGlobal)
     return db.removeFile(item)
   }
 
   updateContent = async (item: IFileListItemFile, content: string) => {
-    const db = await this.getCreateDB(item.dbName)
+    const db = await this.getCreateDB(item.dbName, item.isGlobal)
     return db.updateContent(item, content)
   }
 
   rename = async (item: IFileListItemFile, value) => {
-    const db = await this.getCreateDB(item.dbName)
+    const db = await this.getCreateDB(item.dbName, item.isGlobal)
     return db.rename(item, value)
+  }
+
+  addLocalFile = async (values, item) => {
+    console.log(values, item)
+    const db = await this.getCreateDB(item.dbName)
+    console.log(db)
   }
 }
 

@@ -4,7 +4,9 @@ import AddFileOrDir from '~/modals/AddFileOrDir'
 
 const FileListHeader = memo(() => {
   const addFileOrDir = useCallback(() => {
-    AddFileOrDir().open()
+    AddFileOrDir({
+      global: true,
+    }).open()
   }, [])
   return (
     <>

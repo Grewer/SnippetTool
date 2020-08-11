@@ -79,7 +79,7 @@ class CreateDB {
     })
   }
 
-  addFile = async (values: Pick<IFileListItem, 'fileType' | 'fileName'>) => {
+  addFile = async (values: Pick<IFileListItem, 'fileType' | 'fileName'>, isGlobal = false) => {
     console.log(this.DB)
 
     const fileList: Collection<IFileListItem> = this.DB.getCollection('fileList')
@@ -89,6 +89,7 @@ class CreateDB {
       content: '',
       parentIds: [], // 这里如果是全局的话就为空数组, 子文件需要加 id
       id: v1(),
+      isGlobal,
     } as IFileListItemFile
 
     fileList.insert(fileListItem)
@@ -107,11 +108,12 @@ class CreateDB {
 
     const fileListItem: IFileListItemFolder = {
       ...values,
-      dbName: isGlobal ? baseDBName : createDB.dbName,
+      dbName: createDB.dbName,
       path: createDB.path,
       load: false,
       parentIds: [], // 这里如果是全局的话就为空数组, 子文件需要加 id
       id: v1(),
+      isGlobal,
     } as IFileListItemFolder
 
     fileList.insert(fileListItem)

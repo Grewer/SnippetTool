@@ -6,13 +6,14 @@ interface IFileListItemCommon {
   fileName: string
   id: string
   parentIds: string[]
+  dbName: string // 此文件存储与某个数据库
+  isGlobal: boolean // 是否全局文件
 }
 
 // 文件类型
 export interface IFileListItemFile extends IFileListItemCommon {
   fileType: IFileType.file
   content: string
-  dbName: string
 }
 
 // 文件夹类型
