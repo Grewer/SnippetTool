@@ -134,6 +134,11 @@ class CreateDB {
     })
   }
 
+  getView = () => {
+    const coll = this.DB.getCollection('fileList')
+    return coll.addDynamicView('fileList')
+  }
+
   updateContent = (item: IFileListItemFile, content: string) => {
     item.content = content
     const coll = this.DB.getCollection('fileList')

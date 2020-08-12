@@ -21,6 +21,7 @@ export interface IFileListItemFolder extends IFileListItemCommon {
   fileType: IFileType.folder
   load: false // 是否已经加载了
   path: string // db PATH  包括 .json 后缀
+  children?: IFileListItem[]
 }
 
 export type IFileListItem = IFileListItemFile | IFileListItemFolder

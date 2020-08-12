@@ -1,6 +1,6 @@
 import jetpack from 'fs-jetpack'
 import CreateDB, { ICreateDB } from '~/db/createDB'
-import { IFileListItem, IFileListItemFile } from '~/definition/Main'
+import { IFileListItem, IFileListItemFile, IFileListItemFolder } from '~/definition/Main'
 import { baseDBName } from '~/config'
 import IFileType from '~/enum/FileType'
 
@@ -9,13 +9,14 @@ class DBStore {
 
   private dynamicData?: DynamicView<IFileListItem>
 
+  private folderListen: ICreateDB['listen']
+
   appInit = async (listen: ICreateDB['listen']) => {
     jetpack.dir(`db`)
 
     const createDB = new CreateDB({ dbName: baseDBName, listen, view: true })
     const { view } = await createDB.init()
     console.log('createDB', createDB)
-
     this.cache.set(baseDBName, createDB)
     this.dynamicData = view
     return Promise.resolve(view)
@@ -66,6 +67,27 @@ class DBStore {
     console.log(values, item)
     const db = await this.getCreateDB(item.dbName)
     console.log(db)
+    // todo 文件夹
+    await db.addFile(values, item.isGlobal)
+
+    // 获取根数据库
+    const baseDB = await this.getCreateDB(baseDBName)
+
+    const baseView = baseDB.getView()
+    const view = db.getView()
+    baseView.applyWhere(function aCustomFilter(obj) {
+      return obj.id === item.id
+    })
+    console.log(baseView, baseView.data(), this.getFileView()?.data())
+
+    const data = baseView?.data()[0] as IFileListItemFolder
+    data && (data.children = view.data())
+
+    // update 待优化
+    const coll = baseDB.DB.getCollection('fileList')
+    coll.update(data)
+
+    console.log(this.getFileView()?.data())
   }
 }
 
