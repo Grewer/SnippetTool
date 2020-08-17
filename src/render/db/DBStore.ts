@@ -14,8 +14,9 @@ class DBStore {
   appInit = async (listen: ICreateDB['listen']) => {
     jetpack.dir(`db`)
 
-    const createDB = new CreateDB({ dbName: baseDBName, listen, view: true })
-    const { view } = await createDB.init()
+    const createDB = new CreateDB({ dbName: baseDBName, listen })
+    await createDB.init()
+    const view = createDB.getView()
     console.log('createDB', createDB)
     this.cache.set(baseDBName, createDB)
     this.dynamicData = view
@@ -26,7 +27,7 @@ class DBStore {
     const _dbName = isGlobal ? baseDBName : dbName
     console.log('获取 createDB', _dbName)
     if (!this.cache.has(_dbName)) {
-      const createDB = new CreateDB({ dbName: _dbName, view: false })
+      const createDB = new CreateDB({ dbName: _dbName })
       await createDB.init()
       this.cache.set(_dbName, createDB)
       return createDB

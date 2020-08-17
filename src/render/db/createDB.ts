@@ -14,7 +14,6 @@ export interface ICreateDB {
     update?: (event) => void
     delete?: (event) => void
   }
-  view: boolean
 }
 
 // pre-insert: []
@@ -36,10 +35,8 @@ class CreateDB {
     this.props = props
   }
 
-  init = async (): Promise<{
-    view?: DynamicView<IFileListItem>
-  }> => {
-    const { dbName, listen, view } = this.props
+  init = async () => {
+    const { dbName, listen } = this.props
     const path = `db/${dbName}.json`
 
     const db = new Loki(path, {
@@ -74,7 +71,7 @@ class CreateDB {
           })
         }
 
-        resolve({ view: view ? coll.addDynamicView('fileList') : undefined })
+        resolve()
       })
     })
   }
@@ -103,7 +100,7 @@ class CreateDB {
     const fileList: Collection<IFileListItem> = this.DB.getCollection('fileList')
 
     // 文件夹
-    const createDB = new CreateDB({ dbName: values.fileName, view: false })
+    const createDB = new CreateDB({ dbName: values.fileName })
     await createDB.init()
 
     const fileListItem: IFileListItemFolder = {
