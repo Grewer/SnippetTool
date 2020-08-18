@@ -6,6 +6,7 @@ import IFileType from '~/enum/FileType'
 import { IFileListItem, IFileListItemFile } from '~/definition/Main'
 import FileListHeader from '~/pages/FileListHeader'
 import AddFileOrDir from '~/modals/AddFileOrDir'
+import BaseDBStore from '~/db/DBStore'
 
 /**
  * 类型分为文件和文件夹
@@ -69,8 +70,15 @@ const FileList: FC<{ popoverClick: (ev, item) => void }> = memo(props => {
     [setCurrent, current]
   )
 
-  const iconClickHandle = useCallback(index => {
-    // AddFileOrDir().open()
+  const iconClickHandle = useCallback(async item => {
+    if (!item.load && !item.visible) {
+      await BaseDBStore.loadChildFile(item)
+      return
+    }
+
+    await BaseDBStore.toggleVisible(item, !item.visible)
+
+    // loading
   }, [])
 
   const addLocalFolder = useCallback(item => {
@@ -82,7 +90,7 @@ const FileList: FC<{ popoverClick: (ev, item) => void }> = memo(props => {
 
   const params = { fileList, currentId, fileClickHandle, iconClickHandle, addLocalFolder, popoverClick }
 
-  return <ListView {...params} level={1} />
+  return <ListView key={1} {...params} level={1} />
 })
 
 const ListView = props => {
@@ -96,13 +104,15 @@ const ListView = props => {
           <>
             <li onClick={() => fileClickHandle(item)} className={className} key={id}>
               <span className={styles.fileName}>
-                {item.fileType === IFileType.folder && <i onClick={() => iconClickHandle(index)} className="iconfont icon-jiantou" />} {item.fileName}
+                {item.fileType === IFileType.folder && <i onClick={() => iconClickHandle(item)} className="iconfont icon-jiantou" />} {item.fileName}
               </span>
               <Control item={item} addLocalFolder={addLocalFolder} moreClick={popoverClick} fileType={item.fileType} />
             </li>
-            <li key={`c${id}`}>
-              <ListView {...props} level={level + 1} fileList={item.children} />
-            </li>
+            {item.visible && (
+              <li key={`c${id}`}>
+                <ListView key={level + 1} {...props} level={level + 1} fileList={item.children} />
+              </li>
+            )}
           </>
         ) : (
           <li
@@ -114,7 +124,7 @@ const ListView = props => {
             key={id}
           >
             <span className={styles.fileName}>
-              {item.fileType === IFileType.folder && <i onClick={() => iconClickHandle(index)} className="iconfont icon-jiantou" />} {item.fileName}
+              {item.fileType === IFileType.folder && <i onClick={() => iconClickHandle(item)} className="iconfont icon-jiantou" />} {item.fileName}
             </span>
             <Control item={item} addLocalFolder={addLocalFolder} moreClick={popoverClick} fileType={item.fileType} />
           </li>

@@ -111,6 +111,7 @@ class CreateDB {
       parentIds: [], // 这里如果是全局的话就为空数组, 子文件需要加 id
       id: v1(),
       isGlobal,
+      visible: false,
     } as IFileListItemFolder
 
     fileList.insert(fileListItem)
@@ -134,6 +135,11 @@ class CreateDB {
   getView = () => {
     const coll = this.DB.getCollection('fileList')
     return coll.addDynamicView('fileList')
+  }
+
+  getData = () => {
+    const coll = this.DB.getCollection('fileList')
+    return coll.data
   }
 
   updateContent = (item: IFileListItemFile, content: string) => {

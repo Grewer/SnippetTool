@@ -9,8 +9,6 @@ class DBStore {
 
   private dynamicData?: DynamicView<IFileListItem>
 
-  private folderListen: ICreateDB['listen']
-
   appInit = async (listen: ICreateDB['listen']) => {
     jetpack.dir(`db`)
 
@@ -89,6 +87,31 @@ class DBStore {
     coll.update(data)
 
     console.log(this.getFileView()?.data())
+  }
+
+  loadChildFile = async (item: IFileListItemFolder) => {
+    // 先假设文件目录只有一层
+    console.log(item)
+    const db = await this.getCreateDB(item.dbName)
+
+    // const coll = db.DB.getCollection('fileList')
+    // console.log(coll, coll.get(item.$loki, true))
+    item.children = db.getData()
+    item.visible = true
+    const baseDB = await this.getCreateDB(baseDBName)
+
+    const baseColl = baseDB.DB.getCollection('fileList')
+
+    baseColl.update(item)
+  }
+
+  toggleVisible = async (item: IFileListItemFolder, loading = false) => {
+    item.visible = loading
+    const baseDB = await this.getCreateDB(baseDBName)
+
+    const baseColl = baseDB.DB.getCollection('fileList')
+
+    baseColl.update(item)
   }
 }
 

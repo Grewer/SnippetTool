@@ -8,6 +8,7 @@ interface IFileListItemCommon {
   parentIds: string[]
   dbName: string // 此文件存储与某个数据库
   isGlobal: boolean // 是否全局文件
+  $loki?: number
 }
 
 // 文件类型
@@ -21,6 +22,8 @@ export interface IFileListItemFolder extends IFileListItemCommon {
   fileType: IFileType.folder
   path: string // db PATH  包括 .json 后缀
   children?: IFileListItem[]
+  load: boolean // 是否已经加载了子文件系统
+  visible: boolean // 是否显示子文件
 }
 
 export type IFileListItem = IFileListItemFile | IFileListItemFolder
