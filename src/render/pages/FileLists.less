@@ -69,12 +69,20 @@
 
   > i:global(.iconfont) {
     margin-right: 4px;
+    transition: 0.3s transform;
+    display: inline-block;
+    height: 16px;
+    line-height: 16px;
 
     &:hover {
       background-color: #DaD9D7;
       border-radius: 2px;
     }
   }
+}
+
+.rotate{
+  transform: rotate3d(0, 0, 1, 90deg);
 }
 
 .control {

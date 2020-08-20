@@ -44,13 +44,13 @@ function FileLists() {
   return (
     <div className={styles.fileList}>
       <FileListHeader />
-      <FileList popoverClick={popoverClick} />
+      <FileListBox popoverClick={popoverClick} />
       <FileMorePopover popover={popover} />
     </div>
   )
 }
 
-const FileList: FC<{ popoverClick: (ev, item) => void }> = memo(props => {
+const FileListBox: FC<{ popoverClick: (ev, item) => void }> = memo(props => {
   console.log('%c render FileListView', 'background:yellow;')
 
   const { fileList, current, setCurrent } = useContext(ConfigContext)
@@ -90,43 +90,35 @@ const FileList: FC<{ popoverClick: (ev, item) => void }> = memo(props => {
 
   const params = { fileList, currentId, fileClickHandle, iconClickHandle, addLocalFolder, popoverClick }
 
-  return <ListView key={1} {...params} level={1} />
+  return <ListView {...params} level={1} />
 })
 
 const ListView = props => {
+  // todo 添加类型
   const { level, fileList, currentId, fileClickHandle, iconClickHandle, addLocalFolder, popoverClick } = props
   return (
     <ul>
       {fileList.map((item, index) => {
         const { id } = item
         const className = currentId === id ? `${styles.item} ${styles.active}` : styles.item
-        return item.children ? (
-          <>
-            <li onClick={() => fileClickHandle(item)} className={className} key={id}>
+        return (
+          <li key={id}>
+            <div
+              onClick={() => fileClickHandle(item)}
+              style={{
+                paddingLeft: `${12 * level}px`,
+              }}
+              className={className}
+            >
               <span className={styles.fileName}>
-                {item.fileType === IFileType.folder && <i onClick={() => iconClickHandle(item)} className="iconfont icon-jiantou" />} {item.fileName}
+                {item.fileType === IFileType.folder && (
+                  <i onClick={() => iconClickHandle(item)} className={`iconfont icon-jiantou ${item.visible ? styles.rotate : ''}`} />
+                )}{' '}
+                {item.fileName}
               </span>
               <Control item={item} addLocalFolder={addLocalFolder} moreClick={popoverClick} fileType={item.fileType} />
-            </li>
-            {item.visible && (
-              <li key={`c${id}`}>
-                <ListView key={level + 1} {...props} level={level + 1} fileList={item.children} />
-              </li>
-            )}
-          </>
-        ) : (
-          <li
-            onClick={() => fileClickHandle(item)}
-            style={{
-              paddingLeft: `${12 * level}px`,
-            }}
-            className={className}
-            key={id}
-          >
-            <span className={styles.fileName}>
-              {item.fileType === IFileType.folder && <i onClick={() => iconClickHandle(item)} className="iconfont icon-jiantou" />} {item.fileName}
-            </span>
-            <Control item={item} addLocalFolder={addLocalFolder} moreClick={popoverClick} fileType={item.fileType} />
+            </div>
+            {item.fileType === IFileType.folder && item.visible && <ListView key={level + 1} {...props} level={level + 1} fileList={item.children} />}
           </li>
         )
       })}
