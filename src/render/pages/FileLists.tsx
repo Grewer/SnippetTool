@@ -104,19 +104,18 @@ const FileListBox: FC = memo(props => {
 
 interface IListView {
   level: number
-  fileList?: IConfigContext['fileList']
+  fileList: IConfigContext['fileList']
   currentId: string
-  fileClickHandle
-  iconClickHandle
-  addLocalFolder
+  fileClickHandle: (item: IFileListItem) => void
+  iconClickHandle: (item: IFileListItemFolder) => void
+  addLocalFolder: (item: IFileListItem) => void
 }
 
 const ListView = (props: IListView) => {
-  // todo 添加类型
   const { level, fileList, currentId, fileClickHandle, iconClickHandle, addLocalFolder } = props
   return (
     <ul>
-      {fileList?.map(item => {
+      {fileList.map(item => {
         const { id } = item
         const className = currentId === id ? `${styles.item} ${styles.active}` : styles.item
         return (
@@ -149,6 +148,8 @@ function Control(props: { item: IFileListItem; fileType: IFileType; addLocalFold
 
   const { popoverClick } = useContext(FileListContext)
   const { item } = props
+
+
   return (
     <span className={styles.control}>
       <i className="iconfont icon-more" onClick={ev => popoverClick(ev, item)} />

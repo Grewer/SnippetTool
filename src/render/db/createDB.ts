@@ -112,6 +112,7 @@ class CreateDB {
       id: v1(),
       isGlobal,
       visible: false,
+      children: [],
     } as IFileListItemFolder
 
     fileList.insert(fileListItem)
