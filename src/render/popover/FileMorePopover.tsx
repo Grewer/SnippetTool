@@ -1,24 +1,18 @@
-import React, { FC, memo, useCallback, useEffect, useRef } from 'react'
+import React, { FC, memo, useCallback, useContext, useEffect, useRef } from 'react'
 import './popover.global.less'
 import ReactDOM from 'react-dom'
 import BaseDBStore from '~/db/DBStore'
 import RenameModal from '~/modals/RenameModal'
-import { IFileListItemFile } from '~/definition/Main'
+import FileListContext from '~/context/FileListContext'
 
 const { body } = document
 
-interface IProps {
-  popover: {
-    position: string
-    item: IFileListItemFile
-    setPopover: (value) => void
-  }
-}
-
-const FileMorePopover: FC<IProps> = memo(props => {
+const FileMorePopover: FC = memo(props => {
   console.log('%c render FileMorePopover', 'background:yellow;', props)
 
-  const { position, item, setPopover } = props.popover
+  const { popover } = useContext(FileListContext)
+
+  const { position, item, setPopover } = popover
 
   const containerRef: React.MutableRefObject<any> = useRef()
 

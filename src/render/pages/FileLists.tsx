@@ -1,12 +1,13 @@
-import React, { FC, memo, useCallback, useContext, useState } from 'react'
+import React, { FC, memo, useCallback, useContext, useMemo, useState } from 'react'
 import FileMorePopover from '~/popover/FileMorePopover'
 import styles from './FileLists.less'
-import ConfigContext from '~/context/ConfigContext'
+import ConfigContext, { IConfigContext } from '~/context/ConfigContext'
 import IFileType from '~/enum/FileType'
-import { IFileListItem, IFileListItemFile } from '~/definition/Main'
+import { IFileListItem, IFileListItemFile, IFileListItemFolder } from '~/definition/Main'
 import FileListHeader from '~/pages/FileListHeader'
 import AddFileOrDir from '~/modals/AddFileOrDir'
 import BaseDBStore from '~/db/DBStore'
+import FileListContext from '~/context/FileListContext'
 
 /**
  * 类型分为文件和文件夹
@@ -41,20 +42,28 @@ function FileLists() {
     })
   }, [])
 
+  const contextValue = useMemo(() => {
+    return {
+      popoverClick,
+      popover,
+    }
+  }, [popover, popoverClick])
+
   return (
-    <div className={styles.fileList}>
-      <FileListHeader />
-      <FileListBox popoverClick={popoverClick} />
-      <FileMorePopover popover={popover} />
-    </div>
+    <FileListContext.Provider value={contextValue}>
+      <div className={styles.fileList}>
+        <FileListHeader />
+        <FileListBox />
+        <FileMorePopover />
+      </div>
+    </FileListContext.Provider>
   )
 }
 
-const FileListBox: FC<{ popoverClick: (ev, item) => void }> = memo(props => {
+const FileListBox: FC = memo(props => {
   console.log('%c render FileListView', 'background:yellow;')
 
   const { fileList, current, setCurrent } = useContext(ConfigContext)
-  const { popoverClick } = props
   const currentId = current.id
 
   const fileClickHandle = useCallback(
@@ -70,7 +79,7 @@ const FileListBox: FC<{ popoverClick: (ev, item) => void }> = memo(props => {
     [setCurrent, current]
   )
 
-  const iconClickHandle = useCallback(async item => {
+  const iconClickHandle = useCallback(async (item: IFileListItemFolder) => {
     if (!item.load && !item.visible) {
       await BaseDBStore.loadChildFile(item)
       return
@@ -81,24 +90,33 @@ const FileListBox: FC<{ popoverClick: (ev, item) => void }> = memo(props => {
     // loading
   }, [])
 
-  const addLocalFolder = useCallback(item => {
+  const addLocalFolder = useCallback((item: IFileListItem) => {
     AddFileOrDir({
       global: false,
       item,
     }).open()
   }, [])
 
-  const params = { fileList, currentId, fileClickHandle, iconClickHandle, addLocalFolder, popoverClick }
+  const params = { fileList, currentId, fileClickHandle, iconClickHandle, addLocalFolder }
 
   return <ListView {...params} level={1} />
 })
 
-const ListView = props => {
+interface IListView {
+  level: number
+  fileList?: IConfigContext['fileList']
+  currentId: string
+  fileClickHandle
+  iconClickHandle
+  addLocalFolder
+}
+
+const ListView = (props: IListView) => {
   // todo 添加类型
-  const { level, fileList, currentId, fileClickHandle, iconClickHandle, addLocalFolder, popoverClick } = props
+  const { level, fileList, currentId, fileClickHandle, iconClickHandle, addLocalFolder } = props
   return (
     <ul>
-      {fileList.map((item, index) => {
+      {fileList?.map(item => {
         const { id } = item
         const className = currentId === id ? `${styles.item} ${styles.active}` : styles.item
         return (
@@ -116,7 +134,7 @@ const ListView = props => {
                 )}{' '}
                 {item.fileName}
               </span>
-              <Control item={item} addLocalFolder={addLocalFolder} moreClick={popoverClick} fileType={item.fileType} />
+              <Control item={item} addLocalFolder={addLocalFolder} fileType={item.fileType} />
             </div>
             {item.fileType === IFileType.folder && item.visible && <ListView key={level + 1} {...props} level={level + 1} fileList={item.children} />}
           </li>
@@ -126,17 +144,14 @@ const ListView = props => {
   )
 }
 
-function Control(props: {
-  item: IFileListItem
-  fileType: IFileType
-  moreClick: (event: React.MouseEvent, item: IFileListItem) => void
-  addLocalFolder: (item: IFileListItem) => void
-}) {
+function Control(props: { item: IFileListItem; fileType: IFileType; addLocalFolder: (item: IFileListItem) => void }) {
   // hover显示
+
+  const { popoverClick } = useContext(FileListContext)
   const { item } = props
   return (
     <span className={styles.control}>
-      <i className="iconfont icon-more" onClick={ev => props.moreClick(ev, item)} />
+      <i className="iconfont icon-more" onClick={ev => popoverClick(ev, item)} />
       {props.fileType === IFileType.folder && <i onClick={() => props.addLocalFolder(item)} className="iconfont icon-jia" />}
     </span>
   )

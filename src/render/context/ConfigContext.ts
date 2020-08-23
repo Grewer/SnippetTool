@@ -1,7 +1,15 @@
 import React from 'react'
 import { IFileListItem, IFileListItemFile } from '~/definition/Main'
 
-const ConfigContext = React.createContext({
+export interface IConfigContext {
+  loading: boolean
+  fileList: IFileListItem[]
+  config: {}
+  setCurrent: (current: IFileListItemFile) => void
+  current: IFileListItemFile
+}
+
+const ConfigContext = React.createContext<IConfigContext>({
   loading: false,
   fileList: [] as IFileListItem[],
   config: {},
