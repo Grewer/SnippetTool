@@ -12,7 +12,7 @@ const FileMorePopover: FC = memo(props => {
 
   const { popover } = useContext(FileListContext)
 
-  const { position, item, setPopover } = popover
+  const { position, item, setPopover, direction } = popover
 
   const containerRef: React.MutableRefObject<any> = useRef()
 
@@ -30,6 +30,7 @@ const FileMorePopover: FC = memo(props => {
   }, [item, setPopover])
 
   const moveHandler = useCallback(() => {}, [])
+
   const renameHandler = useCallback(() => {
     RenameModal({ item }).open()
   }, [item])
@@ -70,23 +71,21 @@ const FileMorePopover: FC = memo(props => {
             transform: `translate(${position})`,
           }}
         >
-          <div className="popover-box">
-            <i className="popover-arrow" />
-            <ul className="popover-ul">
-              <li onClick={deleteHandler}>
-                <i data-close="0" className="iconfont icon-shanchu" />
-                <span data-close="0">删除</span>
-              </li>
-              <li onClick={moveHandler}>
-                <i data-close="0" className="iconfont icon-yidongdaozu" />
-                <span data-close="0">移动</span>
-              </li>
-              <li onClick={renameHandler}>
-                <i data-close="0" className="iconfont icon-zhongmingming" />
-                <span data-close="0">重命名</span>
-              </li>
-            </ul>
-          </div>
+          <i className={`popover-arrow-${direction}`} />
+          <ul className="popover-ul">
+            <li onClick={deleteHandler}>
+              <i data-close="0" className="iconfont icon-shanchu" />
+              <span data-close="0">删除</span>
+            </li>
+            <li onClick={moveHandler}>
+              <i data-close="0" className="iconfont icon-yidongdaozu" />
+              <span data-close="0">移动</span>
+            </li>
+            <li onClick={renameHandler}>
+              <i data-close="0" className="iconfont icon-zhongmingming" />
+              <span data-close="0">重命名</span>
+            </li>
+          </ul>
         </div>,
         body
       )

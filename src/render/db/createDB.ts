@@ -1,7 +1,6 @@
 import { v1 } from 'uuid'
 import Loki from 'lokijs'
 import { IFileListItem, IFileListItemFile, IFileListItemFolder } from '~/definition/Main'
-import { baseDBName } from '~/config'
 
 /**
  * 封装事件操作

@@ -1,4 +1,4 @@
-import React, { FC, memo, useCallback, useContext, useMemo, useState } from 'react'
+import React, { FC, memo, useCallback, useContext, useMemo, useRef, useState } from 'react'
 import FileMorePopover from '~/popover/FileMorePopover'
 import styles from './FileLists.less'
 import ConfigContext, { IConfigContext } from '~/context/ConfigContext'
@@ -11,32 +11,49 @@ import FileListContext from '~/context/FileListContext'
 
 /**
  * 类型分为文件和文件夹
- * @constructor
+ * @constructor clientHeight offsetHeight
  */
 // todo use context
 function FileLists() {
   console.log('%c render FileLists', 'background:yellow;')
 
   const [popover, setPopover]: [
-    { item: IFileListItemFile; setPopover: (value) => void; position: string },
-    React.Dispatch<React.SetStateAction<{ item: IFileListItemFile; setPopover: (value) => void; position: string }>>
+    { item: IFileListItemFile; direction: string; setPopover: (value) => void; position: string },
+    React.Dispatch<React.SetStateAction<{ item: IFileListItemFile; direction: string; setPopover: (value) => void; position: string }>>
   ] = useState({
     position: '',
     item: {} as IFileListItemFile,
     setPopover: value => {},
+    direction: 'down', // down or up
   })
+
+  const fileListRef: React.MutableRefObject<HTMLDivElement | undefined> = useRef()
 
   const popoverClick = useCallback((ev, item) => {
     ev.stopPropagation()
     const distance = ev.target.getBoundingClientRect()
+
+    console.log('[popover click]', distance, fileListRef.current?.clientHeight, fileListRef.current?.offsetHeight)
+
+    const check = (fileListRef.current?.clientHeight ?? 0) > distance.bottom + 127
+
+    console.log('是否可以显示在下面', check)
+
+    let position = ''
+    if (check) {
+      position = `${distance.left - 55}px, ${distance.top + 25}px`
+    } else {
+      position = `${distance.left - 55}px, ${distance.top - 102}px`
+    }
 
     setPopover(prevState => {
       if (prevState.item === item) {
         return prevState
       }
       return {
-        position: `${distance.left - 55}px, ${distance.top + 25}px`,
+        position,
         item,
+        direction: check ? 'down' : 'up',
         setPopover,
       }
     })
@@ -51,7 +68,7 @@ function FileLists() {
 
   return (
     <FileListContext.Provider value={contextValue}>
-      <div className={styles.fileList}>
+      <div ref={fileListRef as any} className={styles.fileList}>
         <FileListHeader />
         <FileListBox />
         <FileMorePopover />
@@ -148,7 +165,6 @@ function Control(props: { item: IFileListItem; fileType: IFileType; addLocalFold
 
   const { popoverClick } = useContext(FileListContext)
   const { item } = props
-
 
   return (
     <span className={styles.control}>
