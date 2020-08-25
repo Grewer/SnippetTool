@@ -93,6 +93,18 @@ class CreateDB {
     return this.saveDB()
   }
 
+  loadChildFile = (item: IFileListItemFolder, baseDB: CreateDB) => {
+    // 加载文件夹下的子文件数据
+    item.children = this.getData()
+    item.visible = true
+
+    const baseColl = baseDB.DB.getCollection('fileList')
+
+    baseColl.update(item)
+
+    return this.saveDB()
+  }
+
   createFolderDB = async (values: Pick<IFileListItem, 'fileType' | 'fileName'>, isGlobal = false): Promise<CreateDB> => {
     console.log(this.DB)
 

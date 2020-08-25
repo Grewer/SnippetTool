@@ -66,52 +66,32 @@ class DBStore {
     console.log(values, item)
     const db = await this.getCreateDB(item.dbName)
     console.log(db)
+
     // todo 文件夹
-    await db.addFile(values, item.isGlobal)
+    await db.addFile(values, false)
 
-    // 获取根数据库
-    const baseDB = await this.getCreateDB(baseDBName)
-
-    const baseView = baseDB.getView()
-    const view = db.getView()
-    baseView.applyWhere(function aCustomFilter(obj) {
-      return obj.id === item.id
-    })
-    console.log(baseView, baseView.data(), this.getFileView()?.data())
-
-    const data = baseView?.data()[0] as IFileListItemFolder
-    data && (data.children = view.data())
-
-    // update 待优化
-    const coll = baseDB.DB.getCollection('fileList')
-    coll.update(data)
-
-    console.log(this.getFileView()?.data())
+    this.loadChildFile(item)
   }
 
   loadChildFile = async (item: IFileListItemFolder) => {
     // 先假设文件目录只有一层
-    console.log(item)
-    const db = await this.getCreateDB(item.dbName)
+    const currentDB = await this.getCreateDB(item.dbName)
 
-    // const coll = db.DB.getCollection('fileList')
-    // console.log(coll, coll.get(item.$loki, true))
-    item.children = db.getData()
-    item.visible = true
     const baseDB = await this.getCreateDB(baseDBName)
 
-    const baseColl = baseDB.DB.getCollection('fileList')
-
-    baseColl.update(item)
+    await currentDB.loadChildFile(item, baseDB)
   }
 
   toggleVisible = async (item: IFileListItemFolder, loading = false) => {
     item.visible = loading
+
     const baseDB = await this.getCreateDB(baseDBName)
 
     const baseColl = baseDB.DB.getCollection('fileList')
 
     baseColl.update(item)
+
+    await baseDB.saveDB()
   }
 }
 
