@@ -83,15 +83,11 @@ class DBStore {
   }
 
   toggleVisible = async (item: IFileListItemFolder, loading = false) => {
-    item.visible = loading
+    const dbName = item.isGlobal ? baseDBName : item.dbName
 
-    const baseDB = await this.getCreateDB(baseDBName)
+    const baseDB = await this.getCreateDB(dbName)
 
-    const baseColl = baseDB.DB.getCollection('fileList')
-
-    baseColl.update(item)
-
-    await baseDB.saveDB()
+    return baseDB.toggleVisible(item, loading)
   }
 }
 

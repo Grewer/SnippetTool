@@ -34,6 +34,20 @@ class CreateDB {
     this.props = props
   }
 
+  getColl = (fileListName = 'fileList') => {
+    return this.DB.getCollection(fileListName)
+  }
+
+  getView = () => {
+    const coll = this.getColl()
+    return coll.addDynamicView('fileList')
+  }
+
+  getData = () => {
+    const coll = this.getColl()
+    return coll.data
+  }
+
   init = async () => {
     const { dbName, listen } = this.props
     const path = `db/${dbName}.json`
@@ -78,7 +92,7 @@ class CreateDB {
   addFile = async (values: Pick<IFileListItem, 'fileType' | 'fileName'>, isGlobal = false) => {
     console.log(this.DB)
 
-    const fileList: Collection<IFileListItem> = this.DB.getCollection('fileList')
+    const fileList: Collection<IFileListItem> = this.getColl()
     const fileListItem: IFileListItemFile = {
       ...values,
       dbName: this.dbName,
@@ -97,8 +111,9 @@ class CreateDB {
     // 加载文件夹下的子文件数据
     item.children = this.getData()
     item.visible = true
+    item.load = true
 
-    const baseColl = baseDB.DB.getCollection('fileList')
+    const baseColl = baseDB.getColl()
 
     baseColl.update(item)
 
@@ -108,7 +123,7 @@ class CreateDB {
   createFolderDB = async (values: Pick<IFileListItem, 'fileType' | 'fileName'>, isGlobal = false): Promise<CreateDB> => {
     console.log(this.DB)
 
-    const fileList: Collection<IFileListItem> = this.DB.getCollection('fileList')
+    const fileList: Collection<IFileListItem> = this.getColl()
 
     // 文件夹
     const createDB = new CreateDB({ dbName: values.fileName })
@@ -144,25 +159,15 @@ class CreateDB {
     })
   }
 
-  getView = () => {
-    const coll = this.DB.getCollection('fileList')
-    return coll.addDynamicView('fileList')
-  }
-
-  getData = () => {
-    const coll = this.DB.getCollection('fileList')
-    return coll.data
-  }
-
   updateContent = (item: IFileListItemFile, content: string) => {
     item.content = content
-    const coll = this.DB.getCollection('fileList')
+    const coll = this.getColl()
     coll.update(item)
     return this.saveDB()
   }
 
   removeFile = item => {
-    const fileList: Collection<IFileListItem> = this.DB.getCollection('fileList')
+    const fileList: Collection<IFileListItem> = this.getColl()
     fileList.remove(item)
 
     return this.saveDB()
@@ -171,9 +176,19 @@ class CreateDB {
   rename = (item: IFileListItemFile, value: { fileName: string }) => {
     // console.log('rename', item, this.DB, this)
     item.fileName = value.fileName
-    const coll = this.DB.getCollection('fileList')
+    const coll = this.getColl()
     coll.update(item)
     return this.saveDB()
+  }
+
+  toggleVisible = async (item, loading) => {
+    item.visible = loading
+
+    const coll = this.getColl()
+
+    coll.update(item)
+
+    await this.saveDB()
   }
 }
 

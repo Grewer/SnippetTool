@@ -11,7 +11,7 @@ import IFileType from '~/enum/FileType'
 
 const { Provider } = ConfigContext
 const AppReducer = (state, action: { type: string; payload: any }) => {
-  console.log('AppReducer', state, action)
+  // console.log('AppReducer', state, action)
   switch (action.type) {
     case 'setFileList':
       return {
