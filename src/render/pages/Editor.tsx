@@ -1,11 +1,11 @@
-import React, { useCallback, useContext, useEffect, useRef } from 'react'
+import React, { FC, useCallback, useEffect, useRef } from 'react'
 import * as HyperMD from 'hypermd'
 import './editor.global.less'
 import { cm_t } from 'hypermd/core/type'
-import ConfigContext from '~/context/ConfigContext'
 import BaseDBStore from '~/db/DBStore'
 import debounce from '~/utils/debounce'
 import useMount from '~/hooks/useMount'
+import { IFileListItemFile } from '~/definition/Main'
 
 // Load these modes if you want highlighting ...
 require('codemirror/mode/htmlmixed/htmlmixed') // for embedded HTML
@@ -16,8 +16,8 @@ require('hypermd/powerpack/hover-with-marked') // implicitly requires "marked"
 // and other power packs...
 // Power packs need 3rd-party libraries. Don't forget to install them!
 
-function Editor() {
-  const { current } = useContext(ConfigContext)
+function Editor(props) {
+  const { current } = props
 
   const cmRef: React.MutableRefObject<cm_t> = useRef()
 
@@ -67,4 +67,4 @@ function Editor() {
   return <textarea id="myTextarea" />
 }
 
-export default React.memo(Editor)
+export default React.memo(Editor) as FC<{ current: IFileListItemFile }>
