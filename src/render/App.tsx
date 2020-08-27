@@ -63,7 +63,8 @@ function App() {
               }
         setState(createAction('updateFile', payload))
       },
-      delete: () => {
+      delete: event => {
+        console.log('[delete event]', event)
         setState(
           createAction('updateFile', {
             fileList: BaseDBStore.getFileView()?.data(),
@@ -80,37 +81,6 @@ function App() {
     }
   }, [])
 
-  useMemo(() => {
-    return {
-      insert: event => {
-        console.log('insert ', event)
-        const payload =
-          event.fileType === IFileType.folder
-            ? {
-                fileList: BaseDBStore.getFileView()?.data(),
-              }
-            : {
-                fileList: BaseDBStore.getFileView()?.data(),
-                current: event,
-              }
-        setState(createAction('updateFile', payload))
-      },
-      delete: () => {
-        setState(
-          createAction('updateFile', {
-            fileList: BaseDBStore.getFileView()?.data(),
-          })
-        )
-      },
-      update: () => {
-        setState(
-          createAction('updateFile', {
-            fileList: BaseDBStore.getFileView()?.data(),
-          })
-        )
-      },
-    }
-  }, [])
   useMount(() => {
     // 此操作放入主渲染程序
     console.log('loading...')

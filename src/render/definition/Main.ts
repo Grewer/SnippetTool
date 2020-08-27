@@ -5,7 +5,6 @@ import IFileType from '~/enum/FileType'
 interface IFileListItemCommon {
   fileName: string
   id: string
-  parentIds: string[]
   dbName: string // 此文件存储与某个数据库
   isGlobal: boolean // 是否全局文件
   $loki?: number

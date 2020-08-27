@@ -15,6 +15,7 @@ class DBStore {
     const createDB = new CreateDB({ dbName: baseDBName, listen })
     await createDB.init()
     const view = createDB.getView()
+    // TODO  DynamicViews 会被缓存 需要 remove
     console.log('createDB', createDB)
     this.cache.set(baseDBName, createDB)
     this.dynamicData = view
@@ -48,8 +49,17 @@ class DBStore {
   }
 
   deleteFile = async (item: IFileListItemFile) => {
+    console.log(item)
+    // todo 删除文件夹的时候需要删除本地文件
     const db = await this.getCreateDB(item.dbName, item.isGlobal)
-    return db.removeFile(item)
+    if (item.isGlobal) {
+      return db.removeFile(item)
+    }
+    db.removeFile(item)
+
+    const baseDB = await this.getCreateDB(baseDBName)
+
+    await db.updateBaseDBByFile(item, baseDB)
   }
 
   updateContent = async (item: IFileListItemFile, content: string) => {
@@ -66,14 +76,19 @@ class DBStore {
     console.log(values, item)
     const db = await this.getCreateDB(item.dbName)
     console.log(db)
-
-    // todo 文件夹
+    if (values.fileType === IFileType.folder) {
+      await db.createFolderDB(values, true)
+      this.loadChildFile(item)
+      // 保存未成功
+      return
+    }
     await db.addFile(values, false)
 
     this.loadChildFile(item)
   }
 
-  loadChildFile = async (item: IFileListItemFolder) => {
+  loadChildFile = async item => {
+    // item 必须是文件夹?
     // 先假设文件目录只有一层
     const currentDB = await this.getCreateDB(item.dbName)
 

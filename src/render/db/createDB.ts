@@ -93,18 +93,26 @@ class CreateDB {
     console.log(this.DB)
 
     const fileList: Collection<IFileListItem> = this.getColl()
+    const id = v1()
     const fileListItem: IFileListItemFile = {
       ...values,
       dbName: this.dbName,
       content: '',
-      parentIds: [], // 这里如果是全局的话就为空数组, 子文件需要加 id
-      id: v1(),
+      id,
       isGlobal,
     } as IFileListItemFile
 
     fileList.insert(fileListItem)
 
     return this.saveDB()
+  }
+
+  updateBaseDBByFile = (item, baseDB: CreateDB) => {
+    // item 是某一个子文件夹下的一个文件
+    // 1. 获取 item 对应的 baseDb 下的 item
+    // 2. 对 item 的 children 进行更新
+    console.log(item, baseDB)
+    // baseDB.DB // 根据 dbName 获取 baseDB 中的文件夹 item 需要一个方法
   }
 
   loadChildFile = (item: IFileListItemFolder, baseDB: CreateDB) => {
@@ -129,13 +137,14 @@ class CreateDB {
     const createDB = new CreateDB({ dbName: values.fileName })
     await createDB.init()
 
+    const id = v1()
+
     const fileListItem: IFileListItemFolder = {
       ...values,
       dbName: createDB.dbName,
       path: createDB.path,
       load: false,
-      parentIds: [], // 这里如果是全局的话就为空数组, 子文件需要加 id
-      id: v1(),
+      id,
       isGlobal,
       visible: false,
       children: [],
