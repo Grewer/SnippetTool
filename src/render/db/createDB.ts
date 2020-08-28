@@ -40,7 +40,11 @@ class CreateDB {
 
   getView = () => {
     const coll = this.getColl()
-    return coll.addDynamicView('fileList')
+    const dv = coll.getDynamicView('fileList')
+    if (!dv) {
+      return coll.addDynamicView('fileList')
+    }
+    return dv
   }
 
   getData = () => {

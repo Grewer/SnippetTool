@@ -15,7 +15,6 @@ class DBStore {
     const createDB = new CreateDB({ dbName: baseDBName, listen })
     await createDB.init()
     const view = createDB.getView()
-    // TODO  DynamicViews 会被缓存 需要 remove
     console.log('createDB', createDB)
     this.cache.set(baseDBName, createDB)
     this.dynamicData = view
@@ -53,8 +52,12 @@ class DBStore {
     // todo 删除文件夹的时候需要删除本地文件
     const db = await this.getCreateDB(item.dbName, item.isGlobal)
     if (item.isGlobal) {
+      // 只删除 global 文件
       return db.removeFile(item)
     }
+
+    // 删除文件夹下的文件/文件夹
+    // 需要删除当前文件夹数据库的数据, 并且更新数据到 baseDB
     db.removeFile(item)
 
     const baseDB = await this.getCreateDB(baseDBName)
@@ -77,7 +80,7 @@ class DBStore {
     const db = await this.getCreateDB(item.dbName)
     console.log(db)
     if (values.fileType === IFileType.folder) {
-      await db.createFolderDB(values, true)
+      await db.createFolderDB(values, false)
       this.loadChildFile(item)
       // 保存未成功
       return
