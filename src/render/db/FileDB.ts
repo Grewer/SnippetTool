@@ -6,7 +6,7 @@ import { IFileListItem, IFileListItemFile, IFileListItemFolder } from '~/definit
  * 封装事件操作
  */
 
-export interface ICreateDB {
+export interface IFileDB {
   dbName: string // dbName 约等于文件名
   listen?: {
     insert?: (event) => void
@@ -22,15 +22,15 @@ export interface ICreateDB {
 // error: []
 // warning: [ƒ]
 
-class CreateDB {
-  private props: ICreateDB
+class FileDB {
+  private props: IFileDB
 
   // 初始就会创建 所以默认存在
   DB!: Loki
   dbName!: string
   path = ''
 
-  constructor(props: ICreateDB) {
+  constructor(props: IFileDB) {
     this.props = props
   }
 
@@ -111,7 +111,7 @@ class CreateDB {
     return this.saveDB()
   }
 
-  updateBaseDBByFile = (item, baseDB: CreateDB) => {
+  updateBaseDBByFile = (item, baseDB: FileDB) => {
     // item 是某一个子文件夹下的一个文件
     // 1. 获取 item 对应的 baseDb 下的 item
     // 2. 对 item 的 children 进行更新
@@ -119,7 +119,7 @@ class CreateDB {
     // baseDB.DB // 根据 dbName 获取 baseDB 中的文件夹 item 需要一个方法
   }
 
-  loadChildFile = (item: IFileListItemFolder, baseDB: CreateDB) => {
+  loadChildFile = (item: IFileListItemFolder, baseDB: FileDB) => {
     // 加载文件夹下的子文件数据
     item.children = this.getData()
     item.visible = true
@@ -132,21 +132,21 @@ class CreateDB {
     return this.saveDB()
   }
 
-  createFolderDB = async (values: Pick<IFileListItem, 'fileType' | 'fileName'>, isGlobal = false): Promise<CreateDB> => {
+  createFolderDB = async (values: Pick<IFileListItem, 'fileType' | 'fileName'>, isGlobal = false): Promise<FileDB> => {
     console.log(this.DB)
 
     const fileList: Collection<IFileListItem> = this.getColl()
 
     // 文件夹
-    const createDB = new CreateDB({ dbName: values.fileName })
-    await createDB.init()
+    const fileDB = new FileDB({ dbName: values.fileName })
+    await fileDB.init()
 
     const id = v1()
 
     const fileListItem: IFileListItemFolder = {
       ...values,
-      dbName: createDB.dbName,
-      path: createDB.path,
+      dbName: fileDB.dbName,
+      path: fileDB.path,
       load: false,
       id,
       isGlobal,
@@ -156,7 +156,7 @@ class CreateDB {
 
     fileList.insert(fileListItem)
 
-    return this.saveDB<CreateDB>(createDB)
+    return this.saveDB<FileDB>(fileDB)
   }
 
   saveDB = <T = any>(value?: T) => {
@@ -205,4 +205,4 @@ class CreateDB {
   }
 }
 
-export default CreateDB
+export default FileDB

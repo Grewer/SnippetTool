@@ -1,36 +1,36 @@
 import jetpack from 'fs-jetpack'
-import CreateDB, { ICreateDB } from '~/db/createDB'
+import FileDB, { IFileDB } from '~/db/FileDB'
 import { IFileListItem, IFileListItemFile, IFileListItemFolder } from '~/definition/Main'
 import { baseDBName } from '~/config'
 import IFileType from '~/enum/FileType'
 
 class DBStore {
-  cache = new Map<string, CreateDB>()
+  cache = new Map<string, FileDB>()
 
   private dynamicData?: DynamicView<IFileListItem>
 
-  appInit = async (listen: ICreateDB['listen']) => {
+  appInit = async (listen: IFileDB['listen']) => {
     jetpack.dir(`db`)
 
-    const createDB = new CreateDB({ dbName: baseDBName, listen })
-    await createDB.init()
-    const view = createDB.getView()
-    console.log('createDB', createDB)
-    this.cache.set(baseDBName, createDB)
+    const fileDB = new FileDB({ dbName: baseDBName, listen })
+    await fileDB.init()
+    const view = fileDB.getView()
+    console.log('fileDB', fileDB)
+    this.cache.set(baseDBName, fileDB)
     this.dynamicData = view
     return Promise.resolve(view)
   }
 
-  getCreateDB = async (dbName: string, isGlobal = false): Promise<CreateDB> => {
+  getCreateDB = async (dbName: string, isGlobal = false): Promise<FileDB> => {
     const _dbName = isGlobal ? baseDBName : dbName
     console.log('获取 createDB', _dbName)
     if (!this.cache.has(_dbName)) {
-      const createDB = new CreateDB({ dbName: _dbName })
-      await createDB.init()
-      this.cache.set(_dbName, createDB)
-      return createDB
+      const fileDB = new FileDB({ dbName: _dbName })
+      await fileDB.init()
+      this.cache.set(_dbName, fileDB)
+      return fileDB
     }
-    return this.cache.get(_dbName) as CreateDB
+    return this.cache.get(_dbName) as FileDB
   }
 
   getFileView = () => {
@@ -40,11 +40,11 @@ class DBStore {
   addGlobalFile = async (values: IFileListItem) => {
     // 在根文件夹下添加文件/文件夹
     // TODO 重命名问题
-    const createDB = await this.getCreateDB(baseDBName, true)
+    const fileDB = await this.getCreateDB(baseDBName, true)
     if (values.fileType === IFileType.folder) {
-      return createDB.createFolderDB(values, true)
+      return fileDB.createFolderDB(values, true)
     }
-    return createDB.addFile(values, true)
+    return fileDB.addFile(values, true)
   }
 
   deleteFile = async (item: IFileListItemFile) => {
