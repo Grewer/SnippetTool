@@ -6,6 +6,8 @@ import { IFileListItem, IFileListItemFile, IFileListItemFolder } from '~/definit
  * 封装事件操作
  */
 
+//  考虑 id 的作用  是否需要  还是使用 $loki 来作为关键值
+
 export interface IFileDB {
   dbName: string // dbName 约等于文件名
   listen?: {
@@ -76,7 +78,11 @@ class FileDB {
 
         if (!coll) {
           console.log('Collection %s does not exit. Creating ...', 'fileList')
-          coll = db.addCollection('fileList', { autoupdate: true }) // 初始化字段
+          coll = db.addCollection('fileList', {
+            unique: ['id'],
+            indices: 'id',
+            autoupdate: true,
+          }) // 初始化字段
           db.saveDatabase(err => {
             err && reject(error)
           })
@@ -93,7 +99,7 @@ class FileDB {
     })
   }
 
-  addFile = async (values: Pick<IFileListItem, 'fileType' | 'fileName'>, isGlobal = false) => {
+  addFile = async (values: Pick<IFileListItem, 'fileType' | 'fileName'>, isGlobal = false, rootId?: number) => {
     console.log(this.DB)
 
     const fileList: Collection<IFileListItem> = this.getColl()
@@ -104,6 +110,7 @@ class FileDB {
       content: '',
       id,
       isGlobal,
+      rootId: isGlobal ? 0 : rootId,
     } as IFileListItemFile
 
     fileList.insert(fileListItem)
@@ -132,7 +139,7 @@ class FileDB {
     return this.saveDB()
   }
 
-  createFolderDB = async (values: Pick<IFileListItem, 'fileType' | 'fileName'>, isGlobal = false): Promise<FileDB> => {
+  createFolderDB = async (values: Pick<IFileListItem, 'fileType' | 'fileName'>, isGlobal = false, rootId?: number): Promise<FileDB> => {
     console.log(this.DB)
 
     const fileList: Collection<IFileListItem> = this.getColl()
@@ -149,6 +156,7 @@ class FileDB {
       path: fileDB.path,
       load: false,
       id,
+      rootId: isGlobal ? id : rootId,
       isGlobal,
       visible: false,
       children: [],

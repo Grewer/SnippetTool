@@ -7,6 +7,7 @@ interface IFileListItemCommon {
   id: string
   dbName: string // 此文件存储与某个数据库
   isGlobal: boolean // 是否全局文件
+  rootId: number
   $loki?: number
 }
 

@@ -75,17 +75,17 @@ class DBStore {
     return db.rename(item, value)
   }
 
-  addLocalFile = async (values, item) => {
+  addLocalFile = async (values, item: IFileListItemFolder) => {
     console.log(values, item)
     const db = await this.getCreateDB(item.dbName)
     console.log(db)
     if (values.fileType === IFileType.folder) {
-      await db.createFolderDB(values, false)
+      await db.createFolderDB(values, false, item.$loki)
       this.loadChildFile(item)
       // 保存未成功
       return
     }
-    await db.addFile(values, false)
+    await db.addFile(values, false, item.$loki)
 
     this.loadChildFile(item)
   }
