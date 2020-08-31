@@ -63,6 +63,8 @@ class DBStore {
     const baseDB = await this.getCreateDB(baseDBName)
 
     await db.updateBaseDBByFile(item, baseDB)
+
+    return baseDB.saveDB()
   }
 
   updateContent = async (item: IFileListItemFile, content: string) => {

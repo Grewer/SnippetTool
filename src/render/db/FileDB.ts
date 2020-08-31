@@ -118,23 +118,28 @@ class FileDB {
     return this.saveDB()
   }
 
-  updateBaseDBByFile = (item, baseDB: FileDB) => {
+  updateBaseDBByFile = (item: IFileListItem, baseDB: FileDB) => {
     // item 是某一个子文件夹下的一个文件
     // 1. 获取 item 对应的 baseDb 下的 item
     // 2. 对 item 的 children 进行更新
     console.log(item, baseDB)
-    // baseDB.DB // 根据 dbName 获取 baseDB 中的文件夹 item 需要一个方法
+    const baseDBItem = baseDB.getColl().get(item.rootId)
+    console.log(baseDBItem)
+
+    this.loadChildFile(baseDBItem, baseDB)
+
+    return this.saveDB()
   }
 
-  loadChildFile = (item: IFileListItemFolder, baseDB: FileDB) => {
+  loadChildFile = (baseDBItem: IFileListItemFolder, baseDB: FileDB) => {
     // 加载文件夹下的子文件数据
-    item.children = this.getData()
-    item.visible = true
-    item.load = true
+    baseDBItem.children = this.getData()
+    baseDBItem.visible = true
+    baseDBItem.load = true
 
     const baseColl = baseDB.getColl()
 
-    baseColl.update(item)
+    baseColl.update(baseDBItem)
 
     return this.saveDB()
   }
