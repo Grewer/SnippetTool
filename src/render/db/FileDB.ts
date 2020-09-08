@@ -122,26 +122,26 @@ class FileDB {
     // item 是某一个子文件夹下的一个文件
     // 1. 获取 item 对应的 baseDb 下的 item
     // 2. 对 item 的 children 进行更新
-    console.log(item, baseDB)
-    const baseDBItem = baseDB.getColl().get(item.rootId)
-    console.log(baseDBItem)
 
-    this.loadChildFile(baseDBItem, baseDB)
+    return baseDB.loadChildFile(item.rootId, this)
 
-    return this.saveDB()
+    // return this.saveDB()
   }
 
-  loadChildFile = (baseDBItem: IFileListItemFolder, baseDB: FileDB) => {
-    // 加载文件夹下的子文件数据   不能是 main 里面的 item
-    baseDBItem.children = this.getData()
+  // 应该只能 MainDb   this -> main db
+  loadChildFile = (rootId: number, fileDB: FileDB): Promise<void> => {
+    const baseDBItem: IFileListItemFolder = this.getColl().get(rootId)
+
+    // 加载文件夹下的子文件数据   main 里面的 item, this.getData 调用的不能是 MainDB
+    baseDBItem.children = fileDB.getData()
     baseDBItem.visible = true
     baseDBItem.load = true
 
-    const baseColl = baseDB.getColl()
+    const baseColl = this.getColl()
 
     baseColl.update(baseDBItem)
 
-    return baseDB.saveDB()
+    return this.saveDB()
   }
 
   createFolderDB = async (values: Pick<IFileListItem, 'fileType' | 'fileName'>, isGlobal = false, rootId?: number): Promise<FileDB> => {

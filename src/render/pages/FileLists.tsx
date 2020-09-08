@@ -98,7 +98,7 @@ const FileListBox: FC = memo(props => {
 
   const iconClickHandle = useCallback(async (item: IFileListItemFolder) => {
     if (!item.load && !item.visible) {
-      await BaseDBStore.loadChildFile(item)
+      await BaseDBStore.loadChildFileWrap(item)
       return
     }
 
