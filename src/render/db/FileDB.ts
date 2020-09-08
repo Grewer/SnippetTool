@@ -132,7 +132,7 @@ class FileDB {
   }
 
   loadChildFile = (baseDBItem: IFileListItemFolder, baseDB: FileDB) => {
-    // 加载文件夹下的子文件数据
+    // 加载文件夹下的子文件数据   不能是 main 里面的 item
     baseDBItem.children = this.getData()
     baseDBItem.visible = true
     baseDBItem.load = true
@@ -141,7 +141,7 @@ class FileDB {
 
     baseColl.update(baseDBItem)
 
-    return this.saveDB()
+    return baseDB.saveDB()
   }
 
   createFolderDB = async (values: Pick<IFileListItem, 'fileType' | 'fileName'>, isGlobal = false, rootId?: number): Promise<FileDB> => {
@@ -199,7 +199,7 @@ class FileDB {
     return this.saveDB()
   }
 
-  rename = (item: IFileListItemFile, value: { fileName: string }) => {
+  rename = async (item: IFileListItemFile, value: { fileName: string }) => {
     // console.log('rename', item, this.DB, this)
     item.fileName = value.fileName
     const coll = this.getColl()

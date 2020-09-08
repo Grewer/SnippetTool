@@ -73,8 +73,21 @@ class DBStore {
   }
 
   rename = async (item: IFileListItemFile, value) => {
+    console.log(item, value)
     const db = await this.getCreateDB(item.dbName, item.isGlobal)
-    return db.rename(item, value)
+
+    await db.rename(item, value)
+
+    if (item.isGlobal) {
+      return Promise.resolve()
+    }
+
+    // 代码循环问题 bug
+    const baseDB = await this.getCreateDB(baseDBName)
+    const baseDBItem = baseDB.getColl().get(item.rootId)
+    console.log(baseDBItem)
+    db.loadChildFile(baseDBItem, baseDB)
+    // this.loadChildFile(baseDBItem)
   }
 
   addLocalFile = async (values, item: IFileListItemFolder) => {
@@ -93,7 +106,8 @@ class DBStore {
   }
 
   loadChildFile = async item => {
-    // item 必须是文件夹?
+    // 这里不应该有这个函数
+    // item 必须是文件夹
     // 先假设文件目录只有一层
     const currentDB = await this.getCreateDB(item.dbName)
 
