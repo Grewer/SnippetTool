@@ -86,6 +86,7 @@ class DBStore {
   }
 
   addLocalFile = async (values, item: IFileListItemFolder) => {
+    // 非全局文件  item => 不一定为 global
     console.log(values, item)
     const db = await this.getFileDB(item.dbName)
     console.log(db)
@@ -104,12 +105,11 @@ class DBStore {
     // 这里不应该有这个函数
     // item 需要有 rootId
     // item 应该是某个文件的 item
-
+    const baseDB = await this.getFileDB(baseDBName)
     const currentDB = await this.getFileDB(item.dbName)
 
-    const baseDB = await this.getFileDB(baseDBName)
-
-    await baseDB.loadChildFile(item.rootId, currentDB)
+    console.log(item.rootId)
+    return baseDB.loadChildFileById(item.isGlobal ? item.$loki! : item.rootId, currentDB)
   }
 
   toggleVisible = async (item: IFileListItemFolder, loading = false) => {

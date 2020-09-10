@@ -123,13 +123,13 @@ class FileDB {
     // 1. 获取 item 对应的 baseDb 下的 item
     // 2. 对 item 的 children 进行更新
 
-    return baseDB.loadChildFile(item.rootId, this)
+    return baseDB.loadChildFileById(item.rootId, this)
 
     // return this.saveDB()
   }
 
-  // 应该只能 MainDb   this -> main db
-  loadChildFile = (rootId: number, fileDB: FileDB): Promise<void> => {
+  // 应该只能   this -> main db
+  loadChildFileById = (rootId: number, fileDB: FileDB): Promise<void> => {
     const baseDBItem: IFileListItemFolder = this.getColl().get(rootId)
 
     // 加载文件夹下的子文件数据   main 里面的 item, this.getData 调用的不能是 MainDB
@@ -161,7 +161,7 @@ class FileDB {
       path: fileDB.path,
       load: false,
       id,
-      rootId: isGlobal ? id : rootId,
+      rootId: isGlobal ? 0 : rootId,
       isGlobal,
       visible: false,
       children: [],
