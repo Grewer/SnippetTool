@@ -21,7 +21,7 @@ class DBStore {
     return Promise.resolve(view)
   }
 
-  getCreateDB = async (dbName: string, isGlobal = false): Promise<FileDB> => {
+  getFileDB = async (dbName: string, isGlobal = false): Promise<FileDB> => {
     const _dbName = isGlobal ? baseDBName : dbName
     console.log('获取 createDB', _dbName)
     if (!this.cache.has(_dbName)) {
@@ -40,7 +40,7 @@ class DBStore {
   addGlobalFile = async (values: IFileListItem) => {
     // 在根文件夹下添加文件/文件夹
     // TODO 重命名问题
-    const fileDB = await this.getCreateDB(baseDBName, true)
+    const fileDB = await this.getFileDB(baseDBName, true)
     if (values.fileType === IFileType.folder) {
       return fileDB.createFolderDB(values, true)
     }
@@ -50,7 +50,7 @@ class DBStore {
   deleteFile = async (item: IFileListItemFile) => {
     console.log(item)
     // todo 删除文件夹的时候需要删除本地文件
-    const db = await this.getCreateDB(item.dbName, item.isGlobal)
+    const db = await this.getFileDB(item.dbName, item.isGlobal)
     if (item.isGlobal) {
       // 只删除 global 文件
       return db.removeFile(item)
@@ -60,7 +60,7 @@ class DBStore {
     // 需要删除当前文件夹数据库的数据, 并且更新数据到 baseDB
     db.removeFile(item)
 
-    const baseDB = await this.getCreateDB(baseDBName)
+    const baseDB = await this.getFileDB(baseDBName)
 
     await db.updateBaseDBByFile(item, baseDB)
 
@@ -68,13 +68,13 @@ class DBStore {
   }
 
   updateContent = async (item: IFileListItemFile, content: string) => {
-    const db = await this.getCreateDB(item.dbName, item.isGlobal)
+    const db = await this.getFileDB(item.dbName, item.isGlobal)
     return db.updateContent(item, content)
   }
 
   rename = async (item: IFileListItemFile, value) => {
     console.log(item, value)
-    const db = await this.getCreateDB(item.dbName, item.isGlobal)
+    const db = await this.getFileDB(item.dbName, item.isGlobal)
 
     await db.rename(item, value)
 
@@ -87,7 +87,7 @@ class DBStore {
 
   addLocalFile = async (values, item: IFileListItemFolder) => {
     console.log(values, item)
-    const db = await this.getCreateDB(item.dbName)
+    const db = await this.getFileDB(item.dbName)
     console.log(db)
     if (values.fileType === IFileType.folder) {
       await db.createFolderDB(values, false, item.$loki)
@@ -103,10 +103,11 @@ class DBStore {
   loadChildFileWrap = async (item: IFileListItem): Promise<void> => {
     // 这里不应该有这个函数
     // item 需要有 rootId
+    // item 应该是某个文件的 item
 
-    const currentDB = await this.getCreateDB(item.dbName)
+    const currentDB = await this.getFileDB(item.dbName)
 
-    const baseDB = await this.getCreateDB(baseDBName)
+    const baseDB = await this.getFileDB(baseDBName)
 
     await baseDB.loadChildFile(item.rootId, currentDB)
   }
@@ -114,7 +115,7 @@ class DBStore {
   toggleVisible = async (item: IFileListItemFolder, loading = false) => {
     const dbName = item.isGlobal ? baseDBName : item.dbName
 
-    const baseDB = await this.getCreateDB(dbName)
+    const baseDB = await this.getFileDB(dbName)
 
     return baseDB.toggleVisible(item, loading)
   }
