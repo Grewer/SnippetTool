@@ -144,14 +144,31 @@ class FileDB {
     return this.saveDB()
   }
 
-  createFolderDB = async (values: Pick<IFileListItem, 'fileType' | 'fileName'>, isGlobal = false, rootId?: number): Promise<FileDB> => {
+  /**
+   * 待修改
+   * 创建文件的三种情况
+   * 1. 全局文件,  需要在 main 中创建字段即可
+   * 2. 第一层子文件, 需要创建文件夹数据库,更新 main 中对应 item 的数据
+   * 3. 第 n 层子文件, 需要添加对应 item 的 children, 更新 main 中的数据
+   */
+  createFolderDB = async (
+    values: Pick<IFileListItem, 'fileType' | 'fileName'>,
+    isGlobal = false,
+    rootId?: number,
+    item?: IFileListItem
+  ): Promise<FileDB> => {
     console.log(this.DB)
 
     const fileList: Collection<IFileListItem> = this.getColl()
 
-    // 文件夹
-    const fileDB = new FileDB({ dbName: values.fileName })
-    await fileDB.init()
+    let fileDB
+    if (rootId === 0) {
+      // 文件夹
+      fileDB = new FileDB({ dbName: values.fileName })
+      await fileDB.init()
+    } else {
+      fileDB = this
+    }
 
     const id = v1()
 

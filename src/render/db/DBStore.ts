@@ -91,7 +91,7 @@ class DBStore {
     const db = await this.getFileDB(item.dbName)
     console.log(db)
     if (values.fileType === IFileType.folder) {
-      await db.createFolderDB(values, false, item.$loki)
+      await db.createFolderDB(values, false, item.$loki, item)
       this.loadChildFileWrap(item)
       // 保存未成功
       return
@@ -108,7 +108,6 @@ class DBStore {
     const baseDB = await this.getFileDB(baseDBName)
     const currentDB = await this.getFileDB(item.dbName)
 
-    console.log(item.rootId)
     return baseDB.loadChildFileById(item.isGlobal ? item.$loki! : item.rootId, currentDB)
   }
 
