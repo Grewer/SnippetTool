@@ -22,6 +22,7 @@ class DBStore {
   }
 
   getFileDB = async (dbName: string, isGlobal = false): Promise<FileDB> => {
+    // todo 考虑 关于 isglobal 是否有必要
     const _dbName = isGlobal ? baseDBName : dbName
     console.log('获取 createDB', _dbName)
     if (!this.cache.has(_dbName)) {
@@ -117,6 +118,21 @@ class DBStore {
     const baseDB = await this.getFileDB(dbName)
 
     return baseDB.toggleVisible(item, loading)
+  }
+
+  addFolder = async (values, item?: IFileListItemFolder) => {
+    const baseDB = await this.getFileDB(baseDBName)
+
+    if (!item) {
+      // 全局文件
+      return baseDB.addGlobalFolder(values)
+    }
+
+    if (item.isGlobal) {
+      return baseDB.addRootFolder()
+    }
+
+    return baseDB.addChildFolder()
   }
 }
 

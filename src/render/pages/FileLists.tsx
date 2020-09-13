@@ -13,7 +13,6 @@ import FileListContext from '~/context/FileListContext'
  * 类型分为文件和文件夹
  * @constructor clientHeight offsetHeight
  */
-// todo use context
 function FileLists() {
   console.log('%c render FileLists', 'background:yellow;')
 

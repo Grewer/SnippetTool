@@ -30,10 +30,11 @@ const Component = props => {
       // global.loading
       const loading = setupLoading('', 0)
       try {
+        // todo 文件和文件夹分开
         if (global) {
-          await DBStore.addGlobalFile(values)
+          await DBStore.addFolder(values)
         } else {
-          await DBStore.addLocalFile(values, item)
+          await DBStore.addFolder(values, item)
         }
         close()
       } catch (e) {

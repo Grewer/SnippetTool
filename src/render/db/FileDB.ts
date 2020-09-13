@@ -145,6 +145,39 @@ class FileDB {
   }
 
   /**
+   * 添加全局文件
+   * @param values
+   */
+  addGlobalFolder = async values => {
+    const fileDB = new FileDB({ dbName: values.fileName })
+    await fileDB.init()
+
+    const id = v1()
+
+    const fileListItem: IFileListItemFolder = {
+      ...values,
+      dbName: fileDB.dbName,
+      path: fileDB.path,
+      load: false,
+      id,
+      rootId: 0,
+      isGlobal: true,
+      visible: false,
+      children: [],
+    } as IFileListItemFolder
+
+    const fileList: Collection<IFileListItem> = this.getColl()
+
+    fileList.insert(fileListItem)
+
+    return this.saveDB<FileDB>(fileDB)
+  }
+
+  addRootFolder = () => {}
+
+  addChildFolder = () => {}
+
+  /**
    * 待修改
    * 创建文件的三种情况
    * 1. 全局文件,  需要在 main 中创建字段即可
