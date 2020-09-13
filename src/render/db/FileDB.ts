@@ -131,7 +131,7 @@ class FileDB {
   // 应该只能   this -> main db
   loadChildFileById = (rootId: number, fileDB: FileDB): Promise<void> => {
     const baseDBItem: IFileListItemFolder = this.getColl().get(rootId)
-
+    console.log('[loadChildFileById]', baseDBItem)
     // 加载文件夹下的子文件数据   main 里面的 item, this.getData 调用的不能是 MainDB
     baseDBItem.children = fileDB.getData()
     baseDBItem.visible = true
@@ -173,9 +173,63 @@ class FileDB {
     return this.saveDB<FileDB>(fileDB)
   }
 
-  addRootFolder = () => {}
+  /**
+   * 添加第二层文件夹
+   * @param values
+   * @param item
+   * @param db
+   */
+  addRootFolder = async (values, item: IFileListItemFolder, db: FileDB) => {
+    const id = v1()
 
-  addChildFolder = () => {}
+    const fileListItem: IFileListItemFolder = {
+      ...values,
+      dbName: item.dbName,
+      path: item.path,
+      load: false,
+      id,
+      rootId: item.$loki,
+      isGlobal: false,
+      visible: false,
+      children: [],
+    } as IFileListItemFolder
+
+    item.children.push(fileListItem)
+
+    await db.saveDB()
+
+    return this.loadChildFileById(item.$loki!, db)
+  }
+
+  /**
+   * 添加所有子孙文件
+   * @param values
+   * @param item
+   * @param db
+   */
+  addChildFolder = async (values, item: IFileListItemFolder, db: FileDB) => {
+    const id = v1()
+
+    const fileListItem: IFileListItemFolder = {
+      ...values,
+      dbName: item.dbName,
+      path: item.path,
+      load: false,
+      id,
+      rootId: item.rootId,
+      isGlobal: false,
+      visible: false,
+      children: [],
+    } as IFileListItemFolder
+
+    item.children.push(fileListItem)
+    // item.visible = true // TODO 无效的问题
+    // item.load = true
+
+    await db.saveDB()
+
+    return this.loadChildFileById(item.rootId, db)
+  }
 
   /**
    * 待修改

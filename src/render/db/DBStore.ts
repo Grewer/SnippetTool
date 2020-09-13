@@ -121,6 +121,7 @@ class DBStore {
   }
 
   addFolder = async (values, item?: IFileListItemFolder) => {
+    console.log('[add Folder]', values, item)
     const baseDB = await this.getFileDB(baseDBName)
 
     if (!item) {
@@ -128,11 +129,13 @@ class DBStore {
       return baseDB.addGlobalFolder(values)
     }
 
-    if (item.isGlobal) {
-      return baseDB.addRootFolder()
-    }
+    const db = await this.getFileDB(item.dbName)
 
-    return baseDB.addChildFolder()
+    if (item.isGlobal) {
+      return baseDB.addRootFolder(values, item, db)
+    }
+    // 考虑这 2 层是否能够合并  现在不合并 逻辑更加清晰
+    return baseDB.addChildFolder(values, item, db)
   }
 }
 
