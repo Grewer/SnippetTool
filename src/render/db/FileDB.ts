@@ -194,7 +194,9 @@ class FileDB {
       children: [],
     } as IFileListItemFolder
 
-    item.children.push(fileListItem)
+    const fileList: Collection<IFileListItem> = db.getColl()
+
+    fileList.insert(fileListItem)
 
     await db.saveDB()
 
