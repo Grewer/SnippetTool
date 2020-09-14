@@ -211,7 +211,9 @@ class FileDB {
    */
   addChildFolder = async (values, item: IFileListItemFolder, db: FileDB) => {
     const id = v1()
-
+    // todo  思路  子数据库 插入数据时随意插入 需要悠悠一个 path 这样的字段
+    //  rootFolder, fooFolder, 这样的顺序来控制 children
+    // 在获取数据时 对 paths 排序,再进行插入 children
     const fileListItem: IFileListItemFolder = {
       ...values,
       dbName: item.dbName,
@@ -227,6 +229,7 @@ class FileDB {
     item.children.push(fileListItem)
     // item.visible = true // TODO 无效的问题
     // item.load = true
+    // const fileList: Collection<IFileListItem> = db.getColl()
 
     await db.saveDB()
 
