@@ -9,6 +9,7 @@ interface IFileListItemCommon {
   isGlobal: boolean // 是否全局文件
   rootId: number
   $loki?: number
+  routes: string[]
 }
 
 // 文件类型

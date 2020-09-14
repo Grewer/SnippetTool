@@ -1,6 +1,7 @@
 import { v1 } from 'uuid'
 import Loki from 'lokijs'
 import { IFileListItem, IFileListItemFile, IFileListItemFolder } from '~/definition/Main'
+import IFileType from '~/enum/FileType'
 
 /**
  * 封装事件操作
@@ -51,6 +52,7 @@ class FileDB {
 
   getData = () => {
     const coll = this.getColl()
+    // todo 对 数据进行排序 和 重构
     return coll.data
   }
 
@@ -148,7 +150,7 @@ class FileDB {
    * 添加全局文件
    * @param values
    */
-  addGlobalFolder = async values => {
+  addGlobalFolder = async (values: { fileName: string; fileType: IFileType.folder }) => {
     const fileDB = new FileDB({ dbName: values.fileName })
     await fileDB.init()
 
@@ -164,6 +166,7 @@ class FileDB {
       isGlobal: true,
       visible: false,
       children: [],
+      routes: [],
     } as IFileListItemFolder
 
     const fileList: Collection<IFileListItem> = this.getColl()
@@ -192,6 +195,7 @@ class FileDB {
       isGlobal: false,
       visible: false,
       children: [],
+      routes: [],
     } as IFileListItemFolder
 
     const fileList: Collection<IFileListItem> = db.getColl()
@@ -224,12 +228,12 @@ class FileDB {
       isGlobal: false,
       visible: false,
       children: [],
+      routes: item.routes.concat(item.id),
     } as IFileListItemFolder
 
-    item.children.push(fileListItem)
-    // item.visible = true // TODO 无效的问题
-    // item.load = true
-    // const fileList: Collection<IFileListItem> = db.getColl()
+    const fileList: Collection<IFileListItem> = db.getColl()
+
+    fileList.insert(fileListItem)
 
     await db.saveDB()
 
@@ -249,36 +253,36 @@ class FileDB {
     rootId?: number,
     item?: IFileListItem
   ): Promise<FileDB> => {
-    console.log(this.DB)
+    // console.log(this.DB)
+    //
+    // const fileList: Collection<IFileListItem> = this.getColl()
+    //
+    // let fileDB
+    // if (rootId === 0) {
+    //   // 文件夹
+    //   fileDB = new FileDB({ dbName: values.fileName })
+    //   await fileDB.init()
+    // } else {
+    //   fileDB = this
+    // }
+    //
+    // const id = v1()
+    //
+    // const fileListItem: IFileListItemFolder = {
+    //   ...values,
+    //   dbName: fileDB.dbName,
+    //   path: fileDB.path,
+    //   load: false,
+    //   id,
+    //   rootId: isGlobal ? 0 : rootId,
+    //   isGlobal,
+    //   visible: false,
+    //   children: [],
+    // } as IFileListItemFolder
+    //
+    // fileList.insert(fileListItem)
 
-    const fileList: Collection<IFileListItem> = this.getColl()
-
-    let fileDB
-    if (rootId === 0) {
-      // 文件夹
-      fileDB = new FileDB({ dbName: values.fileName })
-      await fileDB.init()
-    } else {
-      fileDB = this
-    }
-
-    const id = v1()
-
-    const fileListItem: IFileListItemFolder = {
-      ...values,
-      dbName: fileDB.dbName,
-      path: fileDB.path,
-      load: false,
-      id,
-      rootId: isGlobal ? 0 : rootId,
-      isGlobal,
-      visible: false,
-      children: [],
-    } as IFileListItemFolder
-
-    fileList.insert(fileListItem)
-
-    return this.saveDB<FileDB>(fileDB)
+    return this.saveDB<FileDB>()
   }
 
   saveDB = <T = any>(value?: T) => {
