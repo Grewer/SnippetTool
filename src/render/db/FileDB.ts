@@ -2,6 +2,8 @@ import { v1 } from 'uuid'
 import Loki from 'lokijs'
 import { IFileListItem, IFileListItemFile, IFileListItemFolder } from '~/definition/Main'
 import IFileType from '~/enum/FileType'
+import { PropEq } from '~/utils/fn'
+import { baseDBName } from '~/config'
 
 /**
  * 封装事件操作
@@ -37,8 +39,8 @@ class FileDB {
     this.props = props
   }
 
-  getColl = (fileListName = 'fileList') => {
-    return this.DB.getCollection(fileListName)
+  getColl = <T extends object = any>(fileListName = 'fileList') => {
+    return this.DB.getCollection<T>(fileListName)
   }
 
   getView = () => {
@@ -51,9 +53,43 @@ class FileDB {
   }
 
   getData = () => {
-    const coll = this.getColl()
-    // todo 对 数据进行排序 和 重构
-    return coll.data
+    // 如果 this.dbname 是 main 就直接返回 data
+    if(this.dbName === baseDBName){
+      return this.getColl<IFileListItem>().chain().data()
+    }
+
+    const originData = this.getColl<IFileListItemFolder>()
+      .chain()
+      .sort((obj1, obj2) => {
+        if (obj1.routes.length > obj2.routes.length) return 1
+        if (obj1.routes.length < obj2.routes.length) return -1
+        return -1
+      }).map(item=>{
+        item.children = []
+        return item
+      },{
+        removeMeta:true
+      })
+      .data()
+
+    let { length } = originData
+    let data: IFileListItemFolder[] = []
+    while (length--) {
+      const item = originData[length]
+      if (!item.routes.length) {
+        if (length === originData.length - 1) {
+          data = originData
+          break
+        }
+        data.push(item)
+        continue
+      }
+      const id = item.routes[item.routes.length - 1]
+      const obj = originData.find(PropEq('id', id))
+      obj?.children.push(item)
+    }
+    console.log(data)
+    return data
   }
 
   init = async () => {
@@ -132,7 +168,7 @@ class FileDB {
 
   // 应该只能   this -> main db
   loadChildFileById = (rootId: number, fileDB: FileDB): Promise<void> => {
-    const baseDBItem: IFileListItemFolder = this.getColl().get(rootId)
+    const baseDBItem = this.getColl<IFileListItemFolder>().get(rootId)
     console.log('[loadChildFileById]', baseDBItem)
     // 加载文件夹下的子文件数据   main 里面的 item, this.getData 调用的不能是 MainDB
     baseDBItem.children = fileDB.getData()
