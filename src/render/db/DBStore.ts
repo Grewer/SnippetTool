@@ -37,16 +37,16 @@ class DBStore {
   getFileView = () => {
     return this.dynamicData
   }
-
-  addGlobalFile = async (values: IFileListItem) => {
-    // 在根文件夹下添加文件/文件夹
-    // TODO 重命名问题
-    const fileDB = await this.getFileDB(baseDBName, true)
-    if (values.fileType === IFileType.folder) {
-      return fileDB.createFolderDB(values, true)
-    }
-    return fileDB.addFile(values, true)
-  }
+  //
+  // addGlobalFile = async (values: IFileListItem) => {
+  //   // 在根文件夹下添加文件/文件夹
+  //   // TODO 重命名问题
+  //   const fileDB = await this.getFileDB(baseDBName, true)
+  //   if (values.fileType === IFileType.folder) {
+  //     return fileDB.createFolderDB(values, true)
+  //   }
+  //   return fileDB.addFile(values, true)
+  // }
 
   deleteFile = async (item: IFileListItemFile) => {
     console.log(item)
@@ -86,36 +86,46 @@ class DBStore {
     return this.loadChildFileWrap(item)
   }
 
-  addLocalFile = async (values, item: IFileListItemFolder) => {
-    // 非全局文件  item => 不一定为 global
-    console.log(values, item)
-    const db = await this.getFileDB(item.dbName)
-    console.log(db)
-    if (values.fileType === IFileType.folder) {
-      await db.createFolderDB(values, false, item.$loki, item)
-      this.loadChildFileWrap(item)
-      // 保存未成功
-      return
-    }
-    await db.addFile(values, false, item.$loki)
-
-    this.loadChildFileWrap(item)
-  }
+  // addLocalFile = async (values, item: IFileListItemFolder) => {
+  //   // 非全局文件  item => 不一定为 global
+  //   console.log(values, item)
+  //   const db = await this.getFileDB(item.dbName)
+  //   console.log(db)
+  //   if (values.fileType === IFileType.folder) {
+  //     await db.createFolderDB(values, false, item.$loki, item)
+  //     this.loadChildFileWrap(item)
+  //     // 保存未成功
+  //     return
+  //   }
+  //   await db.addFile(values, false, item.$loki)
+  //
+  //   this.loadChildFileWrap(item)
+  // }
 
   loadChildFileWrap = async (item: IFileListItem): Promise<void> => {
     // 这里不应该有这个函数
     // item 需要有 rootId
     // item 应该是某个文件的 item
+    console.log('loadChildFileWrap')
     const baseDB = await this.getFileDB(baseDBName)
     const currentDB = await this.getFileDB(item.dbName)
 
     return baseDB.loadChildFileById(item.isGlobal ? item.$loki! : item.rootId, currentDB)
   }
 
+
+  /**
+   * 切换显示
+   * @param item
+   * @param loading
+   * 如果是全局文件 只需要在全局的 db 里面操作
+   * 如果不是全局的文件, 需要的是更新局部 ab 里的 visible 字段 还有 更新 main 数据库
+   */
   toggleVisible = async (item: IFileListItemFolder, loading = false) => {
+    console.log('toggle', item)
     const dbName = item.isGlobal ? baseDBName : item.dbName
 
-    const baseDB = await this.getFileDB(dbName)
+    const baseDB = await this.getFileDB(baseDBName)
 
     return baseDB.toggleVisible(item, loading)
   }
