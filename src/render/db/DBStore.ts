@@ -1,4 +1,4 @@
-import jetpack from 'fs-jetpack'
+import jetpack, { removeAsync } from 'fs-jetpack'
 import FileDB, { IFileDB } from '~/db/FileDB'
 import { IFileListItem, IFileListItemFile, IFileListItemFolder } from '~/definition/Main'
 import { baseDBName } from '~/config'
@@ -48,12 +48,14 @@ class DBStore {
   //   return fileDB.addFile(values, true)
   // }
 
-  deleteFile = async (item: IFileListItemFile) => {
+  deleteFile = async (item: IFileListItem) => {
     console.log(item)
-    // todo 删除文件夹的时候需要删除本地文件
     const db = await this.getFileDB(item.dbName, item.isGlobal)
     if (item.isGlobal) {
       // 只删除 global 文件
+      if (item.fileType === IFileType.folder) {
+        await removeAsync(`db/${item.dbName}.json`)
+      }
       return db.removeFile(item)
     }
 

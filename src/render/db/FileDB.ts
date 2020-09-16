@@ -166,7 +166,7 @@ class FileDB {
     // item 是某一个子文件夹下的一个文件
     // 1. 获取 item 对应的 baseDb 下的 item
     // 2. 对 item 的 children 进行更新
-
+    // todo 去除此函数
     return baseDB.loadChildFileById(item.rootId, this)
 
     // return this.saveDB()
