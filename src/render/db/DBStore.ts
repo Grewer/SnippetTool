@@ -113,7 +113,6 @@ class DBStore {
     return baseDB.loadChildFileById(item.isGlobal ? item.$loki! : item.rootId, currentDB)
   }
 
-
   /**
    * 切换显示
    * @param item
@@ -123,11 +122,14 @@ class DBStore {
    */
   toggleVisible = async (item: IFileListItemFolder, loading = false) => {
     console.log('toggle', item)
-    const dbName = item.isGlobal ? baseDBName : item.dbName
-
     const baseDB = await this.getFileDB(baseDBName)
+    if (item.isGlobal) {
+      return baseDB.toggleVisible(item, loading)
+    }
+    const db = await this.getFileDB(item.dbName)
+    await db.toggleVisible(item, loading)
 
-    return baseDB.toggleVisible(item, loading)
+    return baseDB.loadChildFileById(item.rootId, db)
   }
 
   addFolder = async (values, item?: IFileListItemFolder) => {
