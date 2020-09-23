@@ -76,8 +76,11 @@ class FileDB {
           removeMeta: true,
         }
       )
-      .data()
+      .data({
+        forceClones: true,
+      })
 
+    console.log('originData', originData)
     let { length } = originData
     let data: IFileListItemFolder[] = []
     while (length--) {
@@ -94,6 +97,7 @@ class FileDB {
       const obj = originData.find(PropEq('id', id))
       obj?.children.push(item)
     }
+    // todo 修正文件的逻辑
     console.log(data)
     return data
   }
@@ -141,25 +145,6 @@ class FileDB {
         resolve()
       })
     })
-  }
-
-  addFile = async (values: Pick<IFileListItem, 'fileType' | 'fileName'>, isGlobal = false, rootId?: number) => {
-    console.log(this.DB)
-
-    const fileList: Collection<IFileListItem> = this.getColl()
-    const id = v1()
-    const fileListItem: IFileListItemFile = {
-      ...values,
-      dbName: this.dbName,
-      content: '',
-      id,
-      isGlobal,
-      rootId: isGlobal ? 0 : rootId,
-    } as IFileListItemFile
-
-    fileList.insert(fileListItem)
-
-    return this.saveDB()
   }
 
   updateBaseDBByFile = (item: IFileListItem, baseDB: FileDB) => {
@@ -287,6 +272,46 @@ class FileDB {
         }
       })
     })
+  }
+
+  addGlobalFile = values => {
+    const fileList: Collection<IFileListItem> = this.getColl()
+    const id = v1()
+    const fileListItem: IFileListItemFile = {
+      ...values,
+      dbName: this.dbName,
+      content: '',
+      id,
+      isGlobal: true,
+      rootId: 0,
+    } as IFileListItemFile
+
+    fileList.insert(fileListItem)
+
+    return this.saveDB()
+  }
+
+  addChildFile = async (values, item, db) => {
+    const key = item.rootId || item.$loki
+
+    const id = v1()
+    const fileListItem: IFileListItemFile = {
+      ...values,
+      dbName: item.dbName,
+      content: '',
+      id,
+      isGlobal: false,
+      rootId: 0,
+      routes: item.routes.concat(item.id),
+    } as IFileListItemFile
+
+    const fileList: Collection<IFileListItem> = db.getColl()
+
+    fileList.insert(fileListItem)
+
+    await db.saveDB()
+    console.log(key)
+    return this.loadChildFileById(key, db)
   }
 
   updateContent = (item: IFileListItemFile, content: string) => {

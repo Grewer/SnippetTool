@@ -130,7 +130,7 @@ class DBStore {
     }
     const db = await this.getFileDB(item.dbName)
     await db.toggleVisible(item, loading)
-
+    // 还是有问题
     return baseDB.loadChildFileById(item.rootId, db)
   }
 
@@ -139,7 +139,7 @@ class DBStore {
     const baseDB = await this.getFileDB(baseDBName)
 
     if (!item) {
-      // 全局文件
+      // 全局文件夹
       return baseDB.addGlobalFolder(values)
     }
 
@@ -150,6 +150,19 @@ class DBStore {
     }
     // 考虑这 2 层是否能够合并  现在不合并 逻辑更加清晰
     return baseDB.addChildFolder(values, item, db)
+  }
+
+  addFile = async (values, item?: IFileListItemFile) => {
+    console.log('[add File]', values, item)
+    const baseDB = await this.getFileDB(baseDBName)
+
+    if (!item) {
+      // 全局文件
+      return baseDB.addGlobalFile(values)
+    }
+    console.log('添加子文件')
+    const db = await this.getFileDB(item.dbName)
+    baseDB.addChildFile(values, item, db)
   }
 }
 

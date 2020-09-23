@@ -6,6 +6,7 @@ import Form from '~/form/Form'
 import Radio from '~/form/Radio'
 import setupLoading from '~/components/setupLoading'
 import DBStore from '~/db/DBStore'
+import IFileType from '~/enum/FileType'
 
 // 摸态框表单,用来添加文件或文件夹
 
@@ -30,11 +31,10 @@ const Component = props => {
       // global.loading
       const loading = setupLoading('', 0)
       try {
-        // todo 文件和文件夹分开
-        if (global) {
-          await DBStore.addFolder(values)
+        if (values.fileType === IFileType.file) {
+          await DBStore.addFile(values, global ? null : item)
         } else {
-          await DBStore.addFolder(values, item)
+          await DBStore.addFolder(values, global ? null : item)
         }
         close()
       } catch (e) {
