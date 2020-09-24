@@ -103,7 +103,6 @@ class FileDB {
         data.push(item)
       }
     }
-    // todo 修正文件的逻辑
     console.log(data)
     return data
   }
@@ -151,16 +150,6 @@ class FileDB {
         resolve()
       })
     })
-  }
-
-  updateBaseDBByFile = (item: IFileListItem, baseDB: FileDB) => {
-    // item 是某一个子文件夹下的一个文件
-    // 1. 获取 item 对应的 baseDb 下的 item
-    // 2. 对 item 的 children 进行更新
-    // todo 去除此函数
-    return baseDB.loadChildFileById(item.rootId, this)
-
-    // return this.saveDB()
   }
 
   // 应该只能   this -> main db
@@ -242,6 +231,7 @@ class FileDB {
    * @param values
    * @param item
    * @param db
+   * 与 root 不一样的地方: 1. routes 2. rootId
    */
   addChildFolder = async (values, item: IFileListItemFolder, db: FileDB) => {
     const id = v1()

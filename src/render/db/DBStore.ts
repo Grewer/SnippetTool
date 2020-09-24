@@ -37,16 +37,6 @@ class DBStore {
   getFileView = () => {
     return this.dynamicData
   }
-  //
-  // addGlobalFile = async (values: IFileListItem) => {
-  //   // 在根文件夹下添加文件/文件夹
-  //   // TODO 重命名问题
-  //   const fileDB = await this.getFileDB(baseDBName, true)
-  //   if (values.fileType === IFileType.folder) {
-  //     return fileDB.createFolderDB(values, true)
-  //   }
-  //   return fileDB.addFile(values, true)
-  // }
 
   deleteFile = async (item: IFileListItem) => {
     console.log(item)
@@ -58,16 +48,14 @@ class DBStore {
       }
       return db.removeFile(item)
     }
-
+    // todo 问题 删除 文件夹 但是 实际删除的是文件
     // 删除文件夹下的文件/文件夹
     // 需要删除当前文件夹数据库的数据, 并且更新数据到 baseDB
     db.removeFile(item)
 
     const baseDB = await this.getFileDB(baseDBName)
 
-    await db.updateBaseDBByFile(item, baseDB)
-
-    return baseDB.saveDB()
+    return baseDB.loadChildFileById(item.rootId, db)
   }
 
   updateContent = async (item: IFileListItemFile, content: string) => {
@@ -87,22 +75,6 @@ class DBStore {
 
     return this.loadChildFileWrap(item)
   }
-
-  // addLocalFile = async (values, item: IFileListItemFolder) => {
-  //   // 非全局文件  item => 不一定为 global
-  //   console.log(values, item)
-  //   const db = await this.getFileDB(item.dbName)
-  //   console.log(db)
-  //   if (values.fileType === IFileType.folder) {
-  //     await db.createFolderDB(values, false, item.$loki, item)
-  //     this.loadChildFileWrap(item)
-  //     // 保存未成功
-  //     return
-  //   }
-  //   await db.addFile(values, false, item.$loki)
-  //
-  //   this.loadChildFileWrap(item)
-  // }
 
   loadChildFileWrap = async (item: IFileListItem): Promise<void> => {
     // 这里不应该有这个函数
