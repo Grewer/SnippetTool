@@ -95,7 +95,13 @@ class FileDB {
       }
       const id = item.routes[item.routes.length - 1]
       const obj = originData.find(PropEq('id', id))
-      obj?.children.push(item)
+      if (obj) {
+        // 子文件夹
+        obj.children.push(item)
+      } else {
+        // 文件
+        data.push(item)
+      }
     }
     // todo 修正文件的逻辑
     console.log(data)
