@@ -319,8 +319,7 @@ class FileDB {
 
   removeFile = item => {
     const fileList: Collection<IFileListItem> = this.getColl()
-    fileList.remove(item)
-
+    fileList.findAndRemove({ id: { $eq: item.id } })
     return this.saveDB()
   }
 

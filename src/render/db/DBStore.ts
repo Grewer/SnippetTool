@@ -4,6 +4,9 @@ import { IFileListItem, IFileListItemFile, IFileListItemFolder } from '~/definit
 import { baseDBName } from '~/config'
 import IFileType from '~/enum/FileType'
 
+// 注意!!
+// 因为 item 可能不在当前 DB 中 所以直接 操作 item 会出问题
+
 class DBStore {
   cache = new Map<string, FileDB>()
 
