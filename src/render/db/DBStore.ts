@@ -57,7 +57,7 @@ class DBStore {
 
     const baseDB = await this.getFileDB(baseDBName)
 
-    return baseDB.loadChildFileById(item.rootId, db)
+    return baseDB.loadChildFileById(item.rootId || item.$loki!, db)
   }
 
   updateContent = async (item: IFileListItemFile, content: string) => {

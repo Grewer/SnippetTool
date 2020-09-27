@@ -59,7 +59,6 @@ class FileDB {
         .chain()
         .data()
     }
-
     const originData = this.getColl<IFileListItemFolder>()
       .chain()
       .sort((obj1, obj2) => {
@@ -297,7 +296,7 @@ class FileDB {
       content: '',
       id,
       isGlobal: false,
-      rootId: 0,
+      rootId: key,
       routes: item.routes.concat(item.id),
     } as IFileListItemFile
 
