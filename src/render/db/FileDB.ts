@@ -323,6 +323,12 @@ class FileDB {
     return this.saveDB()
   }
 
+  removeGlobalFile = item => {
+    const fileList: Collection<IFileListItem> = this.getColl()
+    fileList.remove(item)
+    return this.saveDB()
+  }
+
   rename = async (item: IFileListItemFile, value: { fileName: string }) => {
     // console.log('rename', item, this.DB, this)
     item.fileName = value.fileName

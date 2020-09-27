@@ -52,6 +52,7 @@ function App() {
   const listen = useMemo(() => {
     return {
       insert: event => {
+        console.log('[insert event]')
         const payload =
           event.fileType === IFileType.folder
             ? {
@@ -72,6 +73,7 @@ function App() {
         )
       },
       update: () => {
+        console.log('[update event]')
         setState(
           createAction('updateFile', {
             fileList: BaseDBStore.getFileView()?.data(),

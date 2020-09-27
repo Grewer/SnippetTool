@@ -49,9 +49,8 @@ class DBStore {
       if (item.fileType === IFileType.folder) {
         await removeAsync(`db/${item.dbName}.json`)
       }
-      return db.removeFile(item)
+      return db.removeGlobalFile(item)
     }
-    // todo 问题 删除 文件夹 但是 实际删除的是文件
     // 删除文件夹下的文件/文件夹
     // 需要删除当前文件夹数据库的数据, 并且更新数据到 baseDB
     db.removeFile(item)
@@ -104,7 +103,7 @@ class DBStore {
       return baseDB.toggleVisible(item, loading)
     }
     const db = await this.getFileDB(item.dbName)
-    await db.toggleVisible(item, loading)
+    await db.toggleVisible(item, loading) // TODO 修改
     // 还是有问题
     return baseDB.loadChildFileById(item.rootId, db)
   }
