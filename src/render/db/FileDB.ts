@@ -337,10 +337,11 @@ class FileDB {
   }
 
   toggleVisible = async (item, loading) => {
-    item.visible = loading
-
     const coll = this.getColl()
-    coll.update(item)
+
+    coll.findAndUpdate({ id: { $eq: item.id } }, obj => {
+      obj.visible = loading
+    })
 
     return this.saveDB()
   }
