@@ -66,6 +66,7 @@ class DBStore {
   }
 
   rename = async (item: IFileListItemFile, value) => {
+    // TODO 修改
     console.log(item, value)
     const db = await this.getFileDB(item.dbName, item.isGlobal)
 
@@ -74,14 +75,6 @@ class DBStore {
     if (item.isGlobal) {
       return Promise.resolve()
     }
-
-    return this.loadChildFileWrap(item)
-  }
-
-  loadChildFileWrap = async (item: IFileListItem): Promise<void> => {
-    // 这里不应该有这个函数
-    // item 需要有 rootId
-    // item 应该是某个文件的 item
     console.log('loadChildFileWrap')
     const baseDB = await this.getFileDB(baseDBName)
     const currentDB = await this.getFileDB(item.dbName)
@@ -103,8 +96,7 @@ class DBStore {
       return baseDB.toggleVisible(item, loading)
     }
     const db = await this.getFileDB(item.dbName)
-    await db.toggleVisible(item, loading) // TODO 修改
-    // 还是有问题
+    await db.toggleVisible(item, loading)
     return baseDB.loadChildFileById(item.rootId, db)
   }
 
