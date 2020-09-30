@@ -107,7 +107,7 @@ class FileDB {
   }
 
   init = async () => {
-    const { dbName, listen } = this.props
+    const { dbName, listen = {} } = this.props
     const path = `db/${dbName}.json`
 
     const db = new Loki(path, {
@@ -330,9 +330,17 @@ class FileDB {
 
   rename = async (item: IFileListItemFile, value: { fileName: string }) => {
     // console.log('rename', item, this.DB, this)
-    item.fileName = value.fileName
     const coll = this.getColl()
-    coll.update(item)
+
+    if (item.isGlobal) {
+      item.fileName = value.fileName
+      coll.update(item)
+      return this.saveDB()
+    }
+
+    coll.findAndUpdate({ id: { $eq: item.id } }, obj => {
+      obj.fileName = value.fileName
+    })
     return this.saveDB()
   }
 

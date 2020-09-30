@@ -66,7 +66,6 @@ class DBStore {
   }
 
   rename = async (item: IFileListItemFile, value) => {
-    // TODO 修改
     console.log(item, value)
     const db = await this.getFileDB(item.dbName, item.isGlobal)
 
