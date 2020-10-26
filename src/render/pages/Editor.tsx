@@ -3,9 +3,9 @@ import * as HyperMD from 'hypermd'
 import './editor.global.less'
 import { cm_t } from 'hypermd/core/type'
 import BaseDBStore from '~/db/DBStore'
-import debounce from '~/utils/debounce'
 import useMount from '~/hooks/useMount'
 import { IFileListItemFile } from '~/definition/Main'
+import { debounce } from '@grewer/tools'
 
 // Load these modes if you want highlighting ...
 require('codemirror/mode/htmlmixed/htmlmixed') // for embedded HTML

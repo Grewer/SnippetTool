@@ -10,7 +10,7 @@
     "dev": "webpack --mode development"
   },
   "dependencies": {
-    "@grewer/tools": "^0.1.0",
+    "@grewer/tools": "^0.1.2",
     "codemirror": "^5.52.2",
     "dotenv": "^8.2.0",
     "electron": "^8.2.5",

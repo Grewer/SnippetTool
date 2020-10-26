@@ -1,8 +1,8 @@
 import { v1 } from 'uuid'
 import Loki from 'lokijs'
+import { propEq } from '@grewer/tools'
 import { IFileListItem, IFileListItemFile, IFileListItemFolder } from '~/definition/Main'
 import IFileType from '~/enum/FileType'
-import { PropEq } from '~/utils/fn'
 import { baseDBName } from '~/config'
 
 /**
@@ -93,7 +93,7 @@ class FileDB {
         continue
       }
       const id = item.routes[item.routes.length - 1]
-      const obj = originData.find(PropEq('id', id))
+      const obj = originData.find(propEq('id', id))
       if (obj) {
         // 子文件夹
         obj.children.push(item)
