@@ -17,7 +17,7 @@ const LazyRequest = async ({
     await request()
   } catch (e) {
     console.info('[LazyRequest]', e)
-    errorCallback && errorCallback(e)
+    errorCallback?.(e)
   } finally {
     loading ? loading.close() : clearTimeout(timeout)
   }

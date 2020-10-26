@@ -10,6 +10,7 @@
     "dev": "webpack --mode development"
   },
   "dependencies": {
+    "@grewer/tools": "^0.1.0",
     "codemirror": "^5.52.2",
     "dotenv": "^8.2.0",
     "electron": "^8.2.5",
@@ -25,7 +26,7 @@
     "uuid": "^8.2.0"
   },
   "devDependencies": {
-    "@grew/eslint-config": "^0.1.4",
+    "@grewer/eslint-config": "^0.1.1",
     "@types/lokijs": "^1.5.3",
     "@types/node": "^12.12.22",
     "@types/react": "^16.9.17",
@@ -52,7 +53,7 @@
   },
   "eslintConfig": {
     "extends": [
-      "@grew",
+      "@grewer/eslint-config",
       "plugin:react-hooks/recommended"
     ],
     "env": {
@@ -70,5 +71,5 @@
     "!.eslintrc.js",
     "!.prettierrc.js"
   ],
-  "prettier": "@grew/eslint-config/.prettierrc.js"
+  "prettier": "@grewer/eslint-config/.prettierrc.js"
 }
