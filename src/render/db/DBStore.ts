@@ -62,7 +62,12 @@ class DBStore {
 
   updateContent = async (item: IFileListItemFile, content: string) => {
     const db = await this.getFileDB(item.dbName, item.isGlobal)
-    return db.updateContent(item, content)
+    db.updateContent(item, content)
+    if (item.isGlobal) {
+      return Promise.resolve()
+    }
+    const baseDB = await this.getFileDB(baseDBName)
+    return baseDB.loadChildFileById(item.rootId, db)
   }
 
   rename = async (item: IFileListItemFile, value) => {

@@ -310,9 +310,14 @@ class FileDB {
   }
 
   updateContent = (item: IFileListItemFile, content: string) => {
-    item.content = content
     const coll = this.getColl()
-    coll.update(item)
+    if (item.isGlobal) {
+      coll.update(item)
+      return this.saveDB()
+    }
+    coll.findAndUpdate({ id: { $eq: item.id } }, obj => {
+      obj.content = content
+    })
     return this.saveDB()
   }
 
