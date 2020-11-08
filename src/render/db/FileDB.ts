@@ -159,10 +159,7 @@ class FileDB {
     baseDBItem.children = fileDB.getData()
     baseDBItem.visible = true
 
-    const baseColl = this.getColl()
-
-    baseColl.update(baseDBItem)
-
+    this.itemUpdate(baseDBItem)
     return this.saveDB()
   }
 
@@ -256,21 +253,8 @@ class FileDB {
     return this.loadChildFileById(item.rootId, db)
   }
 
-  saveDB = <T = any>(value?: T) => {
-    return new Promise<T>((resolve, reject) => {
-      console.log('saveDatabase', this.DB)
-      this.DB.saveDatabase(err => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(value)
-        }
-      })
-    })
-  }
-
   addGlobalFile = values => {
-    const fileList: Collection<IFileListItem> = this.getColl()
+    const fileList = this.getColl<IFileListItem>()
     const id = v1()
     const fileListItem: IFileListItemFile = {
       ...values,
@@ -310,9 +294,8 @@ class FileDB {
   }
 
   updateContent = async (item: IFileListItemFile, content: string) => {
-    const coll = this.getColl()
     if (item.isGlobal) {
-      coll.update(item)
+      this.itemUpdate(item)
       return this.saveDB()
     }
     const obj = await this.findAndUpdate<IFileListItemFile>(item.id)
@@ -335,11 +318,10 @@ class FileDB {
 
   rename = async (item: IFileListItemFile, value: { fileName: string }) => {
     // console.log('rename', item, this.DB, this)
-    const coll = this.getColl()
 
     if (item.isGlobal) {
       item.fileName = value.fileName
-      coll.update(item)
+      this.itemUpdate(item)
       return this.saveDB()
     }
 
@@ -349,10 +331,9 @@ class FileDB {
   }
 
   toggleVisible = async (item, loading) => {
-    const coll = this.getColl()
     if (item.isGlobal) {
       item.visible = loading
-      coll.update(item)
+      this.itemUpdate(item)
       return this.saveDB()
     }
     const obj = await this.findAndUpdate<IFileListItemFolder>(item.id)
@@ -360,6 +341,31 @@ class FileDB {
     return this.saveDB()
   }
 
+  /**
+   * 封装 save database 函数
+   * @param value
+   */
+  saveDB = <T = any>(value?: T) => {
+    return new Promise<T>((resolve, reject) => {
+      console.log('saveDatabase', this.DB)
+      this.DB.saveDatabase(err => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(value)
+        }
+      })
+    })
+  }
+
+  /**
+   * 封装 item update 重复代码
+   * @param item
+   */
+  itemUpdate = (item: IFileListItem) => {
+    const coll = this.getColl()
+    coll.update(item)
+  }
 
   /**
    * 封装 find and update 函数
