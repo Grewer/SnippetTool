@@ -349,15 +349,17 @@ class FileDB {
   }
 
   toggleVisible = async (item, loading) => {
-    // if (item.isGlobal) {
-    //   item.fileName = value.fileName
-    //   coll.update(item)
-    //   return this.saveDB()
-    // }
+    const coll = this.getColl()
+    if (item.isGlobal) {
+      item.visible = loading
+      coll.update(item)
+      return this.saveDB()
+    }
     const obj = await this.findAndUpdate<IFileListItemFolder>(item.id)
     obj.visible = loading
     return this.saveDB()
   }
+
 
   /**
    * 封装 find and update 函数

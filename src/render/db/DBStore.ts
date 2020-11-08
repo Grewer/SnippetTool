@@ -24,16 +24,22 @@ class DBStore {
     return Promise.resolve(view)
   }
 
+  get BaseDB() {
+    return this.cache.get(baseDBName)!
+  }
+
   getFileDB = async (dbName: string, isGlobal = false): Promise<FileDB> => {
-    const _dbName = isGlobal ? baseDBName : dbName
-    console.log('获取 createDB', _dbName)
-    if (!this.cache.has(_dbName)) {
-      const fileDB = new FileDB({ dbName: _dbName })
+    if (isGlobal) {
+      return this.BaseDB
+    }
+    console.log('获取 createDB', dbName)
+    if (!this.cache.has(dbName)) {
+      const fileDB = new FileDB({ dbName })
       await fileDB.init()
-      this.cache.set(_dbName, fileDB)
+      this.cache.set(dbName, fileDB)
       return fileDB
     }
-    return this.cache.get(_dbName) as FileDB
+    return Promise.resolve(this.cache.get(dbName)!)
   }
 
   getFileView = () => {
@@ -54,9 +60,7 @@ class DBStore {
     // 需要删除当前文件夹数据库的数据, 并且更新数据到 baseDB
     db.removeFile(item)
 
-    const baseDB = await this.getFileDB(baseDBName)
-
-    return baseDB.loadChildFileById(item.rootId || item.$loki!, db)
+    return this.BaseDB.loadChildFileById(item.rootId || item.$loki!, db)
   }
 
   updateContent = async (item: IFileListItemFile, content: string) => {
@@ -65,8 +69,7 @@ class DBStore {
     if (item.isGlobal) {
       return Promise.resolve()
     }
-    const baseDB = await this.getFileDB(baseDBName)
-    return baseDB.loadChildFileById(item.rootId, db)
+    return this.BaseDB.loadChildFileById(item.rootId, db)
   }
 
   rename = async (item: IFileListItemFile, value) => {
@@ -79,9 +82,8 @@ class DBStore {
       return Promise.resolve()
     }
     console.log('loadChildFileWrap')
-    const baseDB = await this.getFileDB(baseDBName)
 
-    return baseDB.loadChildFileById(item.isGlobal ? item.$loki! : item.rootId, db)
+    return this.BaseDB.loadChildFileById(item.isGlobal ? item.$loki! : item.rootId, db)
   }
 
   /**
@@ -93,44 +95,40 @@ class DBStore {
    */
   toggleVisible = async (item: IFileListItemFolder, loading = false) => {
     console.log('toggle', item)
-    const baseDB = await this.getFileDB(baseDBName)
-    if (item.isGlobal) {
-      return baseDB.toggleVisible(item, loading)
-    }
-    const db = await this.getFileDB(item.dbName)
+    const db = await this.getFileDB(item.dbName, item.isGlobal)
     await db.toggleVisible(item, loading)
-    return baseDB.loadChildFileById(item.rootId, db)
+    if (item.isGlobal) {
+      return
+    }
+    return this.BaseDB.loadChildFileById(item.rootId, db)
   }
 
   addFolder = async (values, item?: IFileListItemFolder) => {
     console.log('[add Folder]', values, item)
-    const baseDB = await this.getFileDB(baseDBName)
-
     if (!item) {
       // 全局文件夹
-      return baseDB.addGlobalFolder(values)
+      return this.BaseDB.addGlobalFolder(values)
     }
 
     const db = await this.getFileDB(item.dbName)
 
     if (item.isGlobal) {
-      return baseDB.addRootFolder(values, item, db)
+      return this.BaseDB.addRootFolder(values, item, db)
     }
     // 考虑这 2 层是否能够合并  现在不合并 逻辑更加清晰
-    return baseDB.addChildFolder(values, item, db)
+    return this.BaseDB.addChildFolder(values, item, db)
   }
 
   addFile = async (values, item?: IFileListItemFile) => {
     console.log('[add File]', values, item)
-    const baseDB = await this.getFileDB(baseDBName)
 
     if (!item) {
       // 全局文件
-      return baseDB.addGlobalFile(values)
+      return this.BaseDB.addGlobalFile(values)
     }
     console.log('添加子文件')
     const db = await this.getFileDB(item.dbName)
-    baseDB.addChildFile(values, item, db)
+    this.BaseDB.addChildFile(values, item, db)
   }
 }
 
