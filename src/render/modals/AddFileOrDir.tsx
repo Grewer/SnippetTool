@@ -61,7 +61,7 @@ const Component = props => {
               name: '文件夹',
             },
           ]}
-          // defaultValue="1" todo add
+          defaultValue="1"
           name="fileType"
         />
         <Input name="fileName" check={inputCheck} placeholder="输入文件名称" />

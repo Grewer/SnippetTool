@@ -3,7 +3,7 @@ import FormContext from '~/context/FormContext'
 import ErrorTip from '~/form/ErrorTip'
 
 const WrapFormContext = props => {
-  const { children, name, check, ...rest } = props
+  const { children, name, check, defaultValue, ...rest } = props
   const { values, onChange, checkMsg } = useContext(FormContext)
   // console.log('[WrapFormContext]', props, values)
 
@@ -22,7 +22,7 @@ const WrapFormContext = props => {
 
   const value = {
     name,
-    value: values[name] || '',
+    value: values[name] || defaultValue || '',
     onChange: _onChange,
     checkMsg: checkMsg[name] || '',
   }

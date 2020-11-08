@@ -3,12 +3,14 @@ import { IFormItem } from '~/form/interface'
 import styles from './Form.less'
 
 interface IRadio extends IFormItem {
+  /* eslint-disable react/no-unused-prop-types */
   options: { id: string; name: string }[]
   name?: string
   check?: {
     required?: string
   }
   checkMsg?: string
+  defaultValue?: any
 }
 
 function Radio(props: IRadio) {

@@ -34,12 +34,15 @@ const Component = props => {
     },
     [close, item]
   )
+
+  const { fileName } = item
+
   return (
     <div className="modal-box">
       <ModalTitle title="修改文件名" close={close} />
       <Form submit={submit}>
-        <div className="modal-item">原名称: {props.item.fileName}</div>
-        <Input name="fileName" check={inputCheck} placeholder="输入文件名称" />
+        <div className="modal-item">原名称: {fileName}</div>
+        <Input defaultValue={fileName} name="fileName" check={inputCheck} placeholder="输入文件名称" />
         <Button>提交</Button>
       </Form>
     </div>

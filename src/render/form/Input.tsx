@@ -6,16 +6,18 @@ import classNames from '~/utils/classNames'
 type IK = IFormItem & JSX.IntrinsicElements['input']
 
 interface IProps extends IK {
+  /* eslint-disable react/no-unused-prop-types */
   placeholder?: string
   name?: string
   check?: {
     required?: string
   }
   checkMsg?: string
+  defaultValue?: any
 }
 
 function Input(props: IProps) {
-  const { value, onChange, name, checkMsg, ...rest } = props
+  const { value, onChange, name, checkMsg } = props
   console.log('[Input]', props)
 
   const _onChange = useCallback(
@@ -36,7 +38,7 @@ function Input(props: IProps) {
 
   return (
     <fieldset name={name}>
-      <input className={input} value={value} onChange={_onChange} type="text" {...rest} />
+      <input className={input} value={value} onChange={_onChange} type="text" />
     </fieldset>
   )
 }
