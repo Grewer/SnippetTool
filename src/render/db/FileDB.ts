@@ -309,15 +309,15 @@ class FileDB {
     return this.loadChildFileById(key, db)
   }
 
-  updateContent = (item: IFileListItemFile, content: string) => {
+  updateContent = async (item: IFileListItemFile, content: string) => {
     const coll = this.getColl()
     if (item.isGlobal) {
       coll.update(item)
       return this.saveDB()
     }
-    coll.findAndUpdate({ id: { $eq: item.id } }, obj => {
-      obj.content = content
-    })
+    const obj = await this.findAndUpdate<IFileListItemFile>(item.id)
+    obj.content = content
+
     return this.saveDB()
   }
 
@@ -343,20 +343,32 @@ class FileDB {
       return this.saveDB()
     }
 
-    coll.findAndUpdate({ id: { $eq: item.id } }, obj => {
-      obj.fileName = value.fileName
-    })
+    const obj = await this.findAndUpdate(item.id)
+    obj.fileName = value.fileName
     return this.saveDB()
   }
 
   toggleVisible = async (item, loading) => {
-    const coll = this.getColl()
-
-    coll.findAndUpdate({ id: { $eq: item.id } }, obj => {
-      obj.visible = loading
-    })
-
+    // if (item.isGlobal) {
+    //   item.fileName = value.fileName
+    //   coll.update(item)
+    //   return this.saveDB()
+    // }
+    const obj = await this.findAndUpdate<IFileListItemFolder>(item.id)
+    obj.visible = loading
     return this.saveDB()
+  }
+
+  /**
+   * 封装 find and update 函数
+   * @param id
+   */
+  findAndUpdate = <T = IFileListItem>(id: string): Promise<T> => {
+    return new Promise(resolve => {
+      this.getColl().findAndUpdate({ id: { $eq: id } }, obj => {
+        resolve(obj)
+      })
+    })
   }
 }
 

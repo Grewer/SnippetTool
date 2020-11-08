@@ -25,7 +25,6 @@ class DBStore {
   }
 
   getFileDB = async (dbName: string, isGlobal = false): Promise<FileDB> => {
-    // todo 考虑 关于 isglobal 是否有必要
     const _dbName = isGlobal ? baseDBName : dbName
     console.log('获取 createDB', _dbName)
     if (!this.cache.has(_dbName)) {
@@ -81,9 +80,8 @@ class DBStore {
     }
     console.log('loadChildFileWrap')
     const baseDB = await this.getFileDB(baseDBName)
-    const currentDB = await this.getFileDB(item.dbName)
 
-    return baseDB.loadChildFileById(item.isGlobal ? item.$loki! : item.rootId, currentDB)
+    return baseDB.loadChildFileById(item.isGlobal ? item.$loki! : item.rootId, db)
   }
 
   /**

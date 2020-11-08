@@ -17,6 +17,8 @@ function createWindow() {
     },
     titleBarStyle: 'hidden',
     show: false,
+    frame: false,
+    resizable: false,
   })
 
   const indexPath = url.format({

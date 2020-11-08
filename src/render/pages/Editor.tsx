@@ -2,10 +2,10 @@ import React, { FC, useCallback, useEffect, useRef } from 'react'
 import * as HyperMD from 'hypermd'
 import './editor.global.less'
 import { cm_t } from 'hypermd/core/type'
+import { debounce } from '@grewer/tools'
 import BaseDBStore from '~/db/DBStore'
 import useMount from '~/hooks/useMount'
 import { IFileListItemFile } from '~/definition/Main'
-import { debounce } from '@grewer/tools'
 
 // Load these modes if you want highlighting ...
 require('codemirror/mode/htmlmixed/htmlmixed') // for embedded HTML
@@ -24,7 +24,11 @@ function Editor(props) {
   const autoSave = useCallback(
     debounce(() => {
       console.log('run autoSave', current)
-      BaseDBStore.updateContent(current, cmRef.current?.getValue())
+      try {
+        BaseDBStore.updateContent(current, cmRef.current?.getValue())
+      } catch (e) {
+        console.error(e)
+      }
     }, 2000),
     [current]
   )
@@ -42,7 +46,11 @@ function Editor(props) {
       'Cmd-S': () => {
         // 判断 Mac or win
         // var runKey = (mac ? "Cmd" : "Ctrl") + "-Enter";
-        BaseDBStore.updateContent(current, cmRef.current?.getValue())
+        try {
+          BaseDBStore.updateContent(current, cmRef.current?.getValue())
+        } catch (e) {
+          console.error(e)
+        }
       },
     })
     return () => {
