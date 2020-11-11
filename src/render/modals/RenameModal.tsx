@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import BaseModal, { ModalTitle } from './BaseModal'
+import { createCommonModal, ModalTitle } from './BaseModal'
 import Input from '~/form/Input'
 import Button from '~/form/Button'
 import Form from '~/form/Form'
@@ -10,7 +10,7 @@ import BaseDBStore from '~/db/DBStore'
 
 const inputCheck = { required: '请输入文件名' }
 
-const Component = props => {
+const RenameModal = createCommonModal(props => {
   console.log(props)
   const { close, item } = props
 
@@ -47,16 +47,5 @@ const Component = props => {
       </Form>
     </div>
   )
-}
-
-function RenameModal(props = {}) {
-  const open = () => {
-    BaseModal(Component, props)
-  }
-
-  return {
-    open,
-  }
-}
-
+})
 export default RenameModal

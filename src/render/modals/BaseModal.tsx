@@ -8,7 +8,6 @@ function BaseModal(Component, props?: any) {
 
   ReactDOM.render(<Component close={close} {...props} />, Dom)
 }
-export default BaseModal
 
 export const ModalTitle: React.FC<{
   title: string
@@ -23,3 +22,17 @@ export const ModalTitle: React.FC<{
     </div>
   )
 })
+
+export const createCommonModal = Component => {
+  return props => {
+    const open = () => {
+      BaseModal(Component, props)
+    }
+
+    return {
+      open,
+    }
+  }
+}
+
+export default BaseModal

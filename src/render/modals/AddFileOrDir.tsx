@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import BaseModal, { ModalTitle } from './BaseModal'
+import { createCommonModal, ModalTitle } from './BaseModal'
 import Input from '~/form/Input'
 import Button from '~/form/Button'
 import Form from '~/form/Form'
@@ -13,7 +13,7 @@ import IFileType from '~/enum/FileType'
 const inputCheck = { required: '请输入文件名' }
 const radioCheck = { required: '请选择类型' }
 
-const Component = props => {
+const AddFileOrDir = createCommonModal(props => {
   console.log(props)
   const { close, global, item } = props
 
@@ -69,16 +69,6 @@ const Component = props => {
       </Form>
     </div>
   )
-}
-
-function AddFileOrDir(props = {}) {
-  const open = () => {
-    BaseModal(Component, props)
-  }
-
-  return {
-    open,
-  }
-}
+})
 
 export default AddFileOrDir
