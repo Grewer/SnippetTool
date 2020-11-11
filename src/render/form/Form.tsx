@@ -2,6 +2,7 @@ import React, { ReactElement, useCallback, useReducer } from 'react'
 import styles from './Form.less'
 import FormContext from '~/context/FormContext'
 import FormFactory from '~/form/FormFactory'
+import WrapFormContext from '~/form/FormFactory'
 
 function Reducers(state, action) {
   const { type, payload } = action
@@ -79,12 +80,12 @@ function Form(props: IForm) {
     <FormContext.Provider value={value}>
       <form onSubmit={_submit} className={styles.form}>
         {React.Children.map(children, element => {
-          // console.log(child)
+          // console.log(element)
           // @ts-ignore
           if (element.type.button || !element.props.name) {
             return element
           }
-          return FormFactory(element.props, element.type)
+          return React.createElement(WrapFormContext, element.props, element.type)
         })}
       </form>
     </FormContext.Provider>

@@ -34,7 +34,4 @@ const WrapFormContext = props => {
   )
 }
 
-// todo React.createFactory() is deprecated and will be removed in a future major release. Consider using JSX or use React.createElement() directly instead.
-const FormFactory = React.createFactory(WrapFormContext)
-
-export default FormFactory
+export default WrapFormContext
