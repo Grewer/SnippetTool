@@ -17,7 +17,7 @@ interface IProps extends IK {
 }
 
 function Input(props: IProps) {
-  const { value, onChange, name, checkMsg } = props
+  const { value, onChange, name, checkMsg, ...rest } = props
   console.log('[Input]', props)
 
   const _onChange = useCallback(
@@ -38,7 +38,7 @@ function Input(props: IProps) {
 
   return (
     <fieldset name={name}>
-      <input className={input} value={value} onChange={_onChange} type="text" />
+      <input className={input} value={value} onChange={_onChange} type="text" {...rest} />
     </fieldset>
   )
 }
