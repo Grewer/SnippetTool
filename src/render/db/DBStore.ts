@@ -130,6 +130,13 @@ class DBStore {
     const db = await this.getFileDB(item.dbName)
     this.BaseDB.addChildFile(values, item, db)
   }
+
+  /**
+   * 获取文件系统的树形结构
+   */
+  getDBTree = async () => {
+    return Promise.resolve(this.dynamicData)
+  }
 }
 
 const BaseDBStore = new DBStore()

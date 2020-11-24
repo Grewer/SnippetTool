@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import BaseDBStore from '~/db/DBStore'
 import RenameModal from '~/modals/RenameModal'
 import FileListContext from '~/context/FileListContext'
+import MoveModal from '~/modals/MoveModal'
 
 const { body } = document
 
@@ -29,7 +30,9 @@ const FileMorePopover: FC = memo(props => {
     }
   }, [item, setPopover])
 
-  const moveHandler = useCallback(() => {}, [])
+  const moveHandler = useCallback(() => {
+    MoveModal({ item }).open()
+  }, [item])
 
   const renameHandler = useCallback(() => {
     RenameModal({ item }).open()
