@@ -48,7 +48,12 @@ const AddFileOrDir = createCommonModal(props => {
   return (
     <div className="modal-box">
       <ModalTitle title={`添加${global ? '全局' : ''}文件/文件夹`} close={close} />
-      <Form submit={submit}>
+      <Form
+        submit={submit}
+        defaultValue={{
+          fileType: '1',
+        }}
+      >
         <Radio
           check={radioCheck}
           options={[
@@ -61,7 +66,6 @@ const AddFileOrDir = createCommonModal(props => {
               name: '文件夹',
             },
           ]}
-          defaultValue="1"
           name="fileType"
         />
         <Input name="fileName" check={inputCheck} placeholder="输入文件名称" />

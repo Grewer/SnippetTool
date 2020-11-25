@@ -1,7 +1,6 @@
 import React, { ReactElement, useCallback, useReducer } from 'react'
 import styles from './Form.less'
 import FormContext from '~/context/FormContext'
-import FormFactory from '~/form/FormFactory'
 import WrapFormContext from '~/form/FormFactory'
 
 function Reducers(state, action) {
@@ -26,14 +25,15 @@ function Reducers(state, action) {
 interface IForm<T = any> {
   submit(values: T, error: boolean | string): any
 
+  defaultValue?: object
   children: ReactElement[]
 }
 
 function Form(props: IForm) {
-  const { children, submit } = props
+  const { children, submit, defaultValue = {} } = props
 
   const [value, dispatch] = useReducer(Reducers, {
-    values: {},
+    values: defaultValue,
     checkMsg: {},
     onChange: (val, name, checkMsg) => {
       dispatch({
@@ -81,11 +81,19 @@ function Form(props: IForm) {
       <form onSubmit={_submit} className={styles.form}>
         {React.Children.map(children, element => {
           // console.log(element)
+          const { name } = element.props
           // @ts-ignore
-          if (element.type.button || !element.props.name) {
+          if (element.type.button || !name) {
             return element
           }
-          return React.createElement(WrapFormContext, element.props, element.type)
+          return React.createElement(
+            WrapFormContext,
+            {
+              ...element.props,
+              defaultValue: defaultValue[name],
+            },
+            element.type
+          )
         })}
       </form>
     </FormContext.Provider>

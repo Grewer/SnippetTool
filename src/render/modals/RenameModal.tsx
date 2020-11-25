@@ -40,9 +40,14 @@ const RenameModal = createCommonModal(props => {
   return (
     <div className="modal-box">
       <ModalTitle title="修改文件名" close={close} />
-      <Form submit={submit}>
+      <Form
+        submit={submit}
+        defaultValue={{
+          fileName,
+        }}
+      >
         <div className="modal-item">原名称: {fileName}</div>
-        <Input defaultValue={fileName} name="fileName" check={inputCheck} placeholder="输入文件名称" />
+        <Input name="fileName" check={inputCheck} placeholder="输入文件名称" />
         <Button>提交</Button>
       </Form>
     </div>
