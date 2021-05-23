@@ -295,6 +295,7 @@ class FileDB {
 
   updateContent = async (item: IFileListItemFile, content: string) => {
     if (item.isGlobal) {
+      item.content = content
       this.itemUpdate(item)
       return this.saveDB()
     }

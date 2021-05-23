@@ -58,14 +58,15 @@ class DBStore {
     }
     // 删除文件夹下的文件/文件夹
     // 需要删除当前文件夹数据库的数据, 并且更新数据到 baseDB
-    db.removeFile(item)
+    await db.removeFile(item)
 
     return this.BaseDB.loadChildFileById(item.rootId || item.$loki!, db)
   }
 
   updateContent = async (item: IFileListItemFile, content: string) => {
     const db = await this.getFileDB(item.dbName, item.isGlobal)
-    db.updateContent(item, content)
+    console.log('db', db)
+    await db.updateContent(item, content)
     if (item.isGlobal) {
       return Promise.resolve()
     }
@@ -128,7 +129,7 @@ class DBStore {
     }
     console.log('添加子文件')
     const db = await this.getFileDB(item.dbName)
-    this.BaseDB.addChildFile(values, item, db)
+    await this.BaseDB.addChildFile(values, item, db)
   }
 
   /**
