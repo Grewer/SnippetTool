@@ -39,6 +39,7 @@ class FileDB {
     this.props = props
   }
 
+  // eslint-disable-next-line @typescript-eslint/ban-types
   getColl = <T extends object = any>(fileListName = 'fileList') => {
     return this.DB.getCollection<T>(fileListName)
   }
@@ -55,9 +56,7 @@ class FileDB {
   getData = () => {
     // 如果 this.dbname 是 main 就直接返回 data
     if (this.dbName === baseDBName) {
-      return this.getColl<IFileListItem>()
-        .chain()
-        .data()
+      return this.getColl<IFileListItem>().chain().data()
     }
     const originData = this.getColl<IFileListItemFolder>()
       .chain()
@@ -146,13 +145,13 @@ class FileDB {
           })
         }
 
-        resolve()
+        resolve('success')
       })
     })
   }
 
   // 应该只能   this -> main db
-  loadChildFileById = (rootId: number, fileDB: FileDB): Promise<void> => {
+  loadChildFileById = (rootId: number, fileDB: FileDB): Promise<unknown> => {
     const baseDBItem = this.getColl<IFileListItemFolder>().get(rootId)
     console.log('[loadChildFileById]', baseDBItem, rootId)
     // 加载文件夹下的子文件数据   main 里面的 item, this.getData 调用的不能是 MainDB
@@ -345,7 +344,7 @@ class FileDB {
    * @param value
    */
   saveDB = <T = any>(value?: T) => {
-    return new Promise<T>((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       console.log('saveDatabase', this.DB)
       this.DB.saveDatabase(err => {
         if (err) {
