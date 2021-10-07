@@ -5,9 +5,7 @@
     <meta name="viewport"
           content="width=device-width,initial-scale=1.0,maximum-scale=1, minimum-scale=1, user-scalable=no">
     <title>snippet tool</title>
-    <!--    <meta http-equiv="Content-Security-Policy"-->
-    <!--          content="default-src 'self';img-src data: *;style-src 'unsafe-inline' *;script-src * 'unsafe-inline'">-->
-    <%= webpackConfig.mode === 'development' ? `<Link rel="stylesheet" href=${htmlWebpackPlugin.options.iconfontUrl}>` : '' %>
+     <link rel="stylesheet" href="//at.alicdn.com/t/font_1794830_bvl9syfssv.css">
 </head>
 <body>
 <div id="root">
@@ -289,5 +287,5 @@
     </div>
 </div>
 </body>
-<script type="module" src="/src/main.tsx"></script>
+<script type="module" src="/src/render/index.tsx"></script>
 </html>

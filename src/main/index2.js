@@ -1,7 +1,11 @@
-import { app, BrowserWindow } from 'electron'
-import * as url from 'url'
+var electron_1 = require("electron/index");
+var url = require("url");
 
-let mainWindow: BrowserWindow
+console.dir(electron_1)
+
+const { app, BrowserWindow } = electron_1
+
+let mainWindow
 
 // 添加 dev 拓展工具, https://www.electronjs.org/docs/tutorial/devtools-extension
 
