@@ -6,34 +6,17 @@ const { spawn } = require('child_process')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const dotenv = require('dotenv')
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin')
-const TerserPlugin = require('terser-webpack-plugin')
 
 const { resolve } = path
 
 dotenv.config()
-
-
-var babelOptions = {
-  'presets': [
-    [
-      "@babel/preset-env",
-      {
-        "targets": {
-          "esmodules": true
-        },
-        "modules": false
-      }
-    ]
-  ],
-}
-
 
 module.exports = (env, argv) => {
   const webpackEnv = (argv || { mode: 'development' }).mode
   const isEnvDevelopment = webpackEnv === 'development'
   const isEnvProduction = webpackEnv === 'production'
   // console.log(env, argv)
-  console.log(isEnvProduction, isEnvDevelopment)
+  console.log({ isEnvProduction, webpackEnv })
   // console.log(process.env)
 
   const getStyleLoaders = (cssOptions, preProcessor) => {
@@ -91,7 +74,12 @@ module.exports = (env, argv) => {
         'process.env.dev': JSON.stringify(isEnvDevelopment),
         'process.env.github_key': JSON.stringify(process.env.github_key),
       }),
-      new webpack.WatchIgnorePlugin([/\.js$/, /\.d\.ts$/]),
+      new webpack.WatchIgnorePlugin({
+        paths: [
+          /\.js$/,
+          /\.d\.ts$/,
+        ],
+      }),
       new MiniCssExtractPlugin({
         filename: 'css/[name].[contenthash:8].css',
         chunkFilename: 'css/[name].[contenthash:8].chunk.css',
@@ -104,8 +92,8 @@ module.exports = (env, argv) => {
           include: resolve('src'),
           use: [
             {
-              loader: 'ts-loader'
-            }
+              loader: 'ts-loader',
+            },
           ],
         },
         {
@@ -113,9 +101,6 @@ module.exports = (env, argv) => {
           use: [
             {
               loader: 'file-loader',
-              // options: {
-              //   publicPath: 'dist',
-              // },
             },
           ],
           include: resolve('src'),
@@ -124,8 +109,7 @@ module.exports = (env, argv) => {
           test: /\.less$/,
           include: resolve('src'),
           exclude: /global.less/,
-          sideEffects: true,
-          loader: [
+          use: [
             ...getStyleLoaders({
               sourceMap: isEnvDevelopment,
               modules: true,
@@ -133,8 +117,10 @@ module.exports = (env, argv) => {
             {
               loader: 'less-loader',
               options: {
-                javascriptEnabled: true,
-                compress: true,
+                lessOptions:{
+                  javascriptEnabled: true,
+                  compress: true,
+                }
               },
             },
           ],
@@ -142,8 +128,7 @@ module.exports = (env, argv) => {
         {
           test: /global.less$/,
           include: resolve('src'),
-          sideEffects: true,
-          loader: [
+          use: [
             ...getStyleLoaders({
               sourceMap: isEnvDevelopment,
               modules: false,
@@ -151,8 +136,10 @@ module.exports = (env, argv) => {
             {
               loader: 'less-loader',
               options: {
-                javascriptEnabled: true,
-                compress: true,
+                lessOptions:{
+                  javascriptEnabled: true,
+                  compress: true,
+                }
               },
             },
           ],
@@ -180,16 +167,9 @@ module.exports = (env, argv) => {
       ],
     },
     devServer: {
-      contentBase: path.resolve(__dirname, 'dist'),
-      stats: {
-        colors: true,
-        chunks: false,
-        children: false,
-      },
       host: 'localhost',
-      progress: true,
-      lazy: false,
-      before() {
+      hot: true,
+      onBeforeSetupMiddleware() {
         spawn('electron', ['.'], { shell: true, env: process.env, stdio: 'inherit' })
           .on('close', code => process.exit(0))
           .on('error', spawnError => console.error(spawnError))

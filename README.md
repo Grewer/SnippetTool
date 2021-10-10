@@ -145,23 +145,11 @@ optimization: {
  }
 ```
 
-terser-webpack-plugin
-Webpack4.0 默认是使用 terser-webpack-plugin 这个压缩插件，在此之前是使用 uglifyjs-webpack-plugin，两者的区别是后者对 ES6 的压缩不是很好，同时我们可以开启 parallel 参数，使用多进程压缩，加快压缩。
-
-```
-const TerserPlugin = require('terser-webpack-plugin') // 压缩js代码
-
-optimization: {
-  minimizer: [
-    new TerserPlugin({
-      parallel: 4, // 开启几个进程来处理压缩，默认是 os.cpus().length - 1
-      cache: true, // 是否缓存
-      sourceMap: false,
-    }),
-  ]
-}
-```
-
 ### 关于代理的实现
 
 https://github.com/felicienfrancois/node-electron-proxy-agent/blob/master/index.js
+
+
+## 升级 webpack5
+
+eslint 问题待解决

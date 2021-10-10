@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2019",
+    "target": "ESNext",
     "module": "ESNext",
     "jsx": "react",
     "strict": true,
@@ -20,7 +20,7 @@
       "~/*": [
         "src/render/*"
       ]
-    }
+    },
   },
   "exclude": [
     "node_modules",
