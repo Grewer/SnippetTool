@@ -12,6 +12,22 @@ const { resolve } = path
 
 dotenv.config()
 
+
+var babelOptions = {
+  'presets': [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "esmodules": true
+        },
+        "modules": false
+      }
+    ]
+  ],
+}
+
+
 module.exports = (env, argv) => {
   const webpackEnv = (argv || { mode: 'development' }).mode
   const isEnvDevelopment = webpackEnv === 'development'
@@ -85,8 +101,12 @@ module.exports = (env, argv) => {
       rules: [
         {
           test: /\.(ts|tsx)$/,
-          loader: 'ts-loader',
           include: resolve('src'),
+          use: [
+            {
+              loader: 'ts-loader'
+            }
+          ],
         },
         {
           test: /\.(png|jpe?g|gif|svg|bmp)$/i,
