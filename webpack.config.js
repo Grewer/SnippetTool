@@ -97,15 +97,6 @@ module.exports = (env, argv) => {
           ],
         },
         {
-          test: /\.(png|jpe?g|gif|svg|bmp)$/i,
-          use: [
-            {
-              loader: 'file-loader',
-            },
-          ],
-          include: resolve('src'),
-        },
-        {
           test: /\.less$/,
           include: resolve('src'),
           exclude: /global.less/,
@@ -153,12 +144,12 @@ module.exports = (env, argv) => {
         },
         {
           test: /\.(png|jpg|gif|ttf|eot|woff|woff2)$/i,
-          use: [
-            {
-              loader: 'url-loader',
-              options: { limit: 8192 },
-            },
-          ],
+          type: 'asset',
+          parser: {
+            dataUrlCondition: {
+              maxSize: 8 * 1024 // 4kb
+            }
+          }
         },
         {
           test: /\.css$/,
