@@ -120,7 +120,8 @@ module.exports = (env, argv) => {
                 lessOptions:{
                   javascriptEnabled: true,
                   compress: true,
-                }
+                },
+                sourceMap: isEnvDevelopment
               },
             },
           ],
@@ -139,7 +140,8 @@ module.exports = (env, argv) => {
                 lessOptions:{
                   javascriptEnabled: true,
                   compress: true,
-                }
+                },
+                sourceMap: isEnvDevelopment
               },
             },
           ],

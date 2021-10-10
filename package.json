@@ -55,7 +55,7 @@
   },
   "eslintConfig": {
     "extends": [
-      "./node_modules/@grewer/eslint-config",
+      "@grewer/eslint-config",
       "plugin:react-hooks/recommended"
     ],
     "env": {
