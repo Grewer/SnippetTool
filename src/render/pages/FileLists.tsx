@@ -8,6 +8,7 @@ import FileListHeader from '~/pages/FileListHeader'
 import AddFileOrDir from '~/modals/AddFileOrDir'
 import BaseDBStore from '~/db/DBStore'
 import FileListContext from '~/context/FileListContext'
+import { IconJia, IconJiantou, IconMore } from '~/components/iconfont'
 
 /**
  * 类型分为文件和文件夹
@@ -139,8 +140,12 @@ const ListView = (props: IListView) => {
             >
               <span className={styles.fileName}>
                 {item.fileType === IFileType.folder && (
-                  <i onClick={() => iconClickHandle(item)} className={`iconfont icon-jiantou ${item.visible ? styles.rotate : ''}`} />
-                )}{' '}
+                  <IconJiantou
+                    style={{ display: 'inline-block' }}
+                    onClick={() => iconClickHandle(item)}
+                    className={item.visible ? styles.rotate : ''}
+                  />
+                )}
                 {item.fileName}
               </span>
               <Control item={item} addLocalFolder={addLocalFolder} fileType={item.fileType} />
@@ -158,11 +163,10 @@ function Control(props: { item: IFileListItem; fileType: IFileType; addLocalFold
 
   const { popoverClick } = useContext(FileListContext)
   const { item } = props
-
   return (
     <span className={styles.control}>
-      <i className="iconfont icon-more" onClick={ev => popoverClick(ev, item)} />
-      {props.fileType === IFileType.folder && <i onClick={() => props.addLocalFolder(item)} className="iconfont icon-jia" />}
+      <IconMore onClick={ev => popoverClick(ev, item)} style={{ display: 'inline-block' }} />
+      {props.fileType === IFileType.folder && <IconJia onClick={() => props.addLocalFolder(item)} style={{ display: 'inline-block' }} />}
     </span>
   )
 }

@@ -1,0 +1,8 @@
+{
+    "symbol_url": "//at.alicdn.com/t/font_1794830_bvl9syfssv.js",
+    "use_typescript": true,
+    "save_dir": "./src/render/components/iconfont",
+    "trim_icon_prefix": "icon",
+    "unit": "px",
+    "default_icon_size": 16
+}

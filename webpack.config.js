@@ -65,7 +65,6 @@ module.exports = (env, argv) => {
         minify: true,
         cache: true,
         inject: true,
-        iconfontUrl: process.env.iconfont,
       }),
       new HtmlWebpackHarddiskPlugin(),
       new webpack.DefinePlugin({
