@@ -25,7 +25,6 @@
     "uuid": "^8.2.0"
   },
   "devDependencies": {
-    "html-webpack-plugin": "^5.3.2",
     "@babel/core": "^7.15.8",
     "@grewer/eslint-config": "^0.1.1",
     "@types/lokijs": "^1.5.3",
@@ -39,7 +38,9 @@
     "css-loader": "^3.4.2",
     "electron-debug": "^3.0.1",
     "eslint-plugin-react-hooks": "^3.0.0",
+    "fork-ts-checker-webpack-plugin": "^6.3.4",
     "html-webpack-harddisk-plugin": "^2.0.0",
+    "html-webpack-plugin": "^5.3.2",
     "less": "^4.1.2",
     "less-loader": "^10.0.1",
     "mini-css-extract-plugin": "^2.4.2",

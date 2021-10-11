@@ -26,6 +26,7 @@ devDependencies:
   css-loader: registry.nlark.com/css-loader/3.6.0_webpack@5.58.1
   electron-debug: registry.nlark.com/electron-debug/3.2.0
   eslint-plugin-react-hooks: registry.npmmirror.com/eslint-plugin-react-hooks/3.0.0
+  fork-ts-checker-webpack-plugin: registry.npmmirror.com/fork-ts-checker-webpack-plugin/6.3.4_typescript@4.4.3+webpack@5.58.1
   html-webpack-harddisk-plugin: registry.nlark.com/html-webpack-harddisk-plugin/2.0.0_7723c3dceda51250f2a76f64be1386ff
   html-webpack-plugin: registry.nlark.com/html-webpack-plugin/5.3.2_webpack@5.58.1
   less: registry.npmmirror.com/less/4.1.2
@@ -101,6 +102,13 @@ packages:
     resolution:
       integrity: sha1-t5hCCtvrHego2ErNii4j0+/oXo0=
       tarball: array-union/download/array-union-2.1.0.tgz
+  /at-least-node/1.0.0:
+    dev: true
+    engines:
+      node: '>= 4.0.0'
+    resolution:
+      integrity: sha1-YCzUtG6EStTv/JKoARo8RuAjjcI=
+      tarball: at-least-node/download/at-least-node-1.0.0.tgz
   /balanced-match/1.0.2:
     resolution:
       integrity: sha1-6D46fj8wCzTLnYf2FfoMvzV2kO4=
@@ -301,6 +309,13 @@ packages:
     resolution:
       integrity: sha1-tcmMlCzv+vfLBR4k4UNKJaLmB2o=
       tarball: deep-equal/download/deep-equal-1.1.1.tgz
+  /deepmerge/4.2.2:
+    dev: true
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha1-RNLqNnm49NT/ujPwPYZfwee/SVU=
+      tarball: deepmerge/download/deepmerge-4.2.2.tgz
   /default-gateway/6.0.3:
     dependencies:
       execa: registry.nlark.com/execa/5.1.1
@@ -412,6 +427,13 @@ packages:
     resolution:
       integrity: sha1-i7Ppx9Rjvkl2/4iPdrSAnrwugR8=
       tarball: errno/download/errno-0.1.8.tgz
+  /error-ex/1.3.2:
+    dependencies:
+      is-arrayish: registry.nlark.com/is-arrayish/0.2.1
+    dev: true
+    resolution:
+      integrity: sha1-tKxAZIEH/c3PriQvQovqihTU8b8=
+      tarball: error-ex/download/error-ex-1.3.2.tgz
   /escalade/3.1.1:
     dev: true
     engines:
@@ -709,6 +731,16 @@ packages:
     resolution:
       integrity: sha1-Cd/Uq50g4p6xw+gLiZA3jfnjy5w=
       tarball: image-size/download/image-size-0.5.5.tgz
+  /import-fresh/3.3.0:
+    dependencies:
+      parent-module: registry.npmmirror.com/parent-module/1.0.1
+      resolve-from: 4.0.0
+    dev: true
+    engines:
+      node: '>=6'
+    resolution:
+      integrity: sha1-NxYsJfy566oublPVtNiM4X2eDCs=
+      tarball: import-fresh/download/import-fresh-3.3.0.tgz
   /imurmurhash/0.1.4:
     dev: true
     engines:
@@ -860,6 +892,11 @@ packages:
     resolution:
       integrity: sha1-u4Z8+zRQ5pEHwTHRxRS6s9yLyqk=
       tarball: json-parse-better-errors/download/json-parse-better-errors-1.0.2.tgz
+  /json-parse-even-better-errors/2.3.1:
+    dev: true
+    resolution:
+      integrity: sha1-fEeAWpQxmSjgV3dAXcEuH3pO4C0=
+      tarball: json-parse-even-better-errors/download/json-parse-even-better-errors-2.3.1.tgz
   /json-schema-traverse/0.4.1:
     resolution:
       integrity: sha1-afaofZUTq4u4/mO9sJecRI5oRmA=
@@ -874,6 +911,15 @@ packages:
     resolution:
       integrity: sha1-Lf7+cgxrpSXZ69kJlQ8FFTFsiaM=
       tarball: json5/download/json5-2.2.0.tgz
+  /jsonfile/6.1.0:
+    dependencies:
+      universalify: 2.0.0
+    dev: true
+    optionalDependencies:
+      graceful-fs: registry.nlark.com/graceful-fs/4.2.8
+    resolution:
+      integrity: sha1-vFWyY0eTxnnsZAMJTrE2mKbsCq4=
+      tarball: jsonfile/download/jsonfile-6.1.0.tgz
   /kind-of/6.0.3:
     dev: true
     engines:
@@ -888,6 +934,11 @@ packages:
     resolution:
       integrity: sha1-e7Hjr/sMuGJFR+9+j2cI6i4538A=
       tarball: klona/download/klona-2.0.4.tgz
+  /lines-and-columns/1.1.6:
+    dev: true
+    resolution:
+      integrity: sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
+      tarball: lines-and-columns/download/lines-and-columns-1.1.6.tgz
   /loader-runner/4.2.0:
     dev: true
     engines:
@@ -1115,6 +1166,18 @@ packages:
     resolution:
       integrity: sha1-fRf+SqEr3jTUp32RrPtiGcqtAcU=
       tarball: param-case/download/param-case-3.0.4.tgz
+  /parse-json/5.2.0:
+    dependencies:
+      '@babel/code-frame': registry.npmmirror.com/@babel/code-frame/7.15.8
+      error-ex: 1.3.2
+      json-parse-even-better-errors: 2.3.1
+      lines-and-columns: 1.1.6
+    dev: true
+    engines:
+      node: '>=8'
+    resolution:
+      integrity: sha1-x2/Gbe5UIxyWKyK8yKcs8vmXU80=
+      tarball: parse-json/download/parse-json-5.2.0.tgz
   /parse-node-version/1.0.1:
     dev: true
     engines:
@@ -1281,6 +1344,13 @@ packages:
     resolution:
       integrity: sha1-DwB18bslRHZs9zumpuKt/ryxPy0=
       tarball: resolve-cwd/download/resolve-cwd-3.0.0.tgz
+  /resolve-from/4.0.0:
+    dev: true
+    engines:
+      node: '>=4'
+    resolution:
+      integrity: sha1-SrzYUq0y3Xuqv+m0DgCjbbXzkuY=
+      tarball: resolve-from/download/resolve-from-4.0.0.tgz
   /resolve-from/5.0.0:
     dev: true
     engines:
@@ -1526,6 +1596,13 @@ packages:
     resolution:
       integrity: sha1-TlUs0F3wlGfcvE73Od6J8s83wTE=
       tarball: type-is/download/type-is-1.6.18.tgz
+  /universalify/2.0.0:
+    dev: true
+    engines:
+      node: '>= 10.0.0'
+    resolution:
+      integrity: sha1-daSYTv7cSwiXXFrrc/Uw0C3yVxc=
+      tarball: universalify/download/universalify-2.0.0.tgz
   /unpipe/1.0.0:
     dev: true
     engines:
@@ -2109,6 +2186,14 @@ packages:
       registry: https://registry.npm.taobao.org/
       tarball: https://registry.nlark.com/@types/minimatch/download/@types/minimatch-3.0.5.tgz
     version: 3.0.5
+  registry.nlark.com/@types/parse-json/4.0.0:
+    dev: true
+    name: '@types/parse-json'
+    resolution:
+      integrity: sha1-L4u0QUNNFjs1+4/9zNcTiSf/uMA=
+      registry: https://registry.npm.taobao.org/
+      tarball: https://registry.nlark.com/@types/parse-json/download/@types/parse-json-4.0.0.tgz?cache=0&sync_timestamp=1629709761461&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fparse-json%2Fdownload%2F%40types%2Fparse-json-4.0.0.tgz
+    version: 4.0.0
   registry.nlark.com/@types/prop-types/15.7.4:
     dev: true
     name: '@types/prop-types'
@@ -3067,6 +3152,22 @@ packages:
       registry: https://registry.npm.taobao.org/
       tarball: https://registry.nlark.com/core-util-is/download/core-util-is-1.0.3.tgz
     version: 1.0.3
+  registry.nlark.com/cosmiconfig/6.0.0:
+    dependencies:
+      '@types/parse-json': registry.nlark.com/@types/parse-json/4.0.0
+      import-fresh: 3.3.0
+      parse-json: 5.2.0
+      path-type: 4.0.0
+      yaml: registry.nlark.com/yaml/1.10.2
+    dev: true
+    engines:
+      node: '>=8'
+    name: cosmiconfig
+    resolution:
+      integrity: sha1-2k/uhTxS9rHmk19BwaL8UL1KmYI=
+      registry: https://registry.npm.taobao.org/
+      tarball: https://registry.nlark.com/cosmiconfig/download/cosmiconfig-6.0.0.tgz
+    version: 6.0.0
   registry.nlark.com/cross-spawn/7.0.3:
     dependencies:
       path-key: registry.nlark.com/path-key/3.1.1
@@ -4774,6 +4875,21 @@ packages:
       registry: https://registry.npm.taobao.org/
       tarball: https://registry.nlark.com/fs-extra/download/fs-extra-8.1.0.tgz
     version: 8.1.0
+  registry.nlark.com/fs-extra/9.1.0:
+    dependencies:
+      at-least-node: 1.0.0
+      graceful-fs: registry.nlark.com/graceful-fs/4.2.8
+      jsonfile: 6.1.0
+      universalify: 2.0.0
+    dev: true
+    engines:
+      node: '>=10'
+    name: fs-extra
+    resolution:
+      integrity: sha1-WVRGDHZKjaIJS6NVS/g55rmnyG0=
+      registry: https://registry.npm.taobao.org/
+      tarball: https://registry.nlark.com/fs-extra/download/fs-extra-9.1.0.tgz
+    version: 9.1.0
   registry.nlark.com/function-bind/1.1.1:
     dev: true
     name: function-bind
@@ -7174,6 +7290,20 @@ packages:
       registry: https://registry.npm.taobao.org/
       tarball: https://registry.nlark.com/sax/download/sax-1.2.4.tgz
     version: 1.2.4
+  registry.nlark.com/schema-utils/2.7.0:
+    dependencies:
+      '@types/json-schema': registry.nlark.com/@types/json-schema/7.0.9
+      ajv: registry.nlark.com/ajv/6.12.6
+      ajv-keywords: 3.5.2_ajv@6.12.6
+    dev: true
+    engines:
+      node: '>= 8.9.0'
+    name: schema-utils
+    resolution:
+      integrity: sha1-FxUfdtjq5n+793lgwzxnatn078c=
+      registry: https://registry.npm.taobao.org/
+      tarball: https://registry.nlark.com/schema-utils/download/schema-utils-2.7.0.tgz
+    version: 2.7.0
   registry.nlark.com/schema-utils/2.7.1:
     dependencies:
       '@types/json-schema': registry.nlark.com/@types/json-schema/7.0.9
@@ -7606,6 +7736,16 @@ packages:
       registry: https://registry.npm.taobao.org/
       tarball: https://registry.nlark.com/symbol-tree/download/symbol-tree-3.2.4.tgz
     version: 3.2.4
+  registry.nlark.com/tapable/1.1.3:
+    dev: true
+    engines:
+      node: '>=6'
+    name: tapable
+    resolution:
+      integrity: sha1-ofzMBrWNth/XpF2i2kT186Pme6I=
+      registry: https://registry.npm.taobao.org/
+      tarball: https://registry.nlark.com/tapable/download/tapable-1.1.3.tgz
+    version: 1.1.3
   registry.nlark.com/tapable/2.2.1:
     dev: true
     engines:
@@ -8123,6 +8263,16 @@ packages:
       registry: https://registry.npm.taobao.org/
       tarball: https://registry.nlark.com/yallist/download/yallist-4.0.0.tgz
     version: 4.0.0
+  registry.nlark.com/yaml/1.10.2:
+    dev: true
+    engines:
+      node: '>= 6'
+    name: yaml
+    resolution:
+      integrity: sha1-IwHF/78StGfejaIzOkWeKeeSDks=
+      registry: https://registry.npm.taobao.org/
+      tarball: https://registry.nlark.com/yaml/download/yaml-1.10.2.tgz
+    version: 1.10.2
   registry.nlark.com/yauzl/2.10.0:
     dependencies:
       buffer-crc32: registry.nlark.com/buffer-crc32/0.2.13
@@ -9200,6 +9350,44 @@ packages:
       registry: https://registry.npm.taobao.org/
       tarball: https://registry.npmmirror.com/flowchart.js/download/flowchart.js-1.15.0.tgz
     version: 1.15.0
+  registry.npmmirror.com/fork-ts-checker-webpack-plugin/6.3.4_typescript@4.4.3+webpack@5.58.1:
+    dependencies:
+      '@babel/code-frame': registry.npmmirror.com/@babel/code-frame/7.15.8
+      '@types/json-schema': registry.nlark.com/@types/json-schema/7.0.9
+      chalk: registry.nlark.com/chalk/4.1.2
+      chokidar: registry.nlark.com/chokidar/3.5.2
+      cosmiconfig: registry.nlark.com/cosmiconfig/6.0.0
+      deepmerge: 4.2.2
+      fs-extra: registry.nlark.com/fs-extra/9.1.0
+      glob: registry.npmmirror.com/glob/7.2.0
+      memfs: registry.nlark.com/memfs/3.3.0
+      minimatch: 3.0.4
+      schema-utils: registry.nlark.com/schema-utils/2.7.0
+      semver: 7.3.5
+      tapable: registry.nlark.com/tapable/1.1.3
+      typescript: registry.npmmirror.com/typescript/4.4.3
+      webpack: registry.npmmirror.com/webpack/5.58.1_webpack-cli@4.9.0
+    dev: true
+    engines:
+      node: '>=10'
+      yarn: '>=1.0.0'
+    id: registry.npmmirror.com/fork-ts-checker-webpack-plugin/6.3.4
+    name: fork-ts-checker-webpack-plugin
+    peerDependencies:
+      eslint: '>= 6'
+      typescript: '>= 2.7'
+      vue-template-compiler: '*'
+      webpack: '>= 4'
+    peerDependenciesMeta:
+      eslint:
+        optional: true
+      vue-template-compiler:
+        optional: true
+    resolution:
+      integrity: sha1-mvF94KNsr28bTh0tCBz1hvChKxQ=
+      registry: https://registry.npm.taobao.org/
+      tarball: https://registry.npmmirror.com/fork-ts-checker-webpack-plugin/download/fork-ts-checker-webpack-plugin-6.3.4.tgz
+    version: 6.3.4
   registry.npmmirror.com/fs-jetpack/2.4.0:
     dependencies:
       minimatch: registry.nlark.com/minimatch/3.0.4
@@ -10132,6 +10320,7 @@ specifiers:
   electron-debug: ^3.0.1
   electron-is-dev: ^1.1.0
   eslint-plugin-react-hooks: ^3.0.0
+  fork-ts-checker-webpack-plugin: ^6.3.4
   fs-jetpack: ^2.3.0
   html-webpack-harddisk-plugin: ^2.0.0
   html-webpack-plugin: ^5.3.2

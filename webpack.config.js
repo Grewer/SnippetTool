@@ -1,11 +1,11 @@
 const path = require('path')
 const webpack = require('webpack')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { spawn } = require('child_process')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const dotenv = require('dotenv')
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const { resolve } = path
 
@@ -82,6 +82,7 @@ module.exports = (env, argv) => {
         filename: 'css/[name].[contenthash:8].css',
         chunkFilename: 'css/[name].[contenthash:8].chunk.css',
       }),
+      new ForkTsCheckerWebpackPlugin(),
     ],
     module: {
       rules: [
@@ -91,6 +92,10 @@ module.exports = (env, argv) => {
           use: [
             {
               loader: 'ts-loader',
+              options: {
+                // disable type checker - we will use it in fork plugin
+                transpileOnly: true
+              }
             },
           ],
         },
