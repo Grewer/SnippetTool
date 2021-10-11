@@ -149,3 +149,21 @@ optimization: {
 
 https://github.com/felicienfrancois/node-electron-proxy-agent/blob/master/index.js
 
+### TypeScript loader[](https://webpack.docschina.org/guides/build-performance/#typescript-loader)
+
+你可以为 loader 传入 `transpileOnly` 选项，以缩短使用 `ts-loader` 时的构建时间。使用此选项，会关闭类型检查。如果要再次开启类型检查，请使用 [`ForkTsCheckerWebpackPlugin`](https://www.npmjs.com/package/fork-ts-checker-webpack-plugin) 。使用此插件会将检查过程移至单独的进程，可以加快 TypeScript 的类型检查和 ESLint 插入的速度。
+
+```
+module.exports = {
+  // ...
+  test: /\.tsx?$/,
+  use: [
+    {
+      loader: 'ts-loader',
+      options: {
+        transpileOnly: true,
+      },
+    },
+  ],
+};
+```

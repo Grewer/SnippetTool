@@ -48,12 +48,10 @@ module.exports = (env, argv) => {
     devtool: 'inline-source-map',
     entry: './src/render/index',
     target: 'electron-renderer',
-    // output: {
-    //   filename: '[name].js',
-    //     libraryTarget: 'commonjs2',
-    // path: path.join(__dirname, '/dist/'),
-    //     publicPath: './'
-    // },
+    output: {
+      clean: true,
+      filename: '[name].js',
+    },
     resolve: {
       extensions: ['.ts', '.tsx', '.js'],
       alias: {
@@ -108,11 +106,11 @@ module.exports = (env, argv) => {
             {
               loader: 'less-loader',
               options: {
-                lessOptions:{
+                lessOptions: {
                   javascriptEnabled: true,
                   compress: true,
                 },
-                sourceMap: isEnvDevelopment
+                sourceMap: isEnvDevelopment,
               },
             },
           ],
@@ -128,11 +126,11 @@ module.exports = (env, argv) => {
             {
               loader: 'less-loader',
               options: {
-                lessOptions:{
+                lessOptions: {
                   javascriptEnabled: true,
                   compress: true,
                 },
-                sourceMap: isEnvDevelopment
+                sourceMap: isEnvDevelopment,
               },
             },
           ],
@@ -147,9 +145,9 @@ module.exports = (env, argv) => {
           type: 'asset',
           parser: {
             dataUrlCondition: {
-              maxSize: 8 * 1024 // 4kb
-            }
-          }
+              maxSize: 8 * 1024, // 4kb
+            },
+          },
         },
         {
           test: /\.css$/,
@@ -158,6 +156,19 @@ module.exports = (env, argv) => {
           }),
         },
       ],
+    },
+    optimization: {
+      moduleIds: 'deterministic', //不论是否添加任何新的本地依赖，对于前后两次构建，vendor hash 都应该保持一致
+      runtimeChunk: 'single',
+      splitChunks: {
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            chunks: 'all',
+          },
+        },
+      },
     },
     devServer: {
       host: 'localhost',
