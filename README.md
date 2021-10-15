@@ -192,3 +192,10 @@ module.exports = {
 首先也是检查配置那一套
 
 拉取文件到本地
+
+#### URL
+
+
+`https://github.com/settings/tokens/new?description=SnippetTool&scopes=repo%2Cgist%2Cread%3Aorg%2Cworkflow`
+
+`https://github.com/settings/tokens/new?description=SnippetTool&scopes=repo`
