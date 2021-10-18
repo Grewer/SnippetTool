@@ -199,3 +199,11 @@ module.exports = {
 `https://github.com/settings/tokens/new?description=SnippetTool&scopes=repo%2Cgist%2Cread%3Aorg%2Cworkflow`
 
 `https://github.com/settings/tokens/new?description=SnippetTool&scopes=repo`
+
+
+### 聊聊数据存储的问题
+
+最近发现了一个瓶颈, 就是这个数据的存储
+
+假如这里的 db 有 30 个文件, db.json, 那么当我提交的时候, 创建 commit, 就是否都会 commit, 并且提交到 GitHub 一遍呢
+提交时的文件读取消耗过大, 时间过长, 是否能使用 diff 的方案
