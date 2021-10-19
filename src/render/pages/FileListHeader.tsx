@@ -1,7 +1,9 @@
 import React, { memo } from 'react'
+import * as fs from 'fs'
 import styles from '~/pages/FileLists.less'
 import AddFileOrDir from '~/modals/AddFileOrDir'
 import { IconJia } from '~/components/iconfont'
+import { createCommit } from '~/utils/githubFiles'
 
 const addFileOrDir = () => {
   AddFileOrDir({
@@ -21,30 +23,62 @@ const FileListHeader = memo(() => {
 
     console.log({ octokit })
 
-    const { data } = await octokit.rest.repos.get({
-      owner: 'Grewer',
-      repo: 'snippetDB',
-      // mediaType: {
-      //   previews: ["symmetra"],
-      // },
-    }) // 获取状态
-    if (!data) {
-      console.log('网络连接啥的问题, 或者 GitHub 问题')
-      return
-    }
-    console.log(data)
+    // const { data } = await octokit.rest.repos.get({
+    //   owner: 'Grewer',
+    //   repo: 'snippetDB',
+    //   // mediaType: {
+    //   //   previews: ["symmetra"],
+    //   // },
+    // }) // 获取状态
+    // if (!data) {
+    //   console.log('网络连接啥的问题, 或者 GitHub 问题')
+    //   return
+    // }
+    // console.log(data)
+    // const content = fs.readFileSync('db/Main.json', 'utf8')
+    //
+    // await octokit.rest.git.createBlob({
+    //   owner: 'Grewer',
+    //   repo: 'snippetDB',
+    //   content,
+    // })
 
-    await octokit.rest.repos.createOrUpdateFileContents({
-      owner: 'Grewer',
-      repo: 'snippetDB',
-      path: 'Main.json',
-      message: '更新文件',
-      content: btoa('test'),
-      author: {
-        name: 'snippet app',
-        email: 'grewer@grewer.cn',
+    createCommit({
+      changes: {
+        files: {
+          'testtree/Main.json': fs.readFileSync('db/Main.json', 'utf8'),
+          'testtree/全局.json': fs.readFileSync('db/全局文件夹 1.json', 'utf8'),
+        },
+        commit: '尝试批量提交',
       },
     })
+
+    // await octokit.rest.repos.createOrUpdateFileContents({
+    //   owner: 'Grewer',
+    //   repo: 'snippetDB',
+    //   path: 'Main.json',
+    //   message: '更新文件',
+    //   content: btoa('test'),
+    //   author: {
+    //     name: 'snippet app',
+    //     email: 'grewer@grewer.cn',
+    //   },
+    // })
+
+    //
+    // console.log(content)
+    //
+    // await octokit.rest.git.createTree({
+    //   owner: 'Grewer',
+    //   repo: 'snippetDB',
+    //   tree: [
+    //     {
+    //       path: 'testtree/Main.json',
+    //       mode: '100644',
+    //       content,
+    //     },
+    //   ],
+    // })
   }
   return (
     <>
