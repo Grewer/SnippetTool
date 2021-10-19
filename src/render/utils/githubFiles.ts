@@ -60,7 +60,7 @@ const createCommit = async ({
     owner,
     repo,
     sha: latestCommitSha,
-    ref: `heads/master`,
+    ref: `heads/main`,
     force: true,
   })
 
