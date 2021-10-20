@@ -5,10 +5,11 @@ const octokit = new Octokit({
   auth: key,
 })
 
+// https://www.npmjs.com/package/octokit-commit-multiple-files 调研下次库
 const createCommit = async ({
   owner = 'Grewer',
   repo = 'snippetDB',
-  base,
+  base = 'main',
   changes,
 }: {
   owner?: string
@@ -18,10 +19,10 @@ const createCommit = async ({
 }) => {
   let response
 
-  if (!base) {
-    response = await octokit.repos.get({ owner, repo })
-    base = response.data.default_branch
-  }
+  // if (!base) {
+  //   response = await octokit.repos.get({ owner, repo })
+  //   base = response.data.default_branch
+  // }
 
   response = await octokit.repos.listCommits({
     owner,
@@ -55,7 +56,6 @@ const createCommit = async ({
   })
   latestCommitSha = response.data.sha
 
-  // Uncaught (in promise) HttpError: Reference does not exist
   await octokit.git.updateRef({
     owner,
     repo,

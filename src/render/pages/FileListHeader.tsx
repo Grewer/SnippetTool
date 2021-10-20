@@ -22,7 +22,7 @@ const FileListHeader = memo(() => {
     })
 
     console.log({ octokit })
-
+    //
     // const { data } = await octokit.rest.repos.get({
     //   owner: 'Grewer',
     //   repo: 'snippetDB',
@@ -30,28 +30,47 @@ const FileListHeader = memo(() => {
     //   //   previews: ["symmetra"],
     //   // },
     // }) // 获取状态
+    // console.log(data)
+
+    // const response = await octokit.repos.listCommits({
+    //   owner: 'Grewer',
+    //   repo: 'snippetDB',
+    //   sha: 'main',
+    //   per_page: 1,
+    // })
+    //
+    // const treeSha = response.data[0].commit.tree.sha
+    //
+    // await octokit.rest.git.getTree({
+    //   owner: 'Grewer',
+    //   repo: 'snippetDB',
+    //   tree_sha:treeSha,
+    // });
+
+
+    const res = await octokit.rest.repos.getContent({
+      owner: 'Grewer',
+      repo: 'snippetDB',
+      // path: 'testtree/全局.json',
+      // path: 'testtree',
+      ref: 'heads/main',
+    }) // 可获取文件
+
+    console.log(res)
     // if (!data) {
     //   console.log('网络连接啥的问题, 或者 GitHub 问题')
     //   return
     // }
-    // console.log(data)
-    // const content = fs.readFileSync('db/Main.json', 'utf8')
-    //
-    // await octokit.rest.git.createBlob({
-    //   owner: 'Grewer',
-    //   repo: 'snippetDB',
-    //   content,
-    // })
 
-    createCommit({
-      changes: {
-        files: {
-          'testtree/Main.json': fs.readFileSync('db/Main.json', 'utf8'),
-          'testtree/全局.json': fs.readFileSync('db/全局文件夹 1.json', 'utf8'),
-        },
-        commit: '尝试批量提交',
-      },
-    })
+    // createCommit({
+    //   changes: {
+    //     files: {
+    //       'testtree/Main.json': fs.readFileSync('db/Main.json', 'utf8'),
+    //       'testtree/全局.json': fs.readFileSync('db/全局文件夹 1.json', 'utf8'),
+    //     },
+    //     commit: '尝试批量提交',
+    //   },
+    // })
 
     // await octokit.rest.repos.createOrUpdateFileContents({
     //   owner: 'Grewer',
