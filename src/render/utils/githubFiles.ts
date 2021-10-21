@@ -67,4 +67,17 @@ const createCommit = async ({
   console.log('Project saved')
 }
 
+
+/**
+ * 拉取文件的思路
+ * 1. 首先要保证的是本地每次修改/更新文件都要在 Main.json 中更新此文件的时间戳
+ * 2. 对比 本地 Main 和远端 Main 中的时间戳
+ * 3. 如果本地文件数和远端文件  数量一致, 则针对时间先后  选择更新
+ * 4. 如果本地比远端多,  只比较远端的那一部分的时间
+ * 5 如果本地比远端少, 先比较远端的那一部分, 剩余部分直接拉取
+ */
+const fetchFiles = ()=>{
+
+}
+
 export { createCommit }
