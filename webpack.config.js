@@ -24,7 +24,9 @@ module.exports = (env, argv) => {
       isEnvDevelopment && require.resolve('style-loader'),
       isEnvProduction && {
         loader: MiniCssExtractPlugin.loader,
-        options: { publicPath: '../../' },
+        options: {
+          publicPath: '../../',
+        },
       },
       {
         loader: require.resolve('css-loader'),
@@ -80,6 +82,7 @@ module.exports = (env, argv) => {
       new MiniCssExtractPlugin({
         filename: 'css/[name].[contenthash:8].css',
         chunkFilename: 'css/[name].[contenthash:8].chunk.css',
+        experimentalUseImportModule: true,
       }),
       new ForkTsCheckerWebpackPlugin(),
     ],
@@ -105,14 +108,17 @@ module.exports = (env, argv) => {
           use: [
             ...getStyleLoaders({
               sourceMap: isEnvDevelopment,
-              modules: true,
+              modules: {
+                mode: "local",
+                localIdentName: "[name]__[local]--[hash:base64:5]"
+              },
             }),
             {
               loader: 'less-loader',
               options: {
                 lessOptions: {
                   javascriptEnabled: true,
-                  compress: true,
+                  compress: isEnvProduction,
                 },
                 sourceMap: isEnvDevelopment,
               },
