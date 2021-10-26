@@ -77,6 +77,19 @@ function FileLists() {
   )
 }
 
+function Control(props: { item: IFileListItem; fileType: IFileType; addLocalFolder: (item: IFileListItem) => void }) {
+  // hover显示
+
+  const { popoverClick } = useContext(FileListContext)
+  const { item } = props
+  return (
+    <span className={styles.control}>
+      <IconMore color="#656262" data-more="1" onClick={ev => popoverClick(ev, item)} />
+      {props.fileType === IFileType.folder && <IconJia color="#656262" onClick={() => props.addLocalFolder(item)} />}
+    </span>
+  )
+}
+
 const FileListBox: FC = memo(props => {
   console.log('%c render FileListView', 'background:yellow;')
 
@@ -140,11 +153,7 @@ const ListView = (props: IListView) => {
             >
               <span className={styles.fileName}>
                 {item.fileType === IFileType.folder && (
-                  <IconJiantou
-                    style={{ display: 'inline-block' }}
-                    onClick={() => iconClickHandle(item)}
-                    className={item.visible ? styles.rotate : ''}
-                  />
+                  <IconJiantou onClick={() => iconClickHandle(item)} className={item.visible ? styles.rotate : ''} />
                 )}
                 {item.fileName}
               </span>
@@ -155,19 +164,6 @@ const ListView = (props: IListView) => {
         )
       })}
     </ul>
-  )
-}
-
-function Control(props: { item: IFileListItem; fileType: IFileType; addLocalFolder: (item: IFileListItem) => void }) {
-  // hover显示
-
-  const { popoverClick } = useContext(FileListContext)
-  const { item } = props
-  return (
-    <span className={styles.control}>
-      <IconMore onClick={ev => popoverClick(ev, item)} style={{ display: 'inline-block' }} />
-      {props.fileType === IFileType.folder && <IconJia onClick={() => props.addLocalFolder(item)} style={{ display: 'inline-block' }} />}
-    </span>
   )
 }
 

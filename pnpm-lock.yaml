@@ -16,6 +16,7 @@ dependencies:
 devDependencies:
   '@babel/core': registry.npmmirror.com/@babel/core/7.15.8
   '@grewer/eslint-config': registry.npmmirror.com/@grewer/eslint-config/0.1.3_70206a552e9f8b8e226df500d387adb8
+  '@grewer/react-iconfont-cli': registry.npmjs.org/@grewer/react-iconfont-cli/2.0.4_react@16.14.0
   '@types/lokijs': registry.npmmirror.com/@types/lokijs/1.5.7
   '@types/node': registry.npmmirror.com/@types/node/12.20.28
   '@types/react': registry.npmmirror.com/@types/react/16.14.16
@@ -33,7 +34,6 @@ devDependencies:
   less: registry.npmmirror.com/less/4.1.2
   less-loader: registry.nlark.com/less-loader/10.0.1_less@4.1.2+webpack@5.58.1
   mini-css-extract-plugin: registry.npmmirror.com/mini-css-extract-plugin/2.4.2_webpack@5.58.1
-  react-iconfont-cli: registry.npmmirror.com/react-iconfont-cli/2.0.2_react@16.14.0
   style-loader: registry.npmmirror.com/style-loader/1.3.0_webpack@5.58.1
   ts-loader: registry.npmmirror.com/ts-loader/9.2.6_typescript@4.4.3+webpack@5.58.1
   tslib: registry.nlark.com/tslib/2.3.1
@@ -8434,6 +8434,27 @@ packages:
       registry: https://registry.npm.taobao.org/
       tarball: https://registry.nlark.com/yocto-queue/download/yocto-queue-0.1.0.tgz
     version: 0.1.0
+  registry.npmjs.org/@grewer/react-iconfont-cli/2.0.4_react@16.14.0:
+    dependencies:
+      colors: 1.4.0
+      glob: registry.npmmirror.com/glob/7.2.0
+      iconfont-parser: registry.npmmirror.com/iconfont-parser/1.0.0
+      lodash: 4.17.21
+      minimist: 1.2.5
+      mkdirp: 0.5.5
+      react: registry.npmmirror.com/react/16.14.0
+      tslib: registry.nlark.com/tslib/1.14.1
+    dev: true
+    hasBin: true
+    id: registry.npmjs.org/@grewer/react-iconfont-cli/2.0.4
+    name: '@grewer/react-iconfont-cli'
+    peerDependencies:
+      react: '*'
+    resolution:
+      integrity: sha512-n5mMfmu6lJHg8hUKdkLkDaPk9uD50hGSMCN6LV8HQ8EeAcCA7jcfMBVogDie1LMMLPTjhgFRCncMU9l8j5yeEg==
+      registry: https://registry.npm.taobao.org/
+      tarball: https://registry.npmjs.org/@grewer/react-iconfont-cli/-/react-iconfont-cli-2.0.4.tgz
+    version: 2.0.4
   registry.npmmirror.com/@babel/code-frame/7.15.8:
     dependencies:
       '@babel/highlight': registry.nlark.com/@babel/highlight/7.14.5
@@ -10153,27 +10174,6 @@ packages:
       registry: https://registry.npm.taobao.org/
       tarball: https://registry.npmmirror.com/react-dom/download/react-dom-16.14.0.tgz?cache=0&sync_timestamp=1633538713708&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Freact-dom%2Fdownload%2Freact-dom-16.14.0.tgz
     version: 16.14.0
-  registry.npmmirror.com/react-iconfont-cli/2.0.2_react@16.14.0:
-    dependencies:
-      colors: 1.4.0
-      glob: registry.npmmirror.com/glob/7.2.0
-      iconfont-parser: registry.npmmirror.com/iconfont-parser/1.0.0
-      lodash: 4.17.21
-      minimist: 1.2.5
-      mkdirp: 0.5.5
-      react: registry.npmmirror.com/react/16.14.0
-      tslib: registry.nlark.com/tslib/1.14.1
-    dev: true
-    hasBin: true
-    id: registry.npmmirror.com/react-iconfont-cli/2.0.2
-    name: react-iconfont-cli
-    peerDependencies:
-      react: '*'
-    resolution:
-      integrity: sha1-VH2HLl12eWIwh3F245e8btMzdGc=
-      registry: https://registry.npm.taobao.org/
-      tarball: https://registry.npmmirror.com/react-iconfont-cli/download/react-iconfont-cli-2.0.2.tgz
-    version: 2.0.2
   registry.npmmirror.com/react-is/16.13.1:
     name: react-is
     resolution:
@@ -10613,6 +10613,7 @@ packages:
 specifiers:
   '@babel/core': ^7.15.8
   '@grewer/eslint-config': ^0.1.1
+  '@grewer/react-iconfont-cli': ^2.0.4
   '@grewer/tools': ^0.1.2
   '@octokit/rest': ^18.12.0
   '@types/lokijs': ^1.5.3
@@ -10642,7 +10643,6 @@ specifiers:
   mini-css-extract-plugin: ^2.4.2
   react: ^16.12.0
   react-dom: ^16.13.1
-  react-iconfont-cli: ^2.0.2
   shallowequal: ^1.1.0
   style-loader: ^1.1.3
   ts-loader: ^9.2.6

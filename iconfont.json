@@ -4,5 +4,8 @@
     "save_dir": "./src/render/components/iconfont",
     "trim_icon_prefix": "icon",
     "unit": "px",
-    "default_icon_size": 16
+    "default_icon_size": 16,
+    "default_style": {
+        "display": "inline-block"
+    }
 }

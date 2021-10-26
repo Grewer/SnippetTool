@@ -5,6 +5,7 @@ import BaseDBStore from '~/db/DBStore'
 import RenameModal from '~/modals/RenameModal'
 import FileListContext from '~/context/FileListContext'
 import MoveModal from '~/modals/MoveModal'
+import { IconShanchu, IconYidongdaozu, IconZhongmingming } from '~/components/iconfont'
 
 const { body } = document
 
@@ -21,7 +22,7 @@ const FileMorePopover: FC = memo(props => {
     try {
       await BaseDBStore.deleteFile(item)
       setPopover({
-        position: ``,
+        position: '',
         item: {},
         setPopover,
       })
@@ -44,12 +45,12 @@ const FileMorePopover: FC = memo(props => {
         return
       }
       const ele = e.target
-      if (containerRef.current?.contains(ele) || ele.classList.contains('icon-more')) {
+      if (containerRef.current?.contains(ele) || ele.dataset.more) {
         console.log('click inside')
       } else {
         console.log('click outside')
         setPopover({
-          position: ``,
+          position: '',
           item: {},
           setPopover,
         })
@@ -77,15 +78,15 @@ const FileMorePopover: FC = memo(props => {
           <i className={`popover-arrow-${direction}`} />
           <ul className="popover-ul">
             <li onClick={deleteHandler}>
-              <i data-close="0" className="iconfont icon-shanchu" />
+              <IconShanchu data-close="0" />
               <span data-close="0">删除</span>
             </li>
             <li onClick={moveHandler}>
-              <i data-close="0" className="iconfont icon-yidongdaozu" />
+              <IconYidongdaozu data-close="0" />
               <span data-close="0">移动</span>
             </li>
             <li onClick={renameHandler}>
-              <i data-close="0" className="iconfont icon-zhongmingming" />
+              <IconZhongmingming data-close="0" />
               <span data-close="0">重命名</span>
             </li>
           </ul>
