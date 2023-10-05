@@ -14,7 +14,7 @@
     "@octokit/rest": "^18.12.0",
     "codemirror": "^5.52.2",
     "dotenv": "^8.2.0",
-    "electron": "^8.2.5",
+    "electron": "^22.3.25",
     "electron-is-dev": "^1.1.0",
     "fs-jetpack": "^2.3.0",
     "hypermd": "^0.3.11",
